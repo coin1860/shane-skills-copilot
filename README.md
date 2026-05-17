@@ -15,11 +15,28 @@ Shane Skills is a curated VS Code extension that supercharges GitHub Copilot wit
 - **Skills Browser** — Visual panel showing all available skills
 - **Local skills support** — Point to your own skills clone for custom or bleeding-edge skills
 
+## Installation
+
+You can install the compiled `.vsix` extension file directly into VS Code:
+
+### Option 1: Install from GitHub Releases (Recommended)
+1. Go to the [Releases](https://github.com/coin1860/shane-skills-copilot/releases) page on GitHub.
+2. Download the latest `shane-skills-1.0.0.vsix` file under **Assets**.
+3. In VS Code, open the Extensions view (`Cmd+Shift+X` on macOS, `Ctrl+Shift+X` on Windows/Linux).
+4. Click the `...` (More Actions) button at the top-right of the Extensions view panel.
+5. Select **Install from VSIX...**.
+6. Choose the downloaded `shane-skills-1.0.0.vsix` file and click **Install**.
+
+### Option 2: Install via Command Line
+If you have the `code` CLI command installed in your terminal, run:
+```bash
+code --install-extension shane-skills-1.0.0.vsix
+```
+
 ## Quick Start
 
-1. Install the extension
-2. Open Copilot Chat (`Ctrl+Shift+I` / `Cmd+Shift+I`)
-3. Type `@superpowers` and start a conversation
+1. Once installed, open Copilot Chat (`Cmd+Shift+I` on macOS, `Ctrl+Shift+I` on Windows/Linux).
+2. Type `@superpowers` and start a conversation.
 
 **Acceptance test:**
 ```
