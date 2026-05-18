@@ -1,7 +1,6 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
-import { readAgents } from './settingsPanel';
 
 const BOOTSTRAP_MARKER = 'SUPERPOWERS_BOOTSTRAP_v1';
 
@@ -208,4 +207,52 @@ export class WorkspaceSetup {
     if (!fs.existsSync(instructionsPath)) return false;
     return fs.readFileSync(instructionsPath, 'utf8').includes(BOOTSTRAP_MARKER);
   }
+}
+
+// ── Agent helpers (moved from settingsPanel.ts) ────────────────────────────────
+
+export interface AgentInfo {
+  /** Filename stem, e.g. "superpowers-implementer" */
+  id: string;
+  /** Human-readable name from frontmatter */
+  displayName: string;
+  /** Description from frontmatter */
+  description: string;
+}
+
+function parseAgentFrontmatter(raw: string): { name: string; description: string } {
+  const match = raw.match(/^---\n([\s\S]*?)\n---/);
+  if (!match) return { name: '', description: '' };
+  const fm = match[1];
+  const result: Record<string, string> = {};
+  for (const line of fm.split('\n')) {
+    const colon = line.indexOf(':');
+    if (colon > 0) {
+      const key = line.slice(0, colon).trim();
+      const val = line.slice(colon + 1).trim().replace(/^["']|["']$/g, '');
+      result[key] = val;
+    }
+  }
+  return { name: result['name'] ?? '', description: result['description'] ?? '' };
+}
+
+export function readAgents(extensionPath: string): AgentInfo[] {
+  const agentsDir = path.join(extensionPath, 'templates', 'agents');
+  if (!fs.existsSync(agentsDir)) return [];
+  return fs
+    .readdirSync(agentsDir)
+    .filter(f => f.endsWith('.agent.md'))
+    .map(f => {
+      const id = f.replace('.agent.md', '');
+      let displayName = id.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+      let description = '';
+      try {
+        const content = fs.readFileSync(path.join(agentsDir, f), 'utf8');
+        const fm = parseAgentFrontmatter(content);
+        if (fm.name) displayName = fm.name;
+        if (fm.description) description = fm.description;
+      } catch { /* ignore */ }
+      return { id, displayName, description };
+    })
+    .sort((a, b) => a.displayName.localeCompare(b.displayName));
 }

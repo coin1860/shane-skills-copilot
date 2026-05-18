@@ -1,7 +1,7 @@
 import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
-import { readAgents, AgentInfo } from './settingsPanel';
+import { readAgents, AgentInfo } from './workspaceSetup';
 
 let currentPanel: vscode.WebviewPanel | undefined;
 

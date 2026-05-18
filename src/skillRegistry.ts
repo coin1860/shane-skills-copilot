@@ -1,6 +1,5 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import * as vscode from 'vscode';
 
 export interface SkillMetadata {
   name: string;
@@ -154,23 +153,4 @@ export class SkillRegistry {
     return this.skillsDir;
   }
 
-  /**
-   * Returns true if the given skill name is currently enabled in settings.
-   * An empty enabledSkills list means ALL skills are enabled (default).
-   */
-  isSkillEnabled(name: string): boolean {
-    const enabled = vscode.workspace
-      .getConfiguration('superpowers')
-      .get<string[]>('enabledSkills', []);
-    if (enabled.length === 0) return true;
-    const lower = name.toLowerCase();
-    return enabled.some(e => e.toLowerCase() === lower);
-  }
-
-  /**
-   * Returns only the skills that are currently enabled by the user's configuration.
-   */
-  getEnabledSkills(): Skill[] {
-    return this.getAllSkills().filter(s => this.isSkillEnabled(s.metadata.name));
-  }
 }
