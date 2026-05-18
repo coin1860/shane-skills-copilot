@@ -2,18 +2,18 @@
 
 **Bring composable development skills into GitHub Copilot in VS Code.**
 
-Shane Skills is a curated VS Code extension that supercharges GitHub Copilot with a rich set of composable methodology skills — TDD, brainstorming, systematic debugging, subagent-driven development, and more. The first batch of bundled skills comes from the Superpowers methodology; more skills will be added over time.
+Shane Skills is a curated VS Code extension that supercharges GitHub Copilot with a rich set of composable methodology skills — TDD, brainstorming, systematic debugging, subagent-driven development, and more. Skills are installed as workspace files so Copilot discovers them naturally.
 
 > **Author:** Shane H SHOU
 
 ## Features
 
-- **@superpowers agent** — A dedicated chat participant that loads and follows skills automatically
-- **Skill-aware responses** — The agent checks for relevant skills before every response
-- **Slash commands** — Quick access to core skills: `/brainstorm`, `/plan`, `/debug`, `/tdd`, `/review`
-- **LM Tools** — `#loadSkill` and `#listSkills` tools work in Copilot Agent mode
-- **Skills Browser** — Visual panel showing all available skills
-- **Local skills support** — Point to your own skills clone for custom or bleeding-edge skills
+- **Skill workspace files** — On setup, copies all skills to `.github/skills/` for Copilot's native discovery
+- **Agent workspace files** — Copies `.agent.md` files to `.github/agents/` for Copilot custom agents
+- **@superpowers slash commands** — Quick access: `/tdd`, `/brainstorm`, `/plan`, `/debug`, `/review`
+- **Skills Browser** — Read-only visual panel showing all available skills
+- **Agent Browser** — Read-only visual panel showing all available agents
+- **Natural language skill discovery** — Copilot reads `.github/skills/*/SKILL.md` directly in chat
 
 ## Installation
 
@@ -36,13 +36,15 @@ code --install-extension shane-skills-1.0.0.vsix
 ## Quick Start
 
 1. Once installed, open Copilot Chat (`Cmd+Shift+I` on macOS, `Ctrl+Shift+I` on Windows/Linux).
-2. Type `@superpowers` and start a conversation.
+2. The extension will prompt you to set up the workspace. Choose "Set Up Now".
+3. Start chatting naturally — Copilot discovers skills from `.github/skills/` automatically.
+4. Or use `@superpowers /tdd` for quick skill loading.
 
 **Acceptance test:**
 ```
-@superpowers Let's make a React todo list
+Write in natural language: "Let's make a React todo list using TDD"
+Copilot should find and follow the test-driven-development skill from `.github/skills/`.
 ```
-The agent should initiate the **brainstorming** skill before writing any code.
 
 ## Slash Commands
 
@@ -55,14 +57,6 @@ The agent should initiate the **brainstorming** skill before writing any code.
 | `/review` | requesting-code-review | Before submitting code |
 | `/skills` | — | List all available skills |
 
-## LM Tools (Agent Mode)
-
-In Copilot Agent mode, these tools are available:
-
-- **`#listSkills`** — List all available skills
-- **`#loadSkill`** — Load a specific skill's instructions
-- **`#runSubagent`** — Dispatch an isolated subagent for a single task
-
 ## Workflow
 
 The bundled Superpowers skills follow this flow:
@@ -71,10 +65,10 @@ The bundled Superpowers skills follow this flow:
 brainstorming → writing-plans → subagent-driven-development
      ↓                               ↓
   design doc                 test-driven-development
-                                       ↓
-                              requesting-code-review
-                                       ↓
-                           finishing-a-development-branch
+                                        ↓
+                               requesting-code-review
+                                        ↓
+                            finishing-a-development-branch
 ```
 
 ## Configuration
@@ -96,15 +90,19 @@ brainstorming → writing-plans → subagent-driven-development
 
 ## Commands
 
-- `Superpowers: Open Skills Browser` — View all skills in a webview panel
-- `Superpowers: Reload Skills` — Reload skills from disk (useful after updating a local clone)
-- `Superpowers: Setup Workspace` — Install copilot-instructions and agent files into your workspace
+- `Shane-Skills: Setup Workspace` — Install skill files, agent files, and copilot-instructions into your workspace
+- `Shane-Skills: Open Skills Browser` — View all skills in a read-only webview panel
+- `Shane-Skills: Open Agent Browser` — View all agents in a read-only webview panel
+- `Shane-Skills: Reload Skills` — Reload skills from disk (useful after updating a local clone)
 
 ## How It Works
 
-1. **Bootstrap injection** — On every `@superpowers` chat turn, the `using-superpowers` skill is injected as context, telling Copilot to check for relevant skills before responding.
-2. **Skill loading** — The `#loadSkill` LM tool reads `SKILL.md` files from the bundled or local skills directory.
-3. **Tool mapping** — Each loaded skill includes a Copilot-specific tool mapping so Claude Code tool names (`TodoWrite`, `Bash`, etc.) are understood in the VS Code context.
+1. **Workspace Setup** — On activation (or via command), the extension copies:
+   - All `skills/*/SKILL.md` → `.github/skills/*/SKILL.md`
+   - Selected `.agent.md` files → `.github/agents/*.agent.md`
+   - Generates `.github/copilot-instructions.md` with skill listing
+2. **Natural language discovery** — Copilot reads `.github/skills/*/SKILL.md` when a skill applies
+3. **@superpowers** — Chat participant with slash commands (reads SKILL.md from `.github/skills/` with bundled fallback)
 
 ## Requirements
 
