@@ -49,7 +49,7 @@ export function activate(context: vscode.ExtensionContext): void {
 
   // Status bar — click opens skills browser
   const statusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
-  statusBar.command = 'superpowers.openSkillsPanel';
+  statusBar.command = 'superpowers.showQuickMenu';
   updateStatusBar(statusBar, workspaceSetup);
   context.subscriptions.push(statusBar);
 
@@ -81,6 +81,45 @@ export function activate(context: vscode.ExtensionContext): void {
       registry?.invalidate();
       vscode.window.showInformationMessage('[Shane Skills] Skills reloaded.');
     }),
+
+    // Show Quick Menu
+    vscode.commands.registerCommand('superpowers.showQuickMenu', async () => {
+      if (!workspaceSetup!.isConfigured()) {
+        const workspace = vscode.workspace.workspaceFolders?.[0];
+        if (!workspace) {
+          vscode.window.showWarningMessage('Shane Skills: Open a workspace folder first.');
+          return;
+        }
+        await workspaceSetup!.install(workspace);
+        updateStatusBar(statusBar, workspaceSetup!);
+        return;
+      }
+      const items: vscode.QuickPickItem[] = [
+        { label: '$(zap) Open Skills Browser', description: 'Browse available skills' },
+        { label: '$(robot) Open Agent Browser', description: 'Browse available agents' },
+        { label: '$(refresh) Reload Skills', description: 'Reload skills from disk' },
+        { label: '$(gear) Setup Workspace', description: 'Configure workspace for Shane Skills' },
+      ];
+      const choice = await vscode.window.showQuickPick(items, {
+        placeHolder: 'Select an action',
+      });
+      if (!choice) return;
+      if (choice.label.startsWith('$(zap)')) {
+        vscode.commands.executeCommand('superpowers.openSkillsPanel');
+      } else if (choice.label.startsWith('$(robot)')) {
+        vscode.commands.executeCommand('superpowers.openAgentsBrowser');
+      } else if (choice.label.startsWith('$(refresh)')) {
+        vscode.commands.executeCommand('superpowers.reloadSkills');
+      } else if (choice.label.startsWith('$(gear)')) {
+        const workspace = vscode.workspace.workspaceFolders?.[0];
+        if (!workspace) {
+          vscode.window.showWarningMessage('Shane Skills: Open a workspace folder first.');
+          return;
+        }
+        await workspaceSetup!.install(workspace);
+        updateStatusBar(statusBar, workspaceSetup!);
+      }
+    }),
   );
 
   // ── 5. Config change handler ───────────────────────────────────────────────
@@ -109,7 +148,7 @@ export function deactivate(): void {
 function updateStatusBar(bar: vscode.StatusBarItem, setup: WorkspaceSetup): void {
   if (setup.isConfigured()) {
     bar.text = '$(zap) Shane Skills';
-    bar.tooltip = 'Shane Skills active — click to browse skills';
+    bar.tooltip = 'Shane Skills — click for options';
     bar.backgroundColor = undefined;
   } else {
     bar.text = '$(zap) Shane Skills: Setup needed';
