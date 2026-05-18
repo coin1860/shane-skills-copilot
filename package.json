@@ -74,7 +74,6 @@
         ]
       }
     ],
-
     "configuration": {
       "title": "Shane Skills for Copilot",
       "properties": {
@@ -143,6 +142,5 @@
     "@vscode/vsce": "^3.9.1",
     "eslint": "^9.x",
     "typescript": "^5.7.x"
-  },
-  "dependencies": {}
+  }
 }
