@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import * as fs from 'fs';
 import * as path from 'path';
 
-const BOOTSTRAP_MARKER = 'SUPERPOWERS_BOOTSTRAP_v1';
+const BOOTSTRAP_MARKER = 'SUPERPOWERS_BOOTSTRAP_v2';
 
 /**
  * WorkspaceSetup handles creating the .github/copilot-instructions.md and
@@ -15,7 +15,10 @@ const BOOTSTRAP_MARKER = 'SUPERPOWERS_BOOTSTRAP_v1';
  * and includes its content in every chat request — no user action required.
  */
 export class WorkspaceSetup {
-  constructor(private readonly extensionPath: string) {}
+  constructor(
+    private readonly extensionPath: string,
+    private readonly skillsDir: string
+  ) {}
 
   /**
    * On activation, check if setup is needed and offer to install.
@@ -43,7 +46,7 @@ export class WorkspaceSetup {
     if (Date.now() - dismissed < oneWeek) return;
 
     const choice = await vscode.window.showInformationMessage(
-      '⚡ Shane Skills: Set up this workspace? Creates .github/copilot-instructions.md and .agent.md files so GitHub Copilot automatically uses Superpowers skills.',
+      '⚡ Shane Skills: Set up this workspace? Creates .github/copilot-instructions.md, .github/skills/, and .github/agents/ so GitHub Copilot automatically uses Superpowers skills.',
       'Set Up Now',
       'Not Now',
       'Never for This Workspace'
@@ -69,6 +72,10 @@ export class WorkspaceSetup {
       // 1. Create .github/copilot-instructions.md
       const instructionsResult = await this.installCopilotInstructions(workspace);
       results.push(instructionsResult);
+
+      // 1b. Copy skill files to .github/skills/
+      const skillResults = await this.installSkillFiles(workspace);
+      results.push(...skillResults);
 
       // 2. Create .github/agents/*.agent.md
       const agentResults = await this.installAgentFiles(workspace);
@@ -102,15 +109,13 @@ export class WorkspaceSetup {
 
     fs.mkdirSync(githubDir, { recursive: true });
 
-    const templatePath = path.join(this.extensionPath, 'templates', 'copilot-instructions.md');
-    const bootstrapContent = fs.readFileSync(templatePath, 'utf8');
+    const bootstrapContent = this.generateInstructionsContent();
 
     if (fs.existsSync(instructionsPath)) {
       const existing = fs.readFileSync(instructionsPath, 'utf8');
       if (existing.includes(BOOTSTRAP_MARKER)) {
         return '✅ .github/copilot-instructions.md — already configured';
       }
-      // Append to existing file
       fs.writeFileSync(instructionsPath, existing + '\n\n---\n\n' + bootstrapContent, 'utf8');
       return '✅ .github/copilot-instructions.md — Shane Skills section appended';
     }
@@ -130,32 +135,22 @@ export class WorkspaceSetup {
     const templatesAgentsDir = path.join(this.extensionPath, 'templates', 'agents');
     const results: string[] = [];
 
-    // Determine which agents are globally enabled
-    const enabledAgentsCfg = vscode.workspace
-      .getConfiguration('superpowers')
-      .get<string[]>('enabledAgents', []);
-
     const allAgents = readAgents(this.extensionPath);
 
-    // Filter by global enabled setting (empty = all enabled)
-    const availableAgents = enabledAgentsCfg.length === 0
-      ? allAgents
-      : allAgents.filter(a => enabledAgentsCfg.includes(a.id));
-
-    if (availableAgents.length === 0) {
-      return ['⚠️  No agents available — all agents are disabled in Shane Skills settings.'];
+    if (allAgents.length === 0) {
+      return ['⚠️  No agent templates found in extension.'];
     }
 
     // Already-installed agents (pre-check)
     const existingIds = new Set(
-      availableAgents
+      allAgents
         .map(a => a.id + '.agent.md')
         .filter(f => fs.existsSync(path.join(agentsDir, f)))
         .map(f => f.replace('.agent.md', ''))
     );
 
     // Build QuickPick items
-    const picks = availableAgents.map(a => ({
+    const picks = allAgents.map(a => ({
       label: a.displayName,
       description: a.id,
       detail: a.description,
@@ -195,6 +190,102 @@ export class WorkspaceSetup {
     }
 
     return results;
+  }
+
+  /**
+   * Copies all skill files from the bundled/local skills directory to .github/skills/.
+   */
+  private async installSkillFiles(workspace: vscode.WorkspaceFolder): Promise<string[]> {
+    const skillsDestDir = path.join(workspace.uri.fsPath, '.github', 'skills');
+    fs.mkdirSync(skillsDestDir, { recursive: true });
+
+    const results: string[] = [];
+    const entries = fs.readdirSync(this.skillsDir, { withFileTypes: true });
+
+    for (const entry of entries) {
+      if (!entry.isDirectory()) continue;
+      const srcFile = path.join(this.skillsDir, entry.name, 'SKILL.md');
+      if (!fs.existsSync(srcFile)) continue;
+
+      const destFile = path.join(skillsDestDir, entry.name, 'SKILL.md');
+      fs.mkdirSync(path.dirname(destFile), { recursive: true });
+
+      if (fs.existsSync(destFile)) {
+        results.push(`⚠️  .github/skills/${entry.name}/SKILL.md — already exists, skipped`);
+        continue;
+      }
+
+      fs.copyFileSync(srcFile, destFile);
+      results.push(`✅ .github/skills/${entry.name}/SKILL.md — created`);
+    }
+
+    if (results.length === 0) {
+      results.push('ℹ️  No skill files were copied.');
+    }
+    return results;
+  }
+
+  /**
+   * Generates the content for .github/copilot-instructions.md dynamically
+   * from all available skills, listing them with descriptions and file paths.
+   */
+  private generateInstructionsContent(): string {
+    const skillRows: string[] = [];
+    const entries = fs.readdirSync(this.skillsDir, { withFileTypes: true });
+    for (const entry of entries) {
+      if (!entry.isDirectory()) continue;
+      const srcFile = path.join(this.skillsDir, entry.name, 'SKILL.md');
+      if (!fs.existsSync(srcFile)) continue;
+      const raw = fs.readFileSync(srcFile, 'utf8');
+      const nameMatch = raw.match(/^---\n[\s\S]*?\nname:\s*(.+)\n[\s\S]*?\n---\n/);
+      const name = nameMatch ? nameMatch[1].trim() : entry.name;
+      const descMatch = raw.match(/^---\n[\s\S]*?\ndescription:\s*(.+)\n[\s\S]*?\n---\n/);
+      const desc = descMatch ? descMatch[1].trim() : '';
+      skillRows.push(`| ${name} | .github/skills/${entry.name}/SKILL.md | ${desc} |`);
+    }
+    skillRows.sort();
+
+    return `<!-- SUPERPOWERS_BOOTSTRAP_v2 — managed by Shane Skills for GitHub Copilot -->
+
+# Superpowers Methodology Skills
+
+这个 workspace 已安装 Superpowers 方法论 skill 文件到 \`.github/skills/\`。Copilot 会读取这些文件来指导开发流程。
+
+## Available Skills
+
+| Skill | File | Description |
+|-------|------|-------------|
+${skillRows.join('\n')}
+
+## How to Use
+
+When the user asks to build, debug, fix, plan, or review:
+1. Check if any skill below applies to the task
+2. If there is even a **1% chance** a skill applies, read its SKILL.md file (use \`#file:.github/skills/<name>/SKILL.md\`)
+3. Follow its instructions exactly — the skill tells you HOW, the user tells you WHAT
+
+## Agents
+
+Custom agents available at \`.github/agents/\`:
+- superpowers-implementer.agent.md
+- superpowers-spec-reviewer.agent.md
+- superpowers-code-reviewer.agent.md
+
+These are automatically available as Copilot custom agents. Use them with \`@superpowers-implementer\` etc.
+
+## Tool Mapping
+
+Skills reference Claude Code tool names. VS Code Copilot equivalents:
+| Skill references | GitHub Copilot / VS Code equivalent |
+|-----------------|-------------------------------------|
+| \`Read\` | \`#file\` references |
+| \`Write\` / \`Edit\` | Chat edit suggestions |
+| \`Bash\` | VS Code Terminal |
+| \`Grep\` / \`Glob\` | \`#codebase\` search |
+| \`TodoWrite\` | Track tasks as markdown checkboxes |
+| \`Skill\` | Read \`.github/skills/<name>/SKILL.md\` |
+| \`Task\` subagent | Copilot custom agents in \`.github/agents/\` |
+`;
   }
 
   /**
