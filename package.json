@@ -40,7 +40,7 @@
         "id": "superpowers.agent",
         "name": "superpowers",
         "fullName": "Superpowers Agent",
-        "description": "Superpowers methodology agent — brainstorming, TDD, debugging, planning, subagent-driven development.",
+        "description": "Superpowers agent for structured development workflows.",
         "isSticky": false,
         "commands": [
           {
@@ -72,245 +72,9 @@
             "description": "Install Superpowers files (.copilot-instructions, .agent.md) into your workspace"
           }
         ]
-      },
-      {
-        "id": "shane-skills.agent",
-        "name": "shane-skills",
-        "fullName": "Shane Skills",
-        "description": "Shane Skills integrations agent by Shane Shou — search, create, update, and manage Jira issues and Confluence pages.",
-        "isSticky": false,
-        "commands": [
-          {
-            "name": "jira",
-            "description": "Manage Jira issues (search, get, create, update, comment, transition)"
-          },
-          {
-            "name": "confluence",
-            "description": "Manage Confluence pages (search, get, getByTitle, create, update, getSpaces)"
-          }
-        ]
       }
     ],
-    "languageModelTools": [
-      {
-        "name": "superpowers_load_skill",
-        "tags": [
-          "superpowers",
-          "skills"
-        ],
-        "toolReferenceName": "loadSkill",
-        "displayName": "Load Superpowers Skill",
-        "modelDescription": "Load the full instructions of a specific Superpowers skill by name. Call this before executing any task to get the correct workflow. Available skills: brainstorming, writing-plans, subagent-driven-development, test-driven-development, systematic-debugging, requesting-code-review, receiving-code-review, using-git-worktrees, finishing-a-development-branch, verification-before-completion, dispatching-parallel-agents, executing-plans, writing-skills, using-superpowers.",
-        "inputSchema": {
-          "type": "object",
-          "properties": {
-            "skillName": {
-              "type": "string",
-              "description": "Name of the skill to load"
-            }
-          },
-          "required": [
-            "skillName"
-          ]
-        }
-      },
-      {
-        "name": "superpowers_list_skills",
-        "tags": [
-          "superpowers",
-          "skills"
-        ],
-        "toolReferenceName": "listSkills",
-        "displayName": "List Superpowers Skills",
-        "modelDescription": "List all available Superpowers skills with names and descriptions.",
-        "inputSchema": {
-          "type": "object",
-          "properties": {}
-        }
-      },
-      {
-        "name": "superpowers_run_subagent",
-        "tags": [
-          "superpowers",
-          "subagent"
-        ],
-        "toolReferenceName": "runSubagent",
-        "displayName": "Run Superpowers Subagent",
-        "modelDescription": "Dispatch an isolated subagent to execute a single task with fresh context. Use this for each independent task in an implementation plan, following the subagent-driven-development skill. The subagent gets a clean context with only the information you provide — it does NOT inherit your session history.",
-        "inputSchema": {
-          "type": "object",
-          "properties": {
-            "task": {
-              "type": "string",
-              "description": "Full text of the task to execute, including files to create/modify, code, test steps, and commit instructions"
-            },
-            "context": {
-              "type": "string",
-              "description": "Essential context for the subagent: project description, relevant file contents, architecture decisions, previous task results"
-            },
-            "role": {
-              "type": "string",
-              "enum": [
-                "implementer",
-                "spec-reviewer",
-                "code-reviewer"
-              ],
-              "description": "Role of the subagent: implementer (writes code), spec-reviewer (checks spec compliance), code-reviewer (checks code quality)"
-            }
-          },
-          "required": [
-            "task",
-            "role"
-          ]
-        }
-      },
-      {
-        "name": "shane_skills_jira",
-        "tags": [
-          "superpowers",
-          "jira",
-          "integration"
-        ],
-        "toolReferenceName": "jira",
-        "displayName": "Jira Integration",
-        "modelDescription": "Interact with Jira: search issues (JQL), get issue details, create new issues, update existing issues (summary/description/priority/assignee/labels), add comments, list transitions, and transition issues to new statuses. Requires Jira credentials configured in Shane Skills settings.",
-        "inputSchema": {
-          "type": "object",
-          "properties": {
-            "op": {
-              "type": "string",
-              "enum": [
-                "search",
-                "get",
-                "create",
-                "update",
-                "comment",
-                "listTransitions",
-                "transition"
-              ],
-              "description": "Operation to perform"
-            },
-            "jql": {
-              "type": "string",
-              "description": "JQL query string (for 'search' op)"
-            },
-            "maxResults": {
-              "type": "number",
-              "description": "Max results to return (default 20, for 'search' op)"
-            },
-            "issueKey": {
-              "type": "string",
-              "description": "Issue key e.g. PROJ-123 (for get/update/comment/listTransitions/transition)"
-            },
-            "project": {
-              "type": "string",
-              "description": "Project key e.g. PROJ (for 'create' op)"
-            },
-            "summary": {
-              "type": "string",
-              "description": "Issue summary/title (for create/update)"
-            },
-            "description": {
-              "type": "string",
-              "description": "Issue description in Markdown format (for create/update)"
-            },
-            "issueType": {
-              "type": "string",
-              "description": "Issue type: Bug, Story, Task, Epic (for 'create' op, default: Task)"
-            },
-            "priority": {
-              "type": "string",
-              "description": "Priority: Highest, High, Medium, Low, Lowest (for create/update)"
-            },
-            "assignee": {
-              "type": "string",
-              "description": "Jira account ID of the assignee (for create/update)"
-            },
-            "labels": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
-              "description": "Labels to apply (for create/update)"
-            },
-            "body": {
-              "type": "string",
-              "description": "Comment body text in Markdown format (for 'comment' op)"
-            },
-            "transitionId": {
-              "type": "string",
-              "description": "Transition ID from listTransitions (for 'transition' op)"
-            }
-          },
-          "required": [
-            "op"
-          ]
-        }
-      },
-      {
-        "name": "shane_skills_confluence",
-        "tags": [
-          "superpowers",
-          "confluence",
-          "integration"
-        ],
-        "toolReferenceName": "confluence",
-        "displayName": "Confluence Integration",
-        "modelDescription": "Interact with Confluence: search pages (CQL), get page by ID or title, create new pages with storage-format content, update existing pages (must increment version), and list available spaces. Requires Confluence credentials configured in Shane Skills settings.",
-        "inputSchema": {
-          "type": "object",
-          "properties": {
-            "op": {
-              "type": "string",
-              "enum": [
-                "search",
-                "get",
-                "getByTitle",
-                "create",
-                "update",
-                "getSpaces"
-              ],
-              "description": "Operation to perform"
-            },
-            "cql": {
-              "type": "string",
-              "description": "CQL query string (for 'search' op)"
-            },
-            "limit": {
-              "type": "number",
-              "description": "Max results (default 20, for 'search' op)"
-            },
-            "pageId": {
-              "type": "string",
-              "description": "Confluence page ID (for get/update)"
-            },
-            "spaceKey": {
-              "type": "string",
-              "description": "Space key e.g. ENG (for getByTitle/create)"
-            },
-            "title": {
-              "type": "string",
-              "description": "Page title (for getByTitle/create/update)"
-            },
-            "body": {
-              "type": "string",
-              "description": "Page body in Markdown format (for create/update). Will be automatically converted to Confluence Storage Format."
-            },
-            "parentId": {
-              "type": "string",
-              "description": "Parent page ID — creates as child (for 'create' op)"
-            },
-            "version": {
-              "type": "number",
-              "description": "New version number = current version + 1 (for 'update' op)"
-            }
-          },
-          "required": [
-            "op"
-          ]
-        }
-      }
-    ],
+
     "configuration": {
       "title": "Shane Skills for Copilot",
       "properties": {
@@ -336,42 +100,6 @@
           "type": "boolean",
           "default": true,
           "description": "On activation, automatically offer to create .github/copilot-instructions.md and .github/agents/ in the current workspace."
-        },
-        "superpowers.enabledSkills": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "default": [],
-          "description": "List of enabled skill names. An empty array means ALL skills are enabled. Use 'Shane Skills: Configure Skills & Agents' to manage this."
-        },
-        "superpowers.enabledAgents": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "default": [],
-          "description": "List of enabled agent IDs (filename stems without .agent.md). An empty array means ALL agents are enabled. Use 'Shane Skills: Configure Skills & Agents' to manage this."
-        },
-        "superpowers.jira.baseUrl": {
-          "type": "string",
-          "default": "",
-          "description": "Jira base URL (e.g. https://yourcompany.atlassian.net). Token is stored securely — set it in Shane Skills: Configure Skills & Agents."
-        },
-        "superpowers.jira.email": {
-          "type": "string",
-          "default": "",
-          "description": "Email address for Jira Cloud Basic Auth. Leave empty if using a Server/DC Personal Access Token."
-        },
-        "superpowers.confluence.baseUrl": {
-          "type": "string",
-          "default": "",
-          "description": "Confluence base URL (e.g. https://yourcompany.atlassian.net). Token is stored securely — set it in Shane Skills: Configure Skills & Agents."
-        },
-        "superpowers.confluence.email": {
-          "type": "string",
-          "default": "",
-          "description": "Email address for Confluence Cloud Basic Auth. Leave empty if using a Server/DC Personal Access Token."
         }
       }
     },
@@ -395,16 +123,6 @@
         "command": "superpowers.reloadSkills",
         "title": "Reload Skills",
         "category": "Shane-Skills"
-      },
-      {
-        "command": "superpowers.openSettings",
-        "title": "Configure Skills & Agents",
-        "category": "Shane-Skills"
-      },
-      {
-        "command": "superpowers.openMenu",
-        "title": "Quick Menu",
-        "category": "Shane-Skills"
       }
     ]
   },
@@ -426,8 +144,5 @@
     "eslint": "^9.x",
     "typescript": "^5.7.x"
   },
-  "dependencies": {
-    "markdown-to-adf": "^0.2.20",
-    "marked": "^18.0.3"
-  }
+  "dependencies": {}
 }
