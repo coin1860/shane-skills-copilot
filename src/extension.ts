@@ -2,13 +2,9 @@ import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
 import { SkillRegistry } from './skillRegistry';
-import { registerListSkillsTool, registerLoadSkillTool } from './tools';
-import { registerRunSubagentTool } from './subagentTool';
-import { createParticipantHandler, createShaneParticipantHandler } from './participant';
+import { createParticipantHandler } from './participant';
 import { WorkspaceSetup } from './workspaceSetup';
-import { openSettingsPanel } from './settingsPanel';
 import { openAgentsBrowserPanel } from './agentBrowserPanel';
-import { registerJiraTool, registerConfluenceTool } from './integrationTool';
 
 let registry: SkillRegistry | undefined;
 let workspaceSetup: WorkspaceSetup | undefined;
@@ -36,43 +32,28 @@ function resolveSkillsDir(context: vscode.ExtensionContext): string {
 export function activate(context: vscode.ExtensionContext): void {
   console.log('[Shane Skills] Activating...');
 
-  // ── 1. Skill registry ──────────────────────────────────────────────────────
+  // ── 1. Skill registry (for read-only browser) ──────────────────────────────
   const skillsDir = resolveSkillsDir(context);
   registry = new SkillRegistry(skillsDir);
   console.log(`[Shane Skills] Skills directory: ${skillsDir}`);
 
-  // ── 2. LM Tools ────────────────────────────────────────────────────────────
-  context.subscriptions.push(
-    registerListSkillsTool(context, registry),
-    registerLoadSkillTool(context, registry),
-    registerRunSubagentTool(context, registry),
-    registerJiraTool(context),
-    registerConfluenceTool(context)
-  );
-
-  // ── 3. @superpowers Chat Participant ───────────────────────────────────────
-  const handler = createParticipantHandler(registry);
+  // ── 2. @superpowers Chat Participant (lightweight — file-based skills) ──────
+  const handler = createParticipantHandler();
   const participant = vscode.chat.createChatParticipant('superpowers.agent', handler);
   participant.iconPath = vscode.Uri.joinPath(context.extensionUri, 'assets', 'superpowers-icon.png');
   context.subscriptions.push(participant);
 
-  // ── 3b. @shane-skills Chat Participant ──────────────────────────────────────
-  const shaneHandler = createShaneParticipantHandler(registry);
-  const shaneParticipant = vscode.chat.createChatParticipant('shane-skills.agent', shaneHandler);
-  shaneParticipant.iconPath = vscode.Uri.joinPath(context.extensionUri, 'assets', 'superpowers-icon.png');
-  context.subscriptions.push(shaneParticipant);
-
-  // ── 4. Workspace Setup ─────────────────────────────────────────────────────
-  workspaceSetup = new WorkspaceSetup(context.extensionPath);
+  // ── 3. Workspace Setup ─────────────────────────────────────────────────────
+  workspaceSetup = new WorkspaceSetup(context.extensionPath, skillsDir);
   workspaceSetup.checkAndPrompt(context).catch(console.error);
 
-  // Status bar — click opens the quick menu
+  // Status bar — click opens skills browser
   const statusBar = vscode.window.createStatusBarItem(vscode.StatusBarAlignment.Right, 100);
-  statusBar.command = 'superpowers.openMenu';
+  statusBar.command = 'superpowers.openSkillsPanel';
   updateStatusBar(statusBar, workspaceSetup);
   context.subscriptions.push(statusBar);
 
-  // ── 5. Commands ────────────────────────────────────────────────────────────
+  // ── 4. Commands ────────────────────────────────────────────────────────────
   context.subscriptions.push(
     // Setup Workspace
     vscode.commands.registerCommand('superpowers.setupWorkspace', async () => {
@@ -85,12 +66,12 @@ export function activate(context: vscode.ExtensionContext): void {
       updateStatusBar(statusBar, workspaceSetup!);
     }),
 
-    // Skills Browser
+    // Skills Browser (read-only, from bundled skills)
     vscode.commands.registerCommand('superpowers.openSkillsPanel', () => {
       openSkillsPanel(context, registry!);
     }),
 
-    // Agent Browser
+    // Agent Browser (read-only)
     vscode.commands.registerCommand('superpowers.openAgentsBrowser', () => {
       openAgentsBrowserPanel(context);
     }),
@@ -100,53 +81,9 @@ export function activate(context: vscode.ExtensionContext): void {
       registry?.invalidate();
       vscode.window.showInformationMessage('[Shane Skills] Skills reloaded.');
     }),
-
-    // Configure Skills & Agents settings panel
-    vscode.commands.registerCommand('superpowers.openSettings', () => {
-      openSettingsPanel(context, registry!);
-    }),
-
-    // Status-bar quick menu
-    vscode.commands.registerCommand('superpowers.openMenu', async () => {
-      const configured = workspaceSetup?.isConfigured() ?? false;
-
-      interface MenuAction { label: string; description: string; cmd: string }
-      const items: MenuAction[] = [];
-
-      if (!configured) {
-        items.push({
-          label: '$(zap) Setup Workspace',
-          description: 'Create copilot-instructions.md and agent files',
-          cmd: 'superpowers.setupWorkspace',
-        });
-      }
-
-      items.push(
-        { label: '$(gear) Configure Skills & Agents', description: 'Choose which skills and agents are enabled', cmd: 'superpowers.openSettings' },
-        { label: '$(book) Open Skills Browser', description: 'Browse and open available skill files', cmd: 'superpowers.openSkillsPanel' },
-        { label: '$(hubot) Open Agent Browser', description: 'Browse and open available agent files', cmd: 'superpowers.openAgentsBrowser' },
-        { label: '$(refresh) Reload Skills', description: 'Re-read skills from disk', cmd: 'superpowers.reloadSkills' },
-      );
-
-      if (configured) {
-        items.push({
-          label: '$(tools) Setup Workspace',
-          description: 'Re-run workspace setup',
-          cmd: 'superpowers.setupWorkspace',
-        });
-      }
-
-      const pick = await vscode.window.showQuickPick(items, {
-        title: 'Shane Skills — Quick Menu',
-        placeHolder: 'Choose an action…',
-      });
-      if (pick) {
-        vscode.commands.executeCommand(pick.cmd);
-      }
-    })
   );
 
-  // ── 6. Config change handler ───────────────────────────────────────────────
+  // ── 5. Config change handler ───────────────────────────────────────────────
   context.subscriptions.push(
     vscode.workspace.onDidChangeConfiguration(e => {
       if (e.affectsConfiguration('superpowers')) {
@@ -172,7 +109,7 @@ export function deactivate(): void {
 function updateStatusBar(bar: vscode.StatusBarItem, setup: WorkspaceSetup): void {
   if (setup.isConfigured()) {
     bar.text = '$(zap) Shane Skills';
-    bar.tooltip = 'Shane Skills active — click for quick menu';
+    bar.tooltip = 'Shane Skills active — click to browse skills';
     bar.backgroundColor = undefined;
   } else {
     bar.text = '$(zap) Shane Skills: Setup needed';
@@ -231,10 +168,6 @@ function openSkillsPanel(context: vscode.ExtensionContext, reg: SkillRegistry): 
 function buildSkillsPanelHtml(skills: SkillInfo[]): string {
   const skillCards = skills
     .map(s => {
-      const isShaneSkill = s.metadata.name === 'jira' || s.metadata.name === 'confluence';
-      const participant = isShaneSkill ? '@shane-skills' : '@superpowers';
-      const command = isShaneSkill ? `/${s.metadata.name}` : `#loadSkill ${escapeHtml(s.metadata.name)}`;
-
       return `
     <div class="skill-card" onclick="openSkill('${escapeHtml(s.dirName)}')">
       <div class="header">
@@ -242,8 +175,8 @@ function buildSkillsPanelHtml(skills: SkillInfo[]): string {
       </div>
       <div class="desc">${escapeHtml(s.metadata.description || 'No description.')}</div>
       <div class="actions">
-        <span class="badge">${participant}</span>
-        <span class="cmd">${command}</span>
+        <span class="badge">@superpowers</span>
+        <span class="cmd">${escapeHtml(s.dirName)}/SKILL.md</span>
         <span class="open-hint">Open →</span>
       </div>
     </div>`;
