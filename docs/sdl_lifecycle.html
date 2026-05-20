@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shane Skills - 软件开发生命周期 (SDL) 与多智能体自动化循环</title>
+  <title>Shane Skills - Software Development Lifecycle (SDL) &amp; Multi-Agent Automation Loop</title>
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -176,16 +176,37 @@
        SCREENSHOT-STYLE STAGE MAP
        ============================ */
     .sdl-map-wrapper {
-      background: #1a2332;
+      background: #f8fafc;
+      border: 1px solid var(--border-color);
       border-radius: 12px;
       padding: 28px 24px;
       overflow-x: auto;
+    }
+
+    /* Custom Scrollbars for light elements */
+    .sdl-map-wrapper::-webkit-scrollbar,
+    .agent-pipeline::-webkit-scrollbar {
+      height: 6px;
+    }
+    .sdl-map-wrapper::-webkit-scrollbar-track,
+    .agent-pipeline::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.03);
+      border-radius: 3px;
+    }
+    .sdl-map-wrapper::-webkit-scrollbar-thumb,
+    .agent-pipeline::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.12);
+      border-radius: 3px;
+    }
+    .sdl-map-wrapper::-webkit-scrollbar-thumb:hover,
+    .agent-pipeline::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 0, 0, 0.2);
     }
     .sdl-map-grid {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
       gap: 0;
-      min-width: 900px;
+      min-width: 960px;
       position: relative;
     }
     /* horizontal connector line between column headers */
@@ -222,12 +243,12 @@
       min-height: 46px;
       line-height: 1.3;
     }
-    .sdl-phase-header.ph-planning   { background: #1e3a5f; border-color: #3b82f6; color: #93c5fd; }
-    .sdl-phase-header.ph-isolation  { background: #44300c; border-color: #f59e0b; color: #fde68a; }
-    .sdl-phase-header.ph-coding     { background: #064e3b; border-color: #10b981; color: #a7f3d0; }
-    .sdl-phase-header.ph-debugging  { background: #4c0519; border-color: #f43f5e; color: #fca5a5; }
-    .sdl-phase-header.ph-review     { background: #2e1065; border-color: #8b5cf6; color: #ddd6fe; }
-    .sdl-phase-header.ph-integration{ background: #042f2e; border-color: #14b8a6; color: #99f6e4; }
+    .sdl-phase-header.ph-planning   { background: rgba(30, 64, 175, 0.08); border-color: rgba(30, 64, 175, 0.3); color: var(--color-planning); }
+    .sdl-phase-header.ph-isolation  { background: rgba(146, 64, 14, 0.08); border-color: rgba(146, 64, 14, 0.3); color: var(--color-isolation); }
+    .sdl-phase-header.ph-coding     { background: rgba(6, 95, 70, 0.08); border-color: rgba(6, 95, 70, 0.3); color: var(--color-coding); }
+    .sdl-phase-header.ph-debugging  { background: rgba(159, 18, 57, 0.08); border-color: rgba(159, 18, 57, 0.3); color: var(--color-debugging); }
+    .sdl-phase-header.ph-review     { background: rgba(91, 33, 182, 0.08); border-color: rgba(91, 33, 182, 0.3); color: var(--color-review); }
+    .sdl-phase-header.ph-integration{ background: rgba(15, 118, 110, 0.08); border-color: rgba(15, 118, 110, 0.3); color: var(--color-integration); }
 
     .sdl-skills-stack {
       display: flex;
@@ -238,8 +259,8 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      background: rgba(255,255,255,0.05);
-      border: 1.5px solid rgba(255,255,255,0.08);
+      background: #ffffff;
+      border: 1px solid var(--border-color);
       border-radius: 7px;
       padding: 8px 10px;
       cursor: pointer;
@@ -247,15 +268,15 @@
       min-height: 38px;
     }
     .sdl-skill-row:hover {
-      background: rgba(255,255,255,0.12);
+      background: #f8fafc;
       transform: translateY(-2px);
     }
-    .sdl-skill-row.ph-planning:hover  { border-color: #3b82f6; box-shadow: 0 4px 12px rgba(59,130,246,0.25); }
-    .sdl-skill-row.ph-isolation:hover { border-color: #f59e0b; box-shadow: 0 4px 12px rgba(245,158,11,0.25); }
-    .sdl-skill-row.ph-coding:hover    { border-color: #10b981; box-shadow: 0 4px 12px rgba(16,185,129,0.25); }
-    .sdl-skill-row.ph-debugging:hover { border-color: #f43f5e; box-shadow: 0 4px 12px rgba(244,63,94,0.25); }
-    .sdl-skill-row.ph-review:hover    { border-color: #8b5cf6; box-shadow: 0 4px 12px rgba(139,92,246,0.25); }
-    .sdl-skill-row.ph-integration:hover { border-color: #14b8a6; box-shadow: 0 4px 12px rgba(20,184,166,0.25); }
+    .sdl-skill-row.ph-planning:hover  { border-color: #3b82f6; box-shadow: 0 4px 12px rgba(59,130,246,0.15); }
+    .sdl-skill-row.ph-isolation:hover { border-color: #f59e0b; box-shadow: 0 4px 12px rgba(245,158,11,0.15); }
+    .sdl-skill-row.ph-coding:hover    { border-color: #10b981; box-shadow: 0 4px 12px rgba(16,185,129,0.15); }
+    .sdl-skill-row.ph-debugging:hover { border-color: #f43f5e; box-shadow: 0 4px 12px rgba(244,63,94,0.15); }
+    .sdl-skill-row.ph-review:hover    { border-color: #8b5cf6; box-shadow: 0 4px 12px rgba(139,92,246,0.15); }
+    .sdl-skill-row.ph-integration:hover { border-color: #14b8a6; box-shadow: 0 4px 12px rgba(20,184,166,0.15); }
 
     .sdl-skill-icon {
       font-size: 0.95rem;
@@ -270,14 +291,14 @@
       font-family: var(--font-mono);
       font-size: 0.7rem;
       font-weight: 600;
-      color: #e2e8f0;
+      color: var(--text-primary);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
     .sdl-skill-label {
       font-size: 0.64rem;
-      color: #94a3b8;
+      color: var(--text-secondary);
       margin-top: 1px;
       white-space: nowrap;
       overflow: hidden;
@@ -398,7 +419,7 @@
 
     /* Pipeline Step Progress Visual */
     .pipeline-container {
-      background: var(--bg-section);
+      background: #f8fafc;
       border: 1px solid var(--border-color);
       border-radius: 8px;
       padding: 16px;
@@ -407,7 +428,7 @@
     .pipeline-title {
       font-size: 0.78rem;
       font-weight: 700;
-      color: var(--text-muted);
+      color: var(--text-secondary);
       margin-bottom: 12px;
       text-transform: uppercase;
       letter-spacing: 0.06em;
@@ -430,23 +451,25 @@
       font-size: 0.76rem;
       font-family: var(--font-mono);
       white-space: nowrap;
-      color: var(--text-secondary);
+      color: var(--text-primary);
       display: flex;
       align-items: center;
       gap: 6px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
     }
     .pipeline-step.active {
-      border-color: var(--hsbc-red);
-      background: var(--hsbc-red-light);
-      color: var(--text-primary);
+      border-color: #db1e24;
+      background: rgba(219, 30, 36, 0.08);
+      color: #db1e24;
+      font-weight: 600;
     }
     .pipeline-step.done {
-      border-color: var(--color-emerald);
-      color: var(--color-emerald);
+      border-color: #10b981;
+      background: rgba(16, 185, 129, 0.08);
+      color: #047857;
     }
     .pipeline-arrow {
-      color: var(--text-muted);
+      color: #64748b;
       font-size: 0.8rem;
     }
 
@@ -592,20 +615,20 @@
 
   <div class="container">
     <header>
-      <div class="badge">Superpowers · SDL 研发资产库</div>
-      <h1>软件开发生命周期 <span class="accent">(SDL)</span> 与多智能体自动化循环</h1>
+      <div class="badge">Superpowers · SDL R&D Assets Library</div>
+      <h1>Software Development Lifecycle <span class="accent">(SDL)</span> &amp; Multi-Agent Automation Loop</h1>
       <p class="subtitle">
-        Shane Skills Copilot 是基于 Agentic Workflows 的工程框架。本文档交互展示了软件研发生命周期中各个阶段所承载的 <strong>16 种核心开发技能 (Superpowers Skills)</strong>，详尽剖析了<strong>设计阶段的人机多轮交流</strong>与<strong>编码阶段的子智能体任务看板循环</strong>。点击任意技能即可跳转至底部详细说明。
+        Shane Skills Copilot is an engineering framework based on Agentic Workflows. This interactive document showcases the <strong>16 core development skills (Superpowers Skills)</strong> leveraged across the software development lifecycle, and provides an in-depth analysis of the <strong>multi-round human-agent alignment</strong> during design and the <strong>subagent checklist loop</strong> during coding. Click any skill to view its detailed specifications below.
       </p>
     </header>
 
     <!-- SECTION 1.1: SDL STAGES OVERVIEW -->
     <div class="flow-card">
       <div class="section-title">
-        <span class="title-icon">🧭</span> 软件研发生命周期阶段大图 (SDL Lifecycle &amp; Core Skills Map)
+        <span class="title-icon">🧭</span> SDL Lifecycle &amp; Core Skills Map
       </div>
       <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 20px;">
-        我们把研发流程分解为 <strong>6 个顺序阶段</strong>，每个阶段均配备一组专用的技能卡。点击任意技能标签可跳转至底部详细说明。
+        We decompose the R&D process into <strong>6 sequential stages</strong>, each equipped with a dedicated set of skill cards. Click any skill label to view detailed specifications below.
       </p>
 
       <!-- Screenshot-style dark SDL map -->
@@ -614,41 +637,41 @@
 
           <!-- Stage 1: Planning -->
           <div class="sdl-col">
-            <div class="sdl-phase-header ph-planning">1. 需求与设计阶段<br>(Planning)</div>
+            <div class="sdl-phase-header ph-planning">1. Planning &amp; Design<br>(Planning)</div>
             <div class="sdl-skills-stack">
               <div class="sdl-skill-row ph-planning" onclick="scrollToSkill('using-superpowers')">
                 <span class="sdl-skill-icon">⚡</span>
                 <div class="sdl-skill-info">
                   <span class="sdl-skill-key">using-superpowers</span>
-                  <span class="sdl-skill-label">会话引导</span>
+                  <span class="sdl-skill-label">Session Orchestration</span>
                 </div>
               </div>
               <div class="sdl-skill-row ph-planning" onclick="scrollToSkill('brainstorming')">
                 <span class="sdl-skill-icon">💡</span>
                 <div class="sdl-skill-info">
                   <span class="sdl-skill-key">brainstorming</span>
-                  <span class="sdl-skill-label">需求头脑风暴</span>
+                  <span class="sdl-skill-label">Requirement Brainstorm</span>
                 </div>
               </div>
               <div class="sdl-skill-row ph-planning" onclick="scrollToSkill('confluence')">
                 <span class="sdl-skill-icon">📄</span>
                 <div class="sdl-skill-info">
                   <span class="sdl-skill-key">confluence</span>
-                  <span class="sdl-skill-label">规范页面同步</span>
+                  <span class="sdl-skill-label">Confluence Doc Sync</span>
                 </div>
               </div>
               <div class="sdl-skill-row ph-planning" onclick="scrollToSkill('jira')">
                 <span class="sdl-skill-icon">🎫</span>
                 <div class="sdl-skill-info">
                   <span class="sdl-skill-key">jira</span>
-                  <span class="sdl-skill-label">用户故事读取</span>
+                  <span class="sdl-skill-label">Jira User Story Sync</span>
                 </div>
               </div>
               <div class="sdl-skill-row ph-planning" onclick="scrollToSkill('writing-plans')">
                 <span class="sdl-skill-icon">📋</span>
                 <div class="sdl-skill-info">
                   <span class="sdl-skill-key">writing-plans</span>
-                  <span class="sdl-skill-label">制定架构执行计划</span>
+                  <span class="sdl-skill-label">Formulate Plan</span>
                 </div>
               </div>
             </div>
@@ -656,13 +679,13 @@
 
           <!-- Stage 2: Isolation -->
           <div class="sdl-col">
-            <div class="sdl-phase-header ph-isolation">2. 环境准备<br>(Isolation)</div>
+            <div class="sdl-phase-header ph-isolation">2. Env Isolation<br>(Isolation)</div>
             <div class="sdl-skills-stack">
               <div class="sdl-skill-row ph-isolation" onclick="scrollToSkill('using-git-worktrees')">
                 <span class="sdl-skill-icon">🌿</span>
                 <div class="sdl-skill-info">
                   <span class="sdl-skill-key">git-worktrees</span>
-                  <span class="sdl-skill-label">隔离环境</span>
+                  <span class="sdl-skill-label">Isolated Worktree</span>
                 </div>
               </div>
             </div>
@@ -670,41 +693,41 @@
 
           <!-- Stage 3: Coding -->
           <div class="sdl-col">
-            <div class="sdl-phase-header ph-coding">3. 编码实现<br>(Coding)</div>
+            <div class="sdl-phase-header ph-coding">3. Coding &amp; Dev<br>(Coding)</div>
             <div class="sdl-skills-stack">
               <div class="sdl-skill-row ph-coding" onclick="scrollToSkill('test-driven-development')">
                 <span class="sdl-skill-icon">🧪</span>
                 <div class="sdl-skill-info">
                   <span class="sdl-skill-key">test-driven-dev</span>
-                  <span class="sdl-skill-label">测试驱动开发</span>
+                  <span class="sdl-skill-label">Test-Driven Development</span>
                 </div>
               </div>
               <div class="sdl-skill-row ph-coding" onclick="scrollToSkill('executing-plans')">
                 <span class="sdl-skill-icon">🏃</span>
                 <div class="sdl-skill-info">
                   <span class="sdl-skill-key">executing-plans</span>
-                  <span class="sdl-skill-label">计划执行控制</span>
+                  <span class="sdl-skill-label">Execution Control</span>
                 </div>
               </div>
               <div class="sdl-skill-row ph-coding" onclick="scrollToSkill('subagent-driven-development')">
                 <span class="sdl-skill-icon">🤖</span>
                 <div class="sdl-skill-info">
                   <span class="sdl-skill-key">subagent-dev</span>
-                  <span class="sdl-skill-label">子代理分发任务</span>
+                  <span class="sdl-skill-label">Subagent Task Dispatch</span>
                 </div>
               </div>
               <div class="sdl-skill-row ph-coding" onclick="scrollToSkill('dispatching-parallel-agents')">
                 <span class="sdl-skill-icon">🔀</span>
                 <div class="sdl-skill-info">
                   <span class="sdl-skill-key">parallel-agents</span>
-                  <span class="sdl-skill-label">并发子任务视图</span>
+                  <span class="sdl-skill-label">Parallel Subtasks</span>
                 </div>
               </div>
               <div class="sdl-skill-row ph-coding" onclick="scrollToSkill('writing-skills')">
                 <span class="sdl-skill-icon">✍️</span>
                 <div class="sdl-skill-info">
                   <span class="sdl-skill-key">writing-skills</span>
-                  <span class="sdl-skill-label">技能模板沉淀</span>
+                  <span class="sdl-skill-label">Skill Packaging</span>
                 </div>
               </div>
             </div>
@@ -712,20 +735,20 @@
 
           <!-- Stage 4: Debugging -->
           <div class="sdl-col">
-            <div class="sdl-phase-header ph-debugging">4. 测试与验证<br>(Verify)</div>
+            <div class="sdl-phase-header ph-debugging">4. Verify &amp; Debug<br>(Verify)</div>
             <div class="sdl-skills-stack">
               <div class="sdl-skill-row ph-debugging" onclick="scrollToSkill('systematic-debugging')">
                 <span class="sdl-skill-icon">🐞</span>
                 <div class="sdl-skill-info">
                   <span class="sdl-skill-key">sys-debugging</span>
-                  <span class="sdl-skill-label">除错</span>
+                  <span class="sdl-skill-label">Scientific Debugging</span>
                 </div>
               </div>
               <div class="sdl-skill-row ph-debugging" onclick="scrollToSkill('verification-before-completion')">
                 <span class="sdl-skill-icon">🛡️</span>
                 <div class="sdl-skill-info">
                   <span class="sdl-skill-key">verification-before-complete</span>
-                  <span class="sdl-skill-label">闭环验证</span>
+                  <span class="sdl-skill-label">Acceptance Verification</span>
                 </div>
               </div>
             </div>
@@ -733,20 +756,20 @@
 
           <!-- Stage 5: Review -->
           <div class="sdl-col">
-            <div class="sdl-phase-header ph-review">5. 代码评审<br>(Review)</div>
+            <div class="sdl-phase-header ph-review">5. Code Review<br>(Review)</div>
             <div class="sdl-skills-stack">
               <div class="sdl-skill-row ph-review" onclick="scrollToSkill('requesting-code-review')">
                 <span class="sdl-skill-icon">🔍</span>
                 <div class="sdl-skill-info">
                   <span class="sdl-skill-key">requesting-CR</span>
-                  <span class="sdl-skill-label">发起评审</span>
+                  <span class="sdl-skill-label">Submit Code Review</span>
                 </div>
               </div>
               <div class="sdl-skill-row ph-review" onclick="scrollToSkill('receiving-code-review')">
                 <span class="sdl-skill-icon">📥</span>
                 <div class="sdl-skill-info">
                   <span class="sdl-skill-key">receiving-CR</span>
-                  <span class="sdl-skill-label">处理意见</span>
+                  <span class="sdl-skill-label">Process Feedback</span>
                 </div>
               </div>
             </div>
@@ -754,13 +777,13 @@
 
           <!-- Stage 6: Integration -->
           <div class="sdl-col">
-            <div class="sdl-phase-header ph-integration">6. 合并<br>(Done)</div>
+            <div class="sdl-phase-header ph-integration">6. Integration<br>(Done)</div>
             <div class="sdl-skills-stack">
               <div class="sdl-skill-row ph-integration" onclick="scrollToSkill('finishing-a-development-branch')">
                 <span class="sdl-skill-icon">🏁</span>
                 <div class="sdl-skill-info">
                   <span class="sdl-skill-key">finish-branch</span>
-                  <span class="sdl-skill-label">分支归并清理</span>
+                  <span class="sdl-skill-label">Merge &amp; Cleanup</span>
                 </div>
               </div>
             </div>
@@ -775,34 +798,34 @@
       <div class="drawer-header">
         <div class="drawer-icon-circle" id="drawer-icon">⚡</div>
         <div class="drawer-title-group">
-          <h3 id="drawer-name">点击上方阶段图中任意技能</h3>
-          <div class="drawer-phase-badge" id="drawer-phase">查看该技能的触发时机、执行规范与内部 Pipeline 决策流</div>
+          <h3 id="drawer-name">Click any skill card in the map above</h3>
+          <div class="drawer-phase-badge" id="drawer-phase">Explore trigger conditions, execution specifications, and the internal action pipeline.</div>
         </div>
       </div>
 
       <!-- Agent Action Pipeline Visual Flow -->
       <div class="pipeline-container">
         <div class="pipeline-title">
-          <span>⚙️</span> Agent 内部行为决策流水线 (Agent Action Pipeline)
+          <span>⚙️</span> Agent Action Pipeline
         </div>
         <div class="agent-pipeline" id="drawer-pipeline-flow">
           <!-- Populated dynamically via JS -->
-          <div style="font-size: 0.85rem; color: var(--text-muted); font-family: var(--font-mono)">暂无选择，请点击上方阶段图中的技能卡片…</div>
+          <div style="font-size: 0.85rem; color: var(--text-muted); font-family: var(--font-mono)">No skill selected. Click a skill card in the map above to view details...</div>
         </div>
       </div>
 
       <div class="drawer-body">
         <p id="drawer-desc" style="margin-bottom: 18px; font-weight: 500; color: var(--text-primary); line-height: 1.5; font-size: 0.95rem;">
-          Shane Skills Copilot 自带完整的可调试链路。
+          Shane Skills Copilot includes a comprehensive debugging lifecycle.
         </p>
 
         <div class="drawer-grid">
           <div class="drawer-section">
-            <div class="drawer-section-title">🎯 触发时机 &amp; 什么时候调用</div>
+            <div class="drawer-section-title">🎯 Trigger Conditions</div>
             <p id="drawer-trigger" style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5;"></p>
           </div>
           <div class="drawer-section">
-            <div class="drawer-section-title">📋 核心执行规范 &amp; 边界考核</div>
+            <div class="drawer-section-title">📋 Core Specifications &amp; Boundary Validation</div>
             <ul class="detail-list" id="drawer-steps"></ul>
           </div>
         </div>
@@ -813,10 +836,10 @@
     <!-- SECTION 1.3: DESIGN & PLANNING PHASE FLOW -->
     <div class="flow-card">
       <div class="section-title">
-        <span class="title-icon">✏️</span> 设计与需求规划期协作图 (Design &amp; Planning Phase Flow)
+        <span class="title-icon">✏️</span> Design &amp; Planning Phase Flow
       </div>
       <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 20px;">
-        在<strong>设计与计划阶段</strong>，人类用户通过 `@superpowers /brainstorm` 技能启动分析。Agent 自动识别需求内的云端链接，并融合本地代码上下文进行方案提炼。点击节点或修正流向可动态查看设计细节。
+        During the <strong>Design &amp; Planning Phase</strong>, human developers initiate analysis via `@superpowers /brainstorm`. The agent automatically identifies cloud links in the requirements and merges local code context for solution refinement. Click nodes to dynamically explore design details.
       </p>
 
       <div class="interactive-svg-wrapper">
@@ -831,86 +854,86 @@
           </defs>
 
           <!-- Input Indicator -->
-          <text x="20" y="110" fill="#9ca3af" font-family="Inter" font-size="9" font-weight="700">1. 人类唤醒</text>
+          <text x="20" y="110" fill="#9ca3af" font-family="Inter" font-size="9" font-weight="700">1. Human Invocation</text>
           <path d="M 15 120 L 40 120" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#design-arrow)" />
 
-          <!-- Node 1: Brainstorm Trigger (人类调用头脑风暴) -->
+          <!-- Node 1: Brainstorm Trigger (Human Triggered Brainstorming) -->
           <g class="flow-loop-node" id="dnode-brainstorm" onclick="showDesignDetail('brainstorm')">
             <rect class="node-bg" x="45" y="75" width="130" height="90" rx="10" fill="#ffffff" stroke="rgba(59, 130, 246, 0.7)" stroke-width="1.5" />
-            <text x="58" y="98" fill="#d97706" font-family="Outfit" font-size="10" font-weight="700">🧑 人类触发</text>
-            <text x="58" y="118" fill="#0f172a" font-family="Outfit" font-size="11" font-weight="800">头脑风暴</text>
+            <text x="58" y="98" fill="#d97706" font-family="Outfit" font-size="10" font-weight="700">🧑 Human Triggered</text>
+            <text x="58" y="118" fill="#0f172a" font-family="Outfit" font-size="11" font-weight="800">Brainstorming</text>
             <text x="58" y="138" fill="#64748b" font-family="Fira Code" font-size="8">/brainstorm</text>
-            <text x="58" y="148" fill="#64748b" font-family="Fira Code" font-size="8">输入初始需求</text>
+            <text x="58" y="148" fill="#64748b" font-family="Fira Code" font-size="8">Initial Input</text>
           </g>
 
           <!-- Arrow Node 1 -> Node 2 -->
           <path class="flow-connector" id="dpath-to-sync" d="M 175 120 L 205 120" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#design-arrow)" />
 
-          <!-- Node 2: Context Sync (自动抓取 JIRA / Confluence 并融合已有代码) -->
+          <!-- Node 2: Context Sync (Auto-Sync JIRA/Confluence & Existing Code) -->
           <g class="flow-loop-node" id="dnode-sync" onclick="showDesignDetail('sync')">
             <rect class="node-bg" x="210" y="75" width="155" height="90" rx="10" fill="#ffffff" stroke="rgba(59, 130, 246, 0.7)" stroke-width="1.5" />
-            <text x="222" y="98" fill="#2563eb" font-family="Outfit" font-size="10" font-weight="700">🔄 自动同步</text>
-            <text x="222" y="118" fill="#0f172a" font-family="Outfit" font-size="11" font-weight="800">AC与本地代码</text>
+            <text x="222" y="98" fill="#2563eb" font-family="Outfit" font-size="10" font-weight="700">🔄 Auto-Sync</text>
+            <text x="222" y="118" fill="#0f172a" font-family="Outfit" font-size="11" font-weight="800">AC &amp; Local Code</text>
             <text x="222" y="138" fill="#64748b" font-family="Fira Code" font-size="8">jira, confluence</text>
-            <text x="222" y="148" fill="#64748b" font-family="Fira Code" font-size="8">代码库上下文提取</text>
+            <text x="222" y="148" fill="#64748b" font-family="Fira Code" font-size="8">Extract Context</text>
           </g>
 
           <!-- Arrow Node 2 -> Node 3 -->
           <path class="flow-connector" id="dpath-to-align" d="M 365 120 L 395 120" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#design-arrow)" />
 
-          <!-- Node 3: Human Dialogue (多轮对齐交流) -->
+          <!-- Node 3: Human Dialogue (Multi-round Alignment) -->
           <g class="flow-loop-node" id="dnode-align" onclick="showDesignDetail('align')">
             <rect class="node-bg" x="400" y="75" width="130" height="90" rx="10" fill="#ffffff" stroke="rgba(59, 130, 246, 0.7)" stroke-width="1.5" />
-            <text x="412" y="98" fill="#2563eb" font-family="Outfit" font-size="10" font-weight="700">💬 人机交流</text>
-            <text x="412" y="118" fill="#0f172a" font-family="Outfit" font-size="11" font-weight="800">多轮细节对齐</text>
+            <text x="412" y="98" fill="#2563eb" font-family="Outfit" font-size="10" font-weight="700">💬 Alignment</text>
+            <text x="412" y="118" fill="#0f172a" font-family="Outfit" font-size="11" font-weight="800">Detail Alignment</text>
             <text x="412" y="138" fill="#64748b" font-family="Fira Code" font-size="8">/grill-me</text>
-            <text x="412" y="148" fill="#64748b" font-family="Fira Code" font-size="8">澄清模糊细节</text>
+            <text x="412" y="148" fill="#64748b" font-family="Fira Code" font-size="8">Clarify Ambiguity</text>
           </g>
 
           <!-- Clarification Refinement Loop: Node 3 -> Node 2 -->
           <path class="flow-connector" id="dpath-refine" d="M 465 75 C 465 25, 287 25, 287 75" stroke="#f43f5e" stroke-width="1.5" marker-end="url(#design-arrow-red)" stroke-dasharray="3" />
-          <text x="376" y="42" fill="#fca5a5" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">🔄 细化追问 & 代码规则补充</text>
+          <text x="376" y="42" fill="#e11d48" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">🔄 Clarification Loop &amp; Policy Injection</text>
 
           <!-- Arrow Node 3 -> Node 4 -->
           <path class="flow-connector" id="dpath-to-design" d="M 530 120 L 560 120" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#design-arrow)" />
 
-          <!-- Node 4: Design Output (产出 design.md 设计文档) -->
+          <!-- Node 4: Design Output (Generate design.md Spec) -->
           <g class="flow-loop-node" id="dnode-design" onclick="showDesignDetail('design')">
             <rect class="node-bg" x="565" y="75" width="130" height="90" rx="10" fill="#ffffff" stroke="rgba(16, 185, 129, 0.7)" stroke-width="1.5" />
-            <text x="578" y="98" fill="#059669" font-family="Outfit" font-size="10" font-weight="700">📄 设计产出</text>
-            <text x="578" y="118" fill="#0f172a" font-family="Outfit" font-size="11" font-weight="800">design.md 规范</text>
+            <text x="578" y="98" fill="#059669" font-family="Outfit" font-size="10" font-weight="700">📄 Design Output</text>
+            <text x="578" y="118" fill="#0f172a" font-family="Outfit" font-size="11" font-weight="800">design.md Spec</text>
             <text x="578" y="138" fill="#64748b" font-family="Fira Code" font-size="8">brainstorming</text>
-            <text x="578" y="148" fill="#64748b" font-family="Fira Code" font-size="8">数据 Schema & API</text>
+            <text x="578" y="148" fill="#64748b" font-family="Fira Code" font-size="8">Schema &amp; API Design</text>
           </g>
 
-          <!-- Arrow Node 4 -> Node 5 (人类调用 Plan) -->
+          <!-- Arrow Node 4 -> Node 5 (Human Triggers Plan) -->
           <path class="flow-connector" id="dpath-to-plan-trigger" d="M 695 120 L 725 120" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#design-arrow)" />
-          <text x="710" y="110" fill="#fbbf24" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">2. 人类调用</text>
+          <text x="710" y="110" fill="#d97706" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">2. Human Run</text>
 
-          <!-- Node 5: Plan Trigger (人类调用写 plan 技能) -->
+          <!-- Node 5: Plan Trigger (Human Triggers Plan Skill) -->
           <g class="flow-loop-node" id="dnode-plan-trigger" onclick="showDesignDetail('plan-trigger')">
             <rect class="node-bg" x="730" y="75" width="125" height="90" rx="10" fill="#ffffff" stroke="rgba(59, 130, 246, 0.7)" stroke-width="1.5" />
-            <text x="742" y="98" fill="#d97706" font-family="Outfit" font-size="10" font-weight="700">🧑 人类触发</text>
-            <text x="742" y="118" fill="#0f172a" font-family="Outfit" font-size="11" font-weight="800">调用计划技能</text>
+            <text x="742" y="98" fill="#d97706" font-family="Outfit" font-size="10" font-weight="700">🧑 Human Triggered</text>
+            <text x="742" y="118" fill="#0f172a" font-family="Outfit" font-size="11" font-weight="800">Trigger /plan</text>
             <text x="742" y="138" fill="#64748b" font-family="Fira Code" font-size="8">/plan</text>
-            <text x="742" y="148" fill="#64748b" font-family="Fira Code" font-size="8">指定 design.md</text>
+            <text x="742" y="148" fill="#64748b" font-family="Fira Code" font-size="8">Bind design.md</text>
           </g>
 
           <!-- Arrow Node 5 -> Node 6 -->
           <path class="flow-connector" id="dpath-to-plan-output" d="M 855 120 L 880 120" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#design-arrow)" />
 
-          <!-- Node 6: Plan Output (生成 implementation_plan.md) -->
+          <!-- Node 6: Plan Output (Generate implementation_plan.md) -->
           <g class="flow-loop-node" id="dnode-plan-output" onclick="showDesignDetail('plan-output')">
             <rect class="node-bg" x="885" y="75" width="110" height="90" rx="10" fill="#ffffff" stroke="rgba(59, 130, 246, 0.9)" stroke-width="1.5" />
-            <text x="895" y="98" fill="#2563eb" font-family="Outfit" font-size="10" font-weight="700">📋 计划产出</text>
+            <text x="895" y="98" fill="#2563eb" font-family="Outfit" font-size="10" font-weight="700">📋 Plan Output</text>
             <text x="895" y="118" fill="#0f172a" font-family="Outfit" font-size="10" font-weight="800">implementation_</text>
-            <text x="895" y="128" fill="#0f172a" font-family="Outfit" font-size="10" font-weight="800">plan.md 文件</text>
+            <text x="895" y="128" fill="#0f172a" font-family="Outfit" font-size="10" font-weight="800">plan.md File</text>
             <text x="895" y="148" fill="#64748b" font-family="Fira Code" font-size="8">writing-plans</text>
           </g>
 
           <!-- Plan Reject Loop: Node 6 -> Node 3 -->
           <path class="flow-connector" id="dpath-plan-reject" d="M 940 165 C 940 225, 465 225, 465 165" stroke="#f43f5e" stroke-width="1.5" marker-end="url(#design-arrow-red)" stroke-dasharray="3" />
-          <text x="702" y="212" fill="#fca5a5" font-family="Inter" font-size="9" text-anchor="middle" font-weight="700">❌ 计划评审不通过打回修正 (Metadata feedback)</text>
+          <text x="702" y="212" fill="#be123c" font-family="Inter" font-size="9" text-anchor="middle" font-weight="700">❌ Plan Rejected (Requires Iteration)</text>
 
           <!-- Output to Coding -->
           <path class="flow-connector" d="M 995 120 L 1000 120" stroke="#10b981" stroke-width="1.5" stroke-dasharray="2" />
@@ -922,17 +945,17 @@
         <div class="drawer-header">
           <div class="drawer-icon-circle" id="design-drawer-icon" style="background: #eff6ff; border-color: var(--color-blue);">💡</div>
           <div class="drawer-title-group">
-            <h3 id="design-drawer-name">需求分析与架构设计阶段</h3>
+            <h3 id="design-drawer-name">Design &amp; Architecture Stage</h3>
             <div class="drawer-phase-badge" id="design-drawer-badge" style="color: var(--color-blue);">
-              SDL Phase 1: 确保方案可行，谋定而后动
+              SDL Phase 1: Ensure feasibility and chart the course before coding.
             </div>
           </div>
         </div>
 
         <!-- Dynamic design steps -->
-        <div class="pipeline-container" style="background: rgba(7, 10, 19, 0.8);">
+        <div class="pipeline-container">
           <div class="pipeline-title">
-            <span>⚙️</span> 执行步骤流水线 (Planning Steps)
+            <span>⚙️</span> Planning Steps
           </div>
           <div class="agent-pipeline" id="design-drawer-pipeline">
             <!-- Populated dynamically via JS -->
@@ -941,16 +964,16 @@
 
         <div class="drawer-body">
           <p id="design-drawer-desc" style="line-height: 1.5; color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 15px;">
-            点击设计流程图中的卡片，查看对应的技术实现与交互流程。
+            Click any card in the flowchart above to view technical specifications and execution steps.
           </p>
           <div class="drawer-grid">
             <div class="drawer-section">
-              <div class="drawer-section-title">📂 绑定与加载的技能 (Loaded Skills)</div>
+              <div class="drawer-section-title">📂 Loaded Skills</div>
               <p id="design-drawer-skills" style="font-size: 0.88rem; color: var(--color-coding); font-family: var(--font-mono); line-height: 1.5;"></p>
               <div id="design-drawer-skill-links"></div>
             </div>
             <div class="drawer-section">
-              <div class="drawer-section-title">🤝 细节对齐与人机协作机制</div>
+              <div class="drawer-section-title">🤝 Detail Alignment &amp; Human-Agent Collaboration</div>
               <p id="design-drawer-interaction" style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5;"></p>
             </div>
           </div>
@@ -962,10 +985,10 @@
     <!-- SECTION 1.5: MULTI-AGENT COLLABORATION LOOP (WITH RECURSIVE TASK LOOP) -->
     <div class="flow-card">
       <div class="section-title">
-        <span class="title-icon">🤖</span> Subagent-Driven 编码期自动化协作图 (Multi-Agent Dev Loop)
+        <span class="title-icon">🤖</span> Multi-Agent Development Loop (Subagent-Driven)
       </div>
       <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 20px;">
-        在<strong>编码阶段</strong>，一个 plan 会被拆解为多步 checklist（位于看板中）。<strong>每一个单独的 task 都会串行地跑一遍多智能体闭环流程</strong>。当所有 task 全部解决后，方可完成合并。
+        During the <strong>Coding Phase</strong>, an approved plan is broken down into a step-by-step checklist (in task.md). <strong>Each individual task runs sequentially through a multi-agent closed-loop process</strong>. Merging is only permitted once all tasks are successfully resolved.
       </p>
 
       <div class="interactive-svg-wrapper">
@@ -985,22 +1008,22 @@
             </marker>
           </defs>
 
-          <!-- 0. task.md Checklist Queue (计划看板队列) -->
+          <!-- 0. task.md Checklist Queue (Task Queue) -->
           <g id="lnode-queue">
             <rect x="20" y="40" width="170" height="95" rx="8" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3" />
-            <text x="35" y="62" fill="#475569" font-family="Outfit" font-size="10" font-weight="700">📋 task.md 进度队列</text>
-            <text x="35" y="82" fill="#94a3b8" font-family="Fira Code" font-size="9">☑️ Task 1 (已绿灯)</text>
-            <text x="35" y="98" fill="#0d9488" font-family="Fira Code" font-size="9" font-weight="700">▶️ Task 2 (当前调度中)</text>
-            <text x="35" y="114" fill="#94a3b8" font-family="Fira Code" font-size="9">⬜ Task 3 (等待执行)</text>
+            <text x="35" y="62" fill="#475569" font-family="Outfit" font-size="10" font-weight="700">📋 task.md Queue</text>
+            <text x="35" y="82" fill="#94a3b8" font-family="Fira Code" font-size="9">☑️ Task 1 (Passed)</text>
+            <text x="35" y="98" fill="#0d9488" font-family="Fira Code" font-size="9" font-weight="700">▶️ Task 2 (Active)</text>
+            <text x="35" y="114" fill="#94a3b8" font-family="Fira Code" font-size="9">⬜ Task 3 (Pending)</text>
           </g>
 
           <!-- Arrow 0: Queue feeds into Controller -->
           <path d="M 105 135 L 105 172" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#loop-arrow-head-blue)" />
 
-          <!-- 1. Controller Node (主协调者) -->
+          <!-- 1. Controller Node (Main Controller) -->
           <g class="flow-loop-node" id="lnode-controller" onclick="showLoopDetail('controller')">
             <rect class="node-bg" x="20" y="180" width="170" height="90" rx="10" fill="#ffffff" stroke="rgba(59, 130, 246, 0.7)" stroke-width="1.5" />
-            <text x="35" y="203" fill="#2563eb" font-family="Outfit" font-size="10" font-weight="700">🤖 主协调者</text>
+            <text x="35" y="203" fill="#2563eb" font-family="Outfit" font-size="10" font-weight="700">🤖 Controller</text>
             <text x="35" y="223" fill="#0f172a" font-family="Outfit" font-size="12" font-weight="800">Controller Agent</text>
             <text x="35" y="241" fill="#64748b" font-family="Fira Code" font-size="8">Loaded: subagent-driven-dev</text>
             <text x="35" y="253" fill="#64748b" font-family="Fira Code" font-size="8">        executing-plans</text>
@@ -1008,12 +1031,12 @@
 
           <!-- Arrow 1: Dispatch to Implementer -->
           <path class="flow-connector" id="lpath-dispatch" d="M 190 225 L 230 225" stroke="#14b8a6" stroke-width="1.5" marker-end="url(#loop-arrow-head)" />
-          <text x="210" y="215" fill="#14b8a6" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">1. 分派</text>
+          <text x="210" y="215" fill="#14b8a6" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">1. Dispatch</text>
 
-          <!-- 2. Implementer Node (TDD 编码子代理) -->
+          <!-- 2. Implementer Node (TDD Coding Subagent) -->
           <g class="flow-loop-node" id="lnode-implementer" onclick="showLoopDetail('implementer')">
             <rect class="node-bg" x="240" y="180" width="170" height="90" rx="10" fill="#ffffff" stroke="rgba(16, 185, 129, 0.7)" stroke-width="1.5" />
-            <text x="255" y="203" fill="#059669" font-family="Outfit" font-size="10" font-weight="700">💻 TDD 编码</text>
+            <text x="255" y="203" fill="#059669" font-family="Outfit" font-size="10" font-weight="700">💻 TDD Coding</text>
             <text x="255" y="223" fill="#0f172a" font-family="Outfit" font-size="12" font-weight="800">Implementer Agent</text>
             <text x="255" y="241" fill="#64748b" font-family="Fira Code" font-size="8">Loaded: test-driven-dev</text>
             <text x="255" y="253" fill="#64748b" font-family="Fira Code" font-size="8">        using-git-worktrees</text>
@@ -1021,12 +1044,12 @@
 
           <!-- Arrow 2: Send Code to Tester -->
           <path class="flow-connector" id="lpath-to-test" d="M 410 225 L 450 225" stroke="#14b8a6" stroke-width="1.5" marker-end="url(#loop-arrow-head)" />
-          <text x="430" y="215" fill="#14b8a6" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">2. 提测</text>
+          <text x="430" y="215" fill="#14b8a6" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">2. Test Request</text>
 
-          <!-- 3. Tester Node (测试验证子代理) -->
+          <!-- 3. Tester Node (Verification Subagent) -->
           <g class="flow-loop-node" id="lnode-tester" onclick="showLoopDetail('tester')">
             <rect class="node-bg" x="460" y="180" width="170" height="90" rx="10" fill="#ffffff" stroke="rgba(20, 184, 166, 0.7)" stroke-width="1.5" />
-            <text x="475" y="203" fill="#0d9488" font-family="Outfit" font-size="10" font-weight="700">🧪 测试验证</text>
+            <text x="475" y="203" fill="#0d9488" font-family="Outfit" font-size="10" font-weight="700">🧪 Verification</text>
             <text x="475" y="223" fill="#0f172a" font-family="Outfit" font-size="12" font-weight="800">Tester Agent</text>
             <text x="475" y="241" fill="#64748b" font-family="Fira Code" font-size="8">Loaded: verification-before-</text>
             <text x="475" y="253" fill="#64748b" font-family="Fira Code" font-size="8">        completion</text>
@@ -1034,44 +1057,44 @@
 
           <!-- Arrow 3: Test Fails -> Trigger Fixer -->
           <path class="flow-connector" id="lpath-test-fail" d="M 545 180 C 545 110, 480 85, 420 85" stroke="#f43f5e" stroke-width="1.5" marker-end="url(#loop-arrow-head-red)" stroke-dasharray="3" />
-          <text x="495" y="105" fill="#fca5a5" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">3a. ❌ 编译测试报错</text>
+          <text x="495" y="105" fill="#be123c" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">3a. ❌ Build/Test Fail</text>
 
-          <!-- 4. Fixer Node (调试修复子代理) -->
+          <!-- 4. Fixer Node (Debugging & Repair Subagent) -->
           <g class="flow-loop-node" id="lnode-fixer" onclick="showLoopDetail('fixer')">
             <rect class="node-bg" x="240" y="40" width="170" height="90" rx="10" fill="#ffffff" stroke="rgba(244, 63, 94, 0.7)" stroke-width="1.5" />
-            <text x="255" y="63" fill="#e11d48" font-family="Outfit" font-size="10" font-weight="700">🐞 调试修复</text>
+            <text x="255" y="63" fill="#e11d48" font-family="Outfit" font-size="10" font-weight="700">🐞 Debug &amp; Fix</text>
             <text x="255" y="83" fill="#0f172a" font-family="Outfit" font-size="12" font-weight="800">Fixer Agent</text>
             <text x="255" y="101" fill="#64748b" font-family="Fira Code" font-size="8">Loaded: systematic-debugging</text>
           </g>
 
           <!-- Arrow 4: Fixer patch to Implementer (Vertically straight down) -->
           <path class="flow-connector" id="lpath-fix-apply" d="M 325 130 L 325 172" stroke="#f43f5e" stroke-width="1.5" marker-end="url(#loop-arrow-head-red)" stroke-dasharray="3" />
-          <text x="335" y="152" fill="#fca5a5" font-family="Inter" font-size="8" font-weight="700">3b. 修复反馈</text>
+          <text x="335" y="152" fill="#be123c" font-family="Inter" font-size="8" font-weight="700">3b. Fix Feedback</text>
 
           <!-- Arrow 5: Test Passes -> Send to Spec Reviewer -->
           <path class="flow-connector" id="lpath-test-pass" d="M 630 225 C 655 225, 655 85, 672 85" stroke="#10b981" stroke-width="1.5" marker-end="url(#loop-arrow-head)" />
-          <text x="650" y="155" fill="#34d399" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">4. ✅ 绿灯送审</text>
+          <text x="650" y="155" fill="#047857" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">4. ✅ Greenlight</text>
 
-          <!-- 5. Spec Reviewer Node (设计规约评审子代理) -->
+          <!-- 5. Spec Reviewer Node (Design Spec Reviewer Subagent) -->
           <g class="flow-loop-node" id="lnode-spec-reviewer" onclick="showLoopDetail('spec-reviewer')">
             <rect class="node-bg" x="680" y="40" width="170" height="90" rx="10" fill="#ffffff" stroke="rgba(245, 158, 11, 0.7)" stroke-width="1.5" />
-            <text x="695" y="63" fill="#d97706" font-family="Outfit" font-size="10" font-weight="700">⚖️ 规约评审</text>
+            <text x="695" y="63" fill="#d97706" font-family="Outfit" font-size="10" font-weight="700">⚖️ Spec Review</text>
             <text x="695" y="83" fill="#0f172a" font-family="Outfit" font-size="12" font-weight="800">Spec Reviewer</text>
             <text x="695" y="101" fill="#64748b" font-family="Fira Code" font-size="8">Loaded: writing-plans (Spec)</text>
           </g>
 
           <!-- Arrow 6: Spec Reject PR back to Implementer -->
           <path class="flow-connector" id="lpath-spec-reject" d="M 765 40 C 765 15, 325 15, 325 172" stroke="#f43f5e" stroke-width="1.5" marker-end="url(#loop-arrow-head-red)" stroke-dasharray="3" />
-          <text x="545" y="23" fill="#fca5a5" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">5a. ❌ 规约不符/超纲打回</text>
+          <text x="545" y="23" fill="#be123c" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">5a. ❌ Spec Mismatch/YAGNI</text>
 
           <!-- Arrow 7: Spec Approved -> Code Quality Reviewer -->
           <path class="flow-connector" id="lpath-spec-pass" d="M 765 130 L 765 172" stroke="#10b981" stroke-width="1.5" marker-end="url(#loop-arrow-head)" />
-          <text x="775" y="152" fill="#34d399" font-family="Inter" font-size="8" font-weight="700">5b. ✅ 合规通过</text>
+          <text x="775" y="152" fill="#047857" font-family="Inter" font-size="8" font-weight="700">5b. ✅ Spec Passed</text>
 
-          <!-- 6. Code Reviewer Node (代码质量评审子代理) -->
+          <!-- 6. Code Reviewer Node (Code Quality Reviewer Subagent) -->
           <g class="flow-loop-node" id="lnode-quality-reviewer" onclick="showLoopDetail('quality-reviewer')">
             <rect class="node-bg" x="680" y="180" width="170" height="90" rx="10" fill="#ffffff" stroke="rgba(139, 92, 246, 0.7)" stroke-width="1.5" />
-            <text x="695" y="203" fill="#7c3aed" font-family="Outfit" font-size="10" font-weight="700">🔍 质量评审</text>
+            <text x="695" y="203" fill="#7c3aed" font-family="Outfit" font-size="10" font-weight="700">🔍 Quality Review</text>
             <text x="695" y="223" fill="#0f172a" font-family="Outfit" font-size="12" font-weight="800">Quality Reviewer</text>
             <text x="695" y="241" fill="#64748b" font-family="Fira Code" font-size="8">Loaded: requesting-code-review</text>
             <text x="695" y="253" fill="#64748b" font-family="Fira Code" font-size="8">        receiving-code-review</text>
@@ -1079,35 +1102,35 @@
 
           <!-- Arrow 8: Quality Reject Loop back to Implementer (Curving cleanly below Tester) -->
           <path class="flow-connector" id="lpath-quality-reject" d="M 680 245 C 570 295, 480 295, 418 245" stroke="#f43f5e" stroke-width="1.5" marker-end="url(#loop-arrow-head-red)" stroke-dasharray="3" />
-          <text x="545" y="288" fill="#fca5a5" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">6a. ❌ 质量味道打回</text>
+          <text x="545" y="288" fill="#be123c" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">6a. ❌ Quality Smells</text>
 
           <!-- Arrow 9: Quality Approve -> Task Guard (Straight vertical connection) -->
           <path class="flow-connector" id="lpath-all-pass" d="M 765 270 L 765 312" stroke="#10b981" stroke-width="1.5" marker-end="url(#loop-arrow-head)" />
-          <text x="775" y="295" fill="#34d399" font-family="Inter" font-size="8" font-weight="700">6b. ✅ 双重通过</text>
+          <text x="775" y="295" fill="#047857" font-family="Inter" font-size="8" font-weight="700">6b. ✅ Dual Approved</text>
 
-          <!-- 7. Task Checklist Guard (看板哨兵 card - aligned vertically in column X: 680) -->
+          <!-- 7. Task Checklist Guard (Board Guard) -->
           <g class="flow-loop-node" id="lnode-guard" onclick="showLoopDetail('guard')">
             <rect class="node-bg" x="680" y="320" width="170" height="90" rx="10" fill="#ffffff" stroke="rgba(245, 158, 11, 0.7)" stroke-width="1.5" />
-            <text x="695" y="343" fill="#d97706" font-family="Outfit" font-size="10" font-weight="700">⚖️ 看板哨兵</text>
+            <text x="695" y="343" fill="#d97706" font-family="Outfit" font-size="10" font-weight="700">⚖️ Task Guard</text>
             <text x="695" y="363" fill="#0f172a" font-family="Outfit" font-size="12" font-weight="800">Task Guard</text>
-            <text x="695" y="381" fill="#64748b" font-family="Fira Code" font-size="8">检查 task.md 进度</text>
-            <text x="695" y="393" fill="#64748b" font-family="Fira Code" font-size="8">调度下一个 Task</text>
+            <text x="695" y="381" fill="#64748b" font-family="Fira Code" font-size="8">Track task.md Progress</text>
+            <text x="695" y="393" fill="#64748b" font-family="Fira Code" font-size="8">Dispatch Next Task</text>
           </g>
 
           <!-- Recursive Loop: Guard -> Controller (Curving below at Y: 425) -->
           <path class="flow-connector" id="lpath-next-task" d="M 680 365 C 400 365, 105 365, 105 278" stroke="#3b82f6" stroke-width="2" marker-end="url(#loop-arrow-head-blue)" stroke-dasharray="3" />
-          <text x="350" y="355" fill="#93c5fd" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">🔄 [Yes] 看板中还有未完成 Task，取出下一个 Task i+1 唤起循环</text>
+          <text x="350" y="355" fill="#1e40af" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">🔄 [Yes] Pending tasks remaining. Dispatch Task i+1</text>
 
           <!-- Arrow: Guard -> Finish Branch -->
           <path class="flow-connector" id="lpath-branch-done" d="M 850 365 C 937 365, 937 320, 937 278" stroke="#10b981" stroke-width="2" marker-end="url(#loop-arrow-head)" />
-          <text x="910" y="385" fill="#34d399" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">🏁 [No] 看板已清空</text>
+          <text x="910" y="385" fill="#047857" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">🏁 [No] Checklist cleared</text>
 
-          <!-- 8. Finish Branch (分支归并清理) -->
+          <!-- 8. Finish Branch (Branch Consolidation & Cleanup) -->
           <g class="flow-loop-node" id="lnode-finish" onclick="showLoopDetail('finish')">
             <rect class="node-bg" x="890" y="180" width="95" height="90" rx="8" fill="#f0fdfa" stroke="rgba(20, 184, 166, 0.8)" stroke-width="1.2" />
             <text x="937" y="215" fill="#0f172a" font-family="Outfit" font-size="11" font-weight="700" text-anchor="middle">🏁</text>
             <text x="937" y="235" fill="#0f172a" font-family="Outfit" font-size="9" font-weight="600" text-anchor="middle">finish-branch</text>
-            <text x="937" y="253" fill="#0d9488" font-family="Inter" font-size="8" text-anchor="middle">分支归并清理</text>
+            <text x="937" y="253" fill="#0d9488" font-family="Inter" font-size="8" text-anchor="middle">Merge &amp; Cleanup</text>
           </g>
         </svg>
       </div>
@@ -1117,9 +1140,9 @@
         <div class="drawer-header">
           <div class="drawer-icon-circle" id="loop-drawer-icon" style="background: rgba(20, 184, 166, 0.2); border-color: rgba(20, 184, 166, 0.4);">🤖</div>
           <div class="drawer-title-group">
-            <h3 id="loop-drawer-name">多智能体协同机制</h3>
+            <h3 id="loop-drawer-name">Multi-Agent Collaboration Mechanism</h3>
             <div class="drawer-phase-badge" id="loop-drawer-model">
-              各节点均具备明确的边界约束，并按规则激活特定开发技能。
+              Each node possesses clear boundary constraints and dynamically loads specific skills.
             </div>
           </div>
         </div>
@@ -1127,7 +1150,7 @@
         <!-- Dynamic Agent Step pipeline in drawer -->
         <div class="pipeline-container">
           <div class="pipeline-title" id="loop-drawer-pipeline-title">
-            <span>⚙️</span> 智能体执行步骤流水线 (Agent Steps)
+            <span>⚙️</span> Agent Execution Pipeline
           </div>
           <div class="agent-pipeline" id="loop-drawer-pipeline-flow">
             <!-- Populated dynamically via JS -->
@@ -1136,363 +1159,363 @@
 
         <div class="drawer-body">
           <p id="loop-drawer-desc" style="line-height: 1.5; color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 15px;">
-            点击协作图中的智能体卡片，查看对应的职责细节与依赖技能。
+            Click any agent card in the flowchart above to view responsibilities, pipeline steps, and required skills.
           </p>
           <div class="drawer-grid">
             <div class="drawer-section">
-              <div class="drawer-section-title">📂 绑定与加载的技能 (Loaded Skills)</div>
+              <div class="drawer-section-title">📂 Loaded Skills</div>
               <p id="loop-drawer-skills" style="font-size: 0.88rem; color: var(--color-teal); font-family: var(--font-mono); line-height: 1.5;"></p>
               <div id="loop-drawer-skill-links"></div>
             </div>
             <div class="drawer-section">
-              <div class="drawer-section-title">🤝 与其他 Subagent 交互关系</div>
+              <div class="drawer-section-title">🤝 Detail Alignment &amp; Human-Agent Collaboration</div>
               <p id="loop-drawer-interaction" style="font-size: 0.88rem; color: var(--text-secondary); line-height: 1.5;"></p>
             </div>
           </div>
         </div>
       </div>
     </div>
-
+  </div>
 
   <script>
     // 1. Data Mapping for 16 Skills
     const skillsData = {
       "using-superpowers": {
         icon: "⚡",
-        phase: "会话初始化 (PLANNING)",
-        desc: "在任何会话启动时隐式调用。它建立了如何动态寻找和载入对应技能的底层协议，强迫智能体在开始作答或提问前优先检索技能目录，防止偏离研发规范。",
-        trigger: "进入对话的第一时间，或在需要解析新指令而未加载工具时调用。",
+        phase: "Session Orchestration (PLANNING)",
+        desc: "Implicitly invoked when any session starts. It establishes the low-level protocol on how to dynamically locate and load corresponding skills, forcing the agent to prioritize retrieving the skill catalog before generating responses or asking questions, preventing deviations from R&D standards.",
+        trigger: "Triggered immediately upon entering the conversation, or when new instructions need to be parsed but no tools are loaded.",
         steps: [
-          "检查 .gemini 或工作区 plugins/ 目录下的配置。",
-          "列出已有的 16 种内置技能，创建技能字典映射。",
-          "引导 Agent 的下一轮回答方向，自动选择后置加载的技能（如 brainstorming 或 writing-plans）。"
+          "Check configurations under `.gemini` or workspace `plugins/` directory.",
+          "List all 16 built-in skills and create skill dictionary mappings.",
+          "Guide the agent's next turn response, automatically selecting subsequent skills to load (e.g., brainstorming or writing-plans)."
         ],
-        pipeline: ["检查本地技能库", "构建依赖树", "建立通信信道", "激活后置技能"]
+        pipeline: ["Scan Local Skills", "Build Dependency Tree", "Establish Channel", "Activate Next Skill"]
       },
       "brainstorming": {
         icon: "💡",
-        phase: "概念与设计阶段 (PLANNING)",
-        desc: "设计阶段的头脑风暴引擎。接受人类输入，自动解析 JIRA URL/Confluence URL 并通过 API 拉取数据，融合本地工作区已有代码，生成包含 API 规范的设计文档设计书 `design.md`。",
-        trigger: "人类开发者在控制台运行 `@superpowers /brainstorm` 时触发。",
+        phase: "Concept & Design Phase (PLANNING)",
+        desc: "The brainstorming engine for the design stage. Takes human input, automatically parses JIRA/Confluence URLs to fetch data via APIs, merges the existing workspace code context, and generates a technical design document `design.md` containing API specifications.",
+        trigger: "Triggered when human developer runs `@superpowers /brainstorm` in the console.",
         steps: [
-          "探测输入内容中是否包含 JIRA Issue 编号或 Confluence Wiki 地址，如果有则自动并行请求拉取。",
-          "检查当前 workspace 内已存的全部文件结构和代码类型，防止重复造轮子。",
-          "开展人机多轮小步快跑澄清交流，澄清设计模糊区。",
-          "把架构设想、API Schema 写进设计书 docs/superpowers/specs/design.md 并提交。"
+          "Detect if JIRA Issue numbers or Confluence Wiki URLs are present in the input, and fetch them in parallel if found.",
+          "Scan all file structures and code definitions in the workspace to prevent redundant implementation.",
+          "Conduct multi-round Q&A to clarify architectural or design ambiguities.",
+          "Write architectural plans and API schemas into `docs/superpowers/specs/design.md` and commit it."
         ],
-        pipeline: ["自动检测 URL", "AC/代码同步", "Grill-me 澄清交互", "写 design.md 规格", "自检并提请 review"]
+        pipeline: ["Auto-Detect URLs", "AC & Code Sync", "Grill-me Q&A", "Write design.md", "Self-Review & Commit"]
       },
       "confluence": {
         icon: "📄",
-        phase: "外部文档同步 (PLANNING)",
-        desc: "Confluence REST API 封装技能。用于查询、读取和维护 Confluence 服务端页面，可作为 brainstorming 抓取规范或开发结束后发布技术方案的渠道。",
-        trigger: "系统检测到 Confluence 地址，或开发阶段被指示同步说明书时隐式激活。",
+        phase: "External Doc Sync (PLANNING)",
+        desc: "Confluence REST API wrapper skill. Used to query, read, and maintain Confluence pages. Serves as a channel to fetch requirements during brainstorming or publish technical documentation upon completion.",
+        trigger: "Implicitly activated when Confluence URLs are detected or when instructed to sync specifications during development.",
         steps: [
-          "基于当前登录 Token 发起 Confluence REST API HTTP 检索。",
-          "将 HTML/XML 格式的规范页面抓取并转换为纯文本/Markdown 缓存至 workspace。",
-          "支持在开发尾声，拉起并发调用在 Confluence 自动输出 Walkthrough 发布。"
+          "Initiate Confluence REST API requests using current session tokens.",
+          "Fetch and convert HTML/XML specification pages into plain Markdown files cached in the workspace.",
+          "Support automatically publishing the walkthrough summary to Confluence at the end of the lifecycle."
         ],
-        pipeline: ["鉴权检查", "目标页面解析", "拉取 Wiki 原生 HTML", "转换为 MD 暂存"]
+        pipeline: ["Auth Check", "Page Parsing", "Fetch Wiki HTML", "Convert to Markdown"]
       },
       "jira": {
         icon: "🎫",
-        phase: "工单状态联动 (PLANNING)",
-        desc: "Jira REST API 集成。允许 Agent 对接 Jira 项目看板，进行 Issue 查询、读写 AC 验收标准，并可在 Task 顺利绿灯后更新工单状态。",
-        trigger: "需求描述中包含 Jira Issue Key（如 PROJ-123）时自动触发联动。",
+        phase: "Jira Ticket Sync (PLANNING)",
+        desc: "Jira REST API integration. Allows agents to query issues, read/write Acceptance Criteria (AC), and update ticket status automatically once tasks clear verification.",
+        trigger: "Triggered automatically when Jira Issue Keys (e.g., PROJ-123) are detected in the request.",
         steps: [
-          "使用 Jira REST API 检索该 Ticket 的 Details 和 Description。",
-          "提取 Acceptance Criteria (AC) 字段，以此为输入条件提供给设计书方案。",
-          "可以在任务结束分支归并清理期，自动把 Jira 工单推进到 Done 状态。"
+          "Retrieve details and description of the ticket using Jira REST API.",
+          "Extract the AC fields and ingest them as constraints for the architectural design.",
+          "Advance the Jira ticket status to 'Done' during the branch merging and cleanup phase."
         ],
-        pipeline: ["解析 Jira Ticket ID", "拉取工单 AC 内容", "写入开发计划前置环境"]
+        pipeline: ["Parse Ticket ID", "Fetch Ticket AC", "Inject AC to Context"]
       },
       "writing-plans": {
         icon: "📋",
-        phase: "路线图制定 (PLANNING)",
-        desc: "计划生成器。对照 design.md 和已有代码，产生详细的 implementation_plan.md，列出需要 NEW, MODIFY, DELETE 的文件和测试计划。人类评审同意后生成 task.md 进度看板。",
-        trigger: "设计文档 design.md 撰写完毕，用户下达 `@superpowers /plan` 计划命令时调用。",
+        phase: "Implementation Planning (PLANNING)",
+        desc: "The plan generator. Correlates `design.md` with source code to formulate a precise `implementation_plan.md`, specifying files to be NEW, MODIFY, or DELETE, along with testing plans. Generates `task.md` upon human approval.",
+        trigger: "Invoked when design doc `design.md` is ready and human enters the `@superpowers /plan` command.",
         steps: [
-          "分析 docs/superpowers/specs/design.md 文件内容与工作区差异。",
-          "规划出严格的串行开发清单 implementation_plan.md，标记好 MODIFY、NEW 文件坐标。",
-          "生成每一步的独立测试命令（如 pytest/npm run test 等）。",
-          "开启 request_feedback 提交给人类审查，批准后进入自动化编码期并生成 task.md 看板。"
+          "Compare the architecture specification in `design.md` with current workspace files.",
+          "Draft a serial execution checklist `implementation_plan.md`, marking accurate coordinate targets.",
+          "Generate standalone verification commands (e.g. pytest, npm run test) for each task.",
+          "Submit the plan with `request_feedback=true` for human approval, establishing `task.md` once approved."
         ],
-        pipeline: ["读 design.md + 代码", "分析受影响组件", "规划三类变更 (N/M/D)", "写执行路线图", "提请人类批准"]
+        pipeline: ["Read Design & Code", "Analyze Impacted Areas", "Map Changes (N/M/D)", "Write Roadmap MD", "Submit for Approval"]
       },
       "using-git-worktrees": {
         icon: "🌿",
-        phase: "开发隔离区 (ISOLATION)",
-        desc: "创建高度隔离的物理开发环境，利用 Git Worktree 在子目录拉出干净的工作区分支，不污染当前的主工作目录，防止代码污染与多任务并行冲突。",
-        trigger: "开发计划 implementation_plan.md 获批，在拉起 subagent 编码前置步骤中隐式调用。",
+        phase: "Workspace Isolation (ISOLATION)",
+        desc: "Creates a strictly isolated physical development environment using Git Worktree in a subdirectory, keeping the main work directory clean and preventing local conflicts or multi-task interference.",
+        trigger: "Implicitly invoked during the setup phase before launching a coding subagent once the plan is approved.",
         steps: [
-          "检查本地 Git 状态是否干净，防止未提交的内容丢失。",
-          "基于 Git Worktree 命令拉起隔离的子目录，作为 subagent 的主 workspace 根路径。",
-          "如果系统不支持 Git Worktree，则自动回退到临时备份物理隔离区机制。"
+          "Ensure the current repository state is clean to avoid losing uncommitted changes.",
+          "Provision an isolated worktree directory to serve as the subagent's temporary workspace.",
+          "Fallback gracefully to a copy-based sandbox folder if Git Worktree is unavailable."
         ],
-        pipeline: ["Git 干净度校验", "拉起 git worktree 独立环境", "设置子沙箱目录", "将 lock 文件注入工作区"]
+        pipeline: ["Verify Git State", "Create Git Worktree", "Setup Sandbox Dir", "Inject Workspace Lock"]
       },
       "test-driven-development": {
         icon: "🧪",
-        phase: "自动化编码 (CODING)",
-        desc: "测试驱动开发 (TDD) 规则套件。在任何实现代码书写前，强制编写单元测试用例或断言，要求在红绿环路中不断优化与交付小功能，不写无测试的代码。",
-        trigger: "Implementer Agent 接受 Controller 任务指派，开始开发具体 Task 时激活。",
+        phase: "Test-Driven Development (CODING)",
+        desc: "TDD rule-suite enforcement. Compels writing failing unit tests or assertions before making any source code modifications, driving development via the red-green-refactor cycle to ensure test coverage.",
+        trigger: "Activated when the Implementer Agent receives a task assignment from the Controller to begin coding.",
         steps: [
-          "根据 Task 要求，优先在测试目录新建测试文件（或在原测试文件中添加 case）。",
-          "执行测试，确认此时测试是红灯（Fail 状态，保证测试的有效性）。",
-          "开始编写极简实现代码，直到测试绿灯通过，然后执行重构并复测。"
+          "Prioritize creating or extending test suites in the test folder according to the task criteria.",
+          "Execute test suites and verify they fail (Red state) to prove the test validates the issue.",
+          "Write minimal implementation code to turn the test green, then refactor while keeping tests passing."
         ],
-        pipeline: ["阅读需求与 Spec", "优先编写 Testcase", "执行测试验证红灯", "编写极简实现", "重构并保证绿灯"]
+        pipeline: ["Read Spec Requirements", "Write Test Suites First", "Verify Failing Red Test", "Write Implementation", "Refactor & Pass Green"]
       },
       "executing-plans": {
         icon: "🏃",
-        phase: "任务看板执行控制 (CODING)",
-        desc: "开发阶段的计划执行引擎。从 implementation_plan.md 的 task.md 进度看板中拉取状态为待执行的任务，将其分派给 subagent，并维护当前看板的进度状态更新。",
-        trigger: "开发期启动，或上一个 Task 被看板哨兵释放后，自动激活执行。",
+        phase: "Checklist Execution Control (CODING)",
+        desc: "The plan execution engine. Selects pending tasks from `task.md` and dispatches them to subagents, orchestrating checklist transitions and state tracking.",
+        trigger: "Triggered at the start of coding or automatically resumed when the previous task is checked off by the guard.",
         steps: [
-          "解析 task.md 文件，确定当前正在执行的 Task ID（如 Task 2）。",
-          "拉起 subagent-driven-development 技能，生成 Implementer 编码子代理进行开发。",
-          "监控子代理开发状态，在子代理结束提交后，向测试与评审节点发送消息通知。"
+          "Parse `task.md` to identify the active task identifier (e.g., Task 2).",
+          "Leverage subagent-driven-development to spawn a dedicated Implementer subagent.",
+          "Monitor execution logs and dispatch completion events to validation and review nodes."
         ],
-        pipeline: ["解析 task.md 看板", "指派子任务给 Agent", "监督执行进度", "更新 task.md 完成状态"]
+        pipeline: ["Parse task.md Status", "Spawn Agent for Task", "Monitor Running State", "Mark task.md Complete"]
       },
       "subagent-driven-development": {
         icon: "🤖",
-        phase: "智能体协同分发 (CODING)",
-        desc: "主代理的“手和脚”。允许主协调者定义新 subagent，指派专门的任务（如编码、测试、Bug 修复或设计规范 Review），并提供主子代理间进程通信。",
-        trigger: "Controller 发现任务看板中存在具体待办项，且需要物理/专项隔离开发时调用。",
+        phase: "Subagent Orchestration (CODING)",
+        desc: "The primary agent's 'hands and feet'. Allows the controller to define, spawn, and delegate specialized tasks (e.g. coding, testing, debugging, spec reviews) to subagents with robust inter-agent messaging.",
+        trigger: "Invoked by the Controller when granular tasks in the checklist require dedicated sandbox workspaces.",
         steps: [
-          "根据任务特质（如 Coding、Testing），实例化具有特定 system prompt 的 subagent。",
-          "为主子代理建立 send_message 信道进行多轮协同。",
-          "接收 subagent 返回的最终产出，判定子代理的生命周期并终止它的进程。"
+          "Spawn a subagent with custom system instructions targeted at the task profile (e.g. Implementer, Tester).",
+          "Establish messaging channels between the controller and subagents for collaborative alignment.",
+          "Collect final subagent artifacts, review execution states, and terminate the subagent context."
         ],
-        pipeline: ["定义子代理系统提示词", "指派具体隔离任务", "建立主子通信信道", "捕获子代理产出", "注销子代理"]
+        pipeline: ["Define Subagent Prompt", "Delegate Sandbox Task", "Open Message Channel", "Capture Agent Outputs", "Prune Subagent Context"]
       },
       "dispatching-parallel-agents": {
         icon: "🔀",
-        phase: "并行计算加速 (CODING)",
-        desc: "多任务并行调度核心。针对开发计划中相互独立、互不依赖的多项子任务，同时实例化多个 subagent 分发至不同 Git Worktree 并发编码，合并最终产出。",
-        trigger: "执行计划中分析出两个或更多无依赖、无交叉的并行子任务时激活。",
+        phase: "Parallel Acceleration (CODING)",
+        desc: "Multi-task parallel scheduler. Evaluates the dependency structure of tasks, spawning multiple concurrent subagents across isolated worktrees to accelerate development, then resolves and merges final changes.",
+        trigger: "Activated when two or more parallel tasks with no cross-dependencies are found in the execution plan.",
         steps: [
-          "分析任务的依赖图谱拓扑结构，锁定无依赖的分支项。",
-          "为主子任务分别拉起并发 worktree 环境，实例化并行的 subagents 并发执行。",
-          "阻塞等待全部子代理返回结果，将各分支代码依次并入当前合并沙箱。"
+          "Construct a task dependency graph and perform topological sorting to find concurrent candidates.",
+          "Provision independent worktree sandboxes and parallelize subagent processes concurrently.",
+          "Block until all parallel tasks finish, then sequentially merge their patches into the target workspace."
         ],
-        pipeline: ["依赖图拓扑排序", "多沙箱并行分派", "并发执行监听", "集中式分支汇聚"]
+        pipeline: ["Sort Dependency Graph", "Dispatch Parallel Sandboxes", "Monitor Parallel Execution", "Consolidate Branch Merging"]
       },
       "writing-skills": {
         icon: "✍️",
-        phase: "技能自我重构 (CODING)",
-        desc: "技能模板生成工具。允许 Agent 在工作时，将频繁使用的特定业务行为（如特定的自动化构建、专用的接口调用等）打包沉淀为新的 Superpowers Skill，以便后续会话复用。",
-        trigger: "遇到重复的手工排查命令，或被开发者显式指示需要开发新技能模板时调用。",
+        phase: "Skill Self-Refactor (CODING)",
+        desc: "A skill framework generator. Enables agents to codify repetitive actions or specialized routines (e.g. customized test setups, API connectors) into reusable Superpowers Skills, expanding agent capabilities.",
+        trigger: "Invoked when repetitive workflows are observed, or when explicitly requested by a developer to wrap a custom skill.",
         steps: [
-          "在 skills/ 下新建目录，并编写符合规范的 YAML Frontmatter 与 SKILL.md。",
-          "编写配套的 helper 脚本和测试例用以自我验证。",
-          "将沉淀出的技能进行本地调试安装，并在之后的 SDL 周期中直接调用。"
+          "Create a subdirectory under `skills/` containing a compliant YAML header and `SKILL.md` instruction guide.",
+          "Write complementary testing or helper scripts to validate the skill's performance.",
+          "Register the newly codified skill in the local library to instantly enrich the ecosystem."
         ],
-        pipeline: ["探测技能空白区", "编写 YAML + SKILL.md", "编写测试验证技能", "本地编译注册"]
+        pipeline: ["Identify Skill Gap", "Compose YAML & MD Docs", "Author Verification Tests", "Register & Load Skill"]
       },
       "systematic-debugging": {
         icon: "🐞",
-        phase: "测试与除错 (DEBUGGING)",
-        desc: "三阶段科学除错机制。拒绝盲目猜测，强制要求构建排查假设、查阅日志、断点单步跟踪。分析根因后方可提供经过测试验证的代码补丁。",
-        trigger: "自动化单元测试或持续集成测试抛出 Fail、Error、或者静态语法检查失败时强行启动。",
+        phase: "Scientific Debugging (DEBUGGING)",
+        desc: "A systematic debugging paradigm. Mandates constructing rigorous hypotheses, examining trace logs, and running targeted replays rather than guesswork, applying tested fixes only after root-cause verification.",
+        trigger: "Triggered automatically when test suites fail, compilations error, or syntax and linter checks crash.",
         steps: [
-          "停止改动代码。先阅读报错堆栈（StackTrace），分析引起报错的核心假设。",
-          "编写复现测试用例，确保能在隔离环境稳定复现该报错。",
-          "实施代码微调修复，并通过复现用例，证明该修复从根本上消除了故障点。"
+          "Halt ad-hoc edits. Read trace stacks carefully to draft a diagnostic hypothesis.",
+          "Draft a reproduction test case that reliably highlights the bug in isolation.",
+          "Perform minor source modifications to turn the reproduction test green, proving the bug is fixed."
         ],
-        pipeline: ["收集堆栈报错", "建立复现假设", "编写测试复现", "代码微调修复", "验证红绿状态"]
+        pipeline: ["Analyze Stack Trace", "Formulate Hypothesis", "Write Reproduction Test", "Apply Target Code Fix", "Verify Red-Green Transition"]
       },
       "verification-before-completion": {
         icon: "🛡️",
-        phase: "完成性验证 (DEBUGGING)",
-        desc: "代码质量的终极守护阀。严禁任何口头上的“开发好了”，必须使用可重复运行的命令并给出控制台 stdout 证据，证明完全满足 AC 标准后才允许通过。",
-        trigger: "开发完毕，Implementer 提交 PR 或提请评审阶段强制触发。",
+        phase: "Pre-Completion Verification (DEBUGGING)",
+        desc: "The absolute quality gate. Bans all verbal assertions of 'completed'; mandates running reproducible scripts and capturing terminal logs as validation evidence that all AC are satisfied.",
+        trigger: "Forcibly triggered when coding is done and the Implementer requests code review or checklist completion.",
         steps: [
-          "自动编译整个项目，确保无任何 Lint、TypeScript 或依赖编译错误。",
-          "跑通所有关联的单测、集成测试、及端到端（E2E）测试。",
-          "捕获成功的测试输出作为证据日志，作为 metadata 随着评审请求一并附上。"
+          "Execute full project compilation to guarantee zero compilation, linter, or TypeScript errors.",
+          "Execute all related unit tests, integration suites, and E2E scripts.",
+          "Capture successful test outputs to append as metadata alongside the validation submission."
         ],
-        pipeline: ["启动项目全量编译", "执行端到端/全量单测", "静态语法 Lint 检查", "生成验证证据包"]
+        pipeline: ["Initiate Full Compile", "Run E2E & Unit Tests", "Run Linter Code Check", "Generate Verification Package"]
       },
       "requesting-code-review": {
         icon: "🔍",
-        phase: "代码评审 (REVIEW)",
-        desc: "提请人工/机器双层质量网关评审。准备清晰的分支变更 Diff，附带自测证据说明，提请 Spec Reviewer 对照 specs/design.md 检查合规性，Quality Reviewer 检查代码味道。",
-        trigger: "自测验证 verification-before-completion 绿灯通过后激活。",
+        phase: "Code Review Request (REVIEW)",
+        desc: "Submits changes to a dual-gate review. Generates clear branch diffs accompanied by self-testing logs, requesting Spec Reviewer to check architectural alignment and Quality Reviewer to audit code smells.",
+        trigger: "Activated once pre-completion verification yields a solid green light.",
         steps: [
-          "汇总当前工作区分支与主分支的差异 Diff 列表。",
-          "撰写结构化的 Pull Request / Review Request 申请单，附带前置证据。",
-          "把请求分发给两个评审 subagents：Spec Reviewer 和 Quality Reviewer。"
+          "Generate a clean git diff list matching the development branch against master.",
+          "Compose a structured Review Request highlighting key modifications and terminal evidence.",
+          "Dispatch the review request to both Spec Reviewer and Quality Reviewer subagents."
         ],
-        pipeline: ["生成 Diff 差量包", "注入自测证据", "实例化评审子代理", "发出 Review 请求"]
+        pipeline: ["Compile Diff Package", "Inject Testing Evidence", "Spawn Review Subagents", "Send Review Requests"]
       },
       "receiving-code-review": {
         icon: "📥",
-        phase: "评审反馈重构 (REVIEW)",
-        desc: "评审意见处理机。禁止为了通过 Review 而盲从修改。要求按技术规范评估修改意见，输出解释性的修改方案或据理力争澄清，最终修正代码重新送审。",
-        trigger: "Spec Reviewer 或 Quality Reviewer 给出打回意见（Reject）时触发。",
+        phase: "Review Feedback Iteration (REVIEW)",
+        desc: "Orchestrates review iterations. Prohibits blind code edits just to bypass reviews. Mandates evaluating review comments against architectural specifications, providing clear technical refutations or applying refactors prior to resubmission.",
+        trigger: "Triggered when either the Spec Reviewer or Quality Reviewer rejects a verification package.",
         steps: [
-          "逐条分析评审者给出的修改意见（如：设计偏离、缺少容错、代码坏味道）。",
-          "在隔离开发分支上实现代码重构以纠正问题，如果评审意见有误，输出严谨的技术反驳。",
-          "编写修改日志，再次跑通 TDD / 验证流程，二次发起送审。"
+          "Perform line-by-line analyses of reviews highlighting structural deviations, missing checks, or smells.",
+          "Apply precise code adjustments inside the isolated worktree, or compose a technical counter-argument.",
+          "Generate modification changelogs, re-verify with TDD loops, and resubmit for review."
         ],
-        pipeline: ["解析评审批注列表", "区分合理与错误批注", "拉起分支重构纠正", "重走自测验证流"]
+        pipeline: ["Parse Review Feedback", "Filter Constructive Comments", "Refactor Sandbox Branch", "Re-run Verification Loops"]
       },
       "finishing-a-development-branch": {
         icon: "🏁",
-        phase: "集成与收尾 (INTEGRATION)",
-        desc: "完成整个特性的开发周期。安全归并代码至 master/main 分支，卸载临时的 Git Worktree 并删除其物理目录，释放系统锁，将 Jira 工单或 JIRA 推进到 Completed。",
-        trigger: "看板哨兵 (Task Guard) 判定看板中所有 Task 均已通过双重评审，无遗留项时触发。",
+        phase: "Branch Consolidation (INTEGRATION)",
+        desc: "Concludes the feature lifecycle. Merges branches safely into main, removes temporary Git Worktrees, releases system locks, and updates Jira boards or task trackers to Completed.",
+        trigger: "Triggered by the Task Guard when all items in `task.md` are marked complete and approved.",
         steps: [
-          "将特性分支代码平滑合并（Merge/Rebase）到主干分支，处理可能存在的冲突。",
-          "运行物理垃圾清理，使用 git worktree remove 清除子沙箱文件夹，防止磁盘泄露。",
-          "归档 task.md，标记整个 Plan 完成，把远程工单看板状态推送到 Done。"
+          "Safely integrate features into the main branch, resolving merge conflicts cleanly.",
+          "Run physical cleanup commands to prune git worktree directories, saving disk space.",
+          "Archive `task.md`, mark the implementation plan complete, and transition remote Jira issues to Done."
         ],
-        pipeline: ["分支平滑合并", "解决干线冲突", "删除 Git Worktree 物理目录", "更新 Jira/看板为 Done", "解锁工作区"]
+        pipeline: ["Integrate Code Branch", "Resolve Merge Conflicts", "Prune Git Worktree Sandbox", "Update Jira Board Status", "Unlock Project Workspace"]
       }
     };
 
     // 2. Data Mapping for Design Phase Flow Nodes
     const designData = {
       "brainstorm": {
-        name: "🧑 人类触发头脑风暴 (Trigger Brainstorm)",
+        name: "🧑 User Initiated Brainstorming",
         badge: "Triggered via @superpowers /brainstorm",
-        desc: "人类用户在控制台键入原始想法与项目需求，作为研发生命周期（SDL）的开端。系统捕获到用户的输入后，会自动拉起 brainstorming 技能。",
+        desc: "User enters raw concepts and specifications in the console, initiating the Software Development Lifecycle (SDL). The system intercepts this input to trigger the brainstorming skill.",
         skills: "brainstorming",
         skills_links: ["brainstorming"],
-        interaction: "人类在此节点注入初始灵感、模糊的产品设想或待修复的故障。该节点处于完全的人机交互期，后续将依赖 brainstorming 技能分析出需求的结构性实体。",
-        pipeline: ["用户输入需求内容", "Agent 分析输入关键字", "检索可用技能字典", "激活 brainstorming 技能"]
+        interaction: "Human developers inject initial ideas, high-level features, or bug reports. This stage is highly interactive, relying on the brainstorming engine to distill unstructured ideas into structured specifications.",
+        pipeline: ["Capture User Request", "Analyze Input Keywords", "Index Skills Registry", "Load Brainstorming Skill"]
       },
       "sync": {
-        name: "🔄 自动同步工单与本地代码 (Auto-Sync & Local Code Sync)",
+        name: "🔄 Automated Context Integration",
         badge: "Triggered dynamically by JIRA/Confluence URLs + local codebase index",
-        desc: "Agent 检查需求文本。如果检测到 JIRA issue key 或 Confluence URL，会自动调取后端 REST API 抓取对应页面的 AC（验收标准）。与此同时，它对当前开发工作区的已有文件进行全量扫描与类型解析，防止重复实现已有的函数或类。",
+        desc: "Agent audits the requirements. JIRA issues or Confluence URLs trigger automated REST API calls to grab Acceptance Criteria (AC). Simultaneously, it indexes existing files in the workspace to prevent redundant implementations.",
         skills: "jira, confluence, using-superpowers",
         skills_links: ["jira", "confluence", "using-superpowers"],
-        interaction: "自动抓取在后台默默进行，对用户透明。它把抓取来的 AC 文本和本地代码上下文一并融入大脑的 temporary store 中，保证技术规范与现有代码的高度一致性。",
-        pipeline: ["正则匹配 JIRA/Confluence URL", "并发调用 REST API 拉取 Wiki", "扫描 Workspace 本地已有类/定义", "汇总导入上下文"]
+        interaction: "Fetching runs in the background. It aggregates remote AC with local source code index to enrich the agent's semantic context, guaranteeing alignment between requirements and active code.",
+        pipeline: ["Match JIRA/Wiki URLs", "API Call to Fetch AC Docs", "Scan Workspace Class Maps", "Aggregate Context Scope"]
       },
       "align": {
-        name: "💬 多轮人机交流细节对齐 (Human Alignment)",
+        name: "💬 Multi-Round Human Alignment",
         badge: "Clarifying ambiguity via /grill-me or interactive Q&A",
-        desc: "Agent 综合收集到的工单需求和本地代码，梳理出可能存在歧义的技术决策点，并以 micro-interviews 的形式每次向人类抛出单个问题（或由用户主动执行 `/grill-me` 采访），以消除技术迷雾。",
+        desc: "The agent reconciles requirements and active code, surfacing structural ambiguities to present as micro-interviews (or triggered via `/grill-me`), ensuring all design fog is cleared.",
         skills: "brainstorming (Clarifying)",
         skills_links: ["brainstorming"],
-        interaction: "如果人类在回答中引入了新的规范页面或改变了代码实现规则，流程会通过<strong>多轮需求修正环路</strong>（M 465 75 C 465 25...）重新流向<strong>自动同步</strong>节点，实时修正大脑中的设计规范。",
-        pipeline: ["汇总关键技术决策点", "每次只抛出单个问题/多选题", "等待人类输入反馈", "判定是否发生规则补充", "分支：补充则回退同步 / 结束则推进"]
+        interaction: "If the human adds new criteria or shifts design rules, the workflow streams back to the **Automated Context Integration** stage via the **Refinement Loop** to adjust architectural boundaries.",
+        pipeline: ["Compile Ambiguity Points", "Ask Targeted Single Questions", "Wait for Human Clarification", "Evaluate Schema Additions", "Branch: Loop Back or Advance"]
       },
       "design": {
-        name: "📄 产出设计文档设计书 (Design Doc Output)",
+        name: "📄 Technical Design Document",
         badge: "Generates design.md inside specs folder",
-        desc: "在细节完全对齐无误后，系统将自动撰写一份详尽的技术设计书 design.md。文档明确说明 API 签名、数据结构 Schema、架构演进抉择及系统自验证策略，并自动提交到 specs 目录下。",
+        desc: "Once ambiguity is resolved, the system drafts a robust technical specification `design.md` covering API signatures, data schemas, design trade-offs, and verification strategies, committing it to the `specs/` directory.",
         skills: "brainstorming (Writing Spec)",
         skills_links: ["brainstorming"],
-        interaction: "设计书是本阶段的核心交付物，为后续生成分步计划提供依据。产出后，智能体将发起 Spec Self-Review 流程进行语意自检，确认无 'TBD' 等模糊代办项后，提请人类最终查阅。",
-        pipeline: ["编写 API & Schema Markdown", "发起 Spec Self-Review 静态自检", "保存至 docs/superpowers/specs/", "提请人类阅读并批准"]
+        interaction: "The design doc is the primary deliverable of this stage, serving as the blueprint for development. The agent runs a Spec Self-Review to eliminate 'TBDs' before presenting it to the human.",
+        pipeline: ["Write API & Schema Markdown", "Run Static Spec Self-Review", "Save to specs/ Directory", "Submit to Developer Review"]
       },
       "plan-trigger": {
-        name: "🧑 人类触发计划技能 (Trigger Planning)",
+        name: "🧑 User Initiated Planning",
         badge: "Invoked via @superpowers /plan [design.md]",
-        desc: "人类用户对 `design.md` 文件内容进行检查。确认架构设计符合预期后，在对话框内显式输入 `@superpowers /plan` 命令，授权 Agent 顺着本设计书制定分步修改路线图。",
+        desc: "The human reviews `design.md`. Once satisfied with the architecture, they enter `@superpowers /plan` to authorize compiling a granular step-by-step roadmap.",
         skills: "writing-plans (Trigger)",
         skills_links: ["writing-plans"],
-        interaction: "这一步作为人类确认的第二道关卡，保证了 Agent 不会盲目开工。如果人类不满意设计，可要求在此节点修改 design.md，重新对齐。",
-        pipeline: ["读取已批准的 design.md 路径", "检查环境干净度", "加载计划生成技能 writing-plans"]
+        interaction: "This gate keeps development focused and validated, stopping the agent from writing code prematurely. If unsatisfied, the human can adjust the design file to iterate.",
+        pipeline: ["Reference Approved design.md", "Verify Clean Workspace State", "Load writing-plans Skill"]
       },
       "plan-output": {
-        name: "📋 生成详细执行计划 (Plan Output & Guard)",
+        name: "📋 Implementation Plan & Board",
         badge: "Generates implementation_plan.md and task.md",
-        desc: "Agent 对照设计规范和当前源码，生成一份精确到文件的执行清单 implementation_plan.md，列出受影响的组件及需要新建/删除/修改的行数，并在 metadata 中设置 request_feedback 提交审批。",
+        desc: "The agent correlates specifications with the codebase to write a precise `implementation_plan.md` mapping file operations (NEW/MODIFY/DELETE) and requests developer approval with `request_feedback: true`.",
         skills: "writing-plans (Output)",
         skills_links: ["writing-plans"],
-        interaction: "<strong>计划评审打回环路</strong>：若人类拒绝批准该计划，流程会带着修改建议返回到<strong>人机交流</strong>节点重构设计；若人类完全同意计划，则系统创建 task.md 看板，并解锁流程，正式进军编码阶段。",
-        pipeline: ["计算文件 Diff 与代码变更影响", "编写 implementation_plan.md", "添加测试验证指令", "申请 request_feedback 看板解锁"]
+        interaction: "**Plan Review Gate**: If rejected, the workflow routes back to the **Human Alignment** node with review comments; if approved, the system generates `task.md` and transitions to the coding stage.",
+        pipeline: ["Trace Change Impact Paths", "Write implementation_plan.md", "Inject Standalone Tests", "Request Approval & Board Unlock"]
       }
     };
 
     // 3. Data Mapping for Coding Phase Loop Nodes
     const loopData = {
       "queue": {
-        name: "📋 task.md 进度队列 (Checklist Queue)",
+        name: "📋 task.md Progress Board",
         badge: "Checklist progress file tracking tasks state",
-        desc: "在 implementation_plan.md 获批后创建。它是一个记录了该 Plan 拆解出的所有小步子任务（例如 Task 1、Task 2、Task 3）的 Markdown 状态文件。当前运行的任务会被标记为进行中 `[/]`，等待后续的子智能体闭环来消灭它。",
+        desc: "Instantiated upon implementation plan approval. It is a Markdown checklist file tracking the progress of granular tasks (e.g. Task 1, 2, 3). Active tasks are marked `[/]` as subagents execute and resolve them.",
         skills: "writing-plans, executing-plans",
         skills_links: ["writing-plans", "executing-plans"],
-        interaction: "任务看板是整个多智能体协作的核心进度总闸。它让主协调者（Controller）知道当前的调度进度，为多任务串行递归执行提供状态存储。",
-        pipeline: ["解析 plan 拆解出多个 Task", "初始化 task.md Checklist 状态", "向主协调者 Controller 派发首个待办项"]
+        interaction: "The progress board serves as the central orchestration clock, updating task states to guide the Controller through serial or concurrent executions.",
+        pipeline: ["Deconstruct Plan to Tasks", "Initialize task.md States", "Dispatch Task 1 to Controller"]
       },
       "controller": {
-        name: "🤖 主协调者子系统 (Controller Agent)",
+        name: "🤖 Main Orchestration Controller",
         badge: "Main Loop Controller Agent",
-        desc: "编码期的总控智能体。它负责拉取 task.md 看板中当前标记为进行中的子任务，动态实例化特定的子代理（如 Implementer），指派编码职责并提供物理 Git 沙箱隔离环境。",
+        desc: "The execution orchestrator. Selects the active task from `task.md`, provisions isolated Git Worktree sandboxes, and spawns specialized subagents (e.g. Implementer) to assign developer responsibilities.",
         skills: "subagent-driven-development, executing-plans, using-git-worktrees",
         skills_links: ["subagent-driven-development", "executing-plans", "using-git-worktrees"],
-        interaction: "Controller 起到了项目经理的作用。它加载 `subagent-driven-dev` 控制工作区并发/串行，加载 `executing-plans` 控制步骤。分派任务后，将信道移交给 TDD 编码子代理。",
-        pipeline: ["读取 task.md 当前未完成的 Task", "调用 Git Worktree 隔离工作区", "孵化 Implementer 子代理并指派 Task 任务"]
+        interaction: "The Controller acts as the engineering lead. It manages workflows via `subagent-driven-dev` and coordinates tasks via `executing-plans`, handing off control to the coding sandboxes.",
+        pipeline: ["Query Active task.md Tasks", "Provision Git Worktree Sandboxes", "Spawn Implementer Subagent"]
       },
       "implementer": {
-        name: "💻 TDD 编码子代理 (Implementer Agent)",
+        name: "💻 TDD Coding Implementer",
         badge: "Loaded with test-driven-development",
-        desc: "专门负责编写业务代码的子智能体。严格执行 TDD 开发规范。在碰任何功能实现前，必须先在隔离环境内编写测试用例，并在红绿环路中开发功能，直到自测成功。",
+        desc: "The primary coding agent. Operates strictly under TDD principles. Before drafting any production logic, it authors comprehensive test coverage inside the sandbox and develops in a red-green-refactor loop.",
         skills: "test-driven-development, using-git-worktrees",
         skills_links: ["test-driven-development", "using-git-worktrees"],
-        interaction: "Implementer 接受 Controller 的指令在 worktree 沙箱内开发。如果遇到编译报错，会向 Tester 与 Fixer 抛出除错事件；当自测通过时，将代码提测发送给 Tester 智能体。",
-        pipeline: ["定位隔离开发 Worktree 路径", "优先编写测试用例", "确认测试红灯", "补充业务实现", "单测通过变绿灯", "发起提测事件"]
+        interaction: "Executes inside the worktree sandbox. On compilation errors or test failures, it emits debugging requests to the Tester and Fixer. Once tests pass locally, it submits the sandbox branch to the Tester.",
+        pipeline: ["Bind Git Worktree Sandbox", "Write Failing Tests First", "Verify Test Suite is Red", "Write Minimal Logic to Pass", "Confirm Green Passed State", "Submit Verification Request"]
       },
       "tester": {
-        name: "🧪 测试验证子代理 (Tester Agent)",
+        name: "🧪 Independent Verification Tester",
         badge: "Loaded with verification-before-completion",
-        desc: "独立的测试审计员。负责全量编译隔离分支，运行测试用例，并收集完整的控制台 stdout 日志作为测试通过的证据，防止漏测、错测与假绿灯。",
+        desc: "The quality auditor. Compiles the isolated sandbox branch, runs all associated test suites, and collects terminal outputs as hard validation proof to prevent regressions or false-greens.",
         skills: "verification-before-completion",
         skills_links: ["verification-before-completion"],
-        interaction: "Tester 是代码走出开发者的第一关。如果测试挂掉，它将报错堆栈提供给 **调试修复 (Fixer)** 智能体；如果测试完全通过，它将绿灯分支递交至 **规约评审 (Spec Reviewer)**。",
-        pipeline: ["项目代码静态类型检查 (TSC)", "执行端到端/全量单测用例", "分支 1: 失败 -> 触发 3a. 调试修复", "分支 2: 成功 -> 触发 4. 送入规约评审"]
+        interaction: "Tester serves as the initial quality gate. On failures, it routes diagnostics to the **Fixer Agent**; on success, it hands over the validated branch to the **Spec Reviewer**.",
+        pipeline: ["Compile & Run Static Lint (TSC)", "Run Comprehensive Test Suites", "Branch 1: Fail -> Trigger 3a. Debug & Fix", "Branch 2: Pass -> Trigger 4. Spec Review"]
       },
       "fixer": {
-        name: "🐞 调试修复子代理 (Fixer Agent)",
+        name: "🐞 Scientific Debugging Fixer",
         badge: "Loaded with systematic-debugging",
-        desc: "排错专家。在测试抛出异常或编译挂掉时激活。它加载 systematic-debugging 技能，通过“收集堆栈 - 复现假设 - 根因分析 - 补丁修复”四步法攻克缺陷，并将修复反馈提供给编码子代理。",
+        desc: "The diagnostic specialist. Spawned when compilations crash or assertions fail. Loads the `systematic-debugging` skill to apply the scientific method: gather stack traces, formulate hypotheses, write reproductions, and verify fixes.",
         skills: "systematic-debugging",
         skills_links: ["systematic-debugging"],
-        interaction: "Fixer 绝不盲目改代码，它在分析出根因并写出对应的断言用例后，指导 Implementer 修改实现，形成 3b. 修复反馈，重新触发编码自测闭环。",
-        pipeline: ["读取堆栈错误详情", "编写专门的 Bug 复现用例", "分析故障根源", "指引 Implementer 修复缺陷", "执行红绿比对"]
+        interaction: "Bans shotgun debugging. Formulates reproducing tests and works alongside the Implementer with **Fix Feedback** to resolve errors in a closed self-correcting loop.",
+        pipeline: ["Capture Detailed Stack Trace", "Author Reproduction Test Cases", "Isolate Systemic Root Cause", "Direct Implementer Code Fix", "Verify Red-Green Transition"]
       },
       "spec-reviewer": {
-        name: "⚖️ 设计规约评审员 (Spec Reviewer)",
+        name: "⚖️ Architectural Spec Reviewer",
         badge: "Double-Gate Reviewer (First Gate)",
-        desc: "架构合规性评审者。它对照 specs/design.md 内定义的 API 签名、表结构、接口边界，逐行审核 Implementer 实现的代码差异 Diff。确保开发成果没有偏离最初的技术蓝图，更没有超纲塞入无用逻辑（YAGNI）。",
+        desc: "Architectural auditor. Evaluates the codebase diff line-by-line against API signatures, schemas, and contracts in `design.md` to prevent feature creep (YAGNI) and ensure adherence to blueprint designs.",
         skills: "writing-plans (Review)",
         skills_links: ["writing-plans"],
-        interaction: "第一道关卡。如果不符合设计，触发 <strong>5a. 规约不符/超纲打回</strong>，打回 Implementer 重新编写；如果符合规约，则触发 <strong>5b. 合规通过</strong>，送入 Quality Reviewer 关卡。",
-        pipeline: ["读 design.md 设计规范", "获取当前任务 Diff 内容", "检查接口签名一致性", "分支 1: 不符 -> 规约打回", "分支 2: 合规 -> 移交代码评审"]
+        interaction: "First review gate. Architectural deviations trigger **5a. Spec Mismatch Reject**, routing changes back to the sandbox; full compliance triggers **5b. Spec Passed**, advancing to code quality review.",
+        pipeline: ["Read design.md Architectures", "Analyze Sandbox Code Diff", "Check API Signature Alignment", "Branch 1: Deviate -> Reject to Sandbox", "Branch 2: Align -> Advance to Quality Review"]
       },
       "quality-reviewer": {
-        name: "🔍 代码质量评审员 (Quality Reviewer)",
+        name: "🔍 Clean Code Quality Reviewer",
         badge: "Double-Gate Reviewer (Second Gate)",
-        desc: "代码坏味道探测器。它使用 `requesting-code-review` 和 `receiving-code-review` 技能，重点审查代码的易读性、设计模式合理性、性能隐藏问题以及异常边界处理，扮演 Senior Tech Lead 的角色。",
+        desc: "Code smell detector. Uses `requesting-code-review` and `receiving-code-review` to audit readability, patterns, complexity, and error-handling, acting as a Senior Tech Lead.",
         skills: "requesting-code-review, receiving-code-review",
         skills_links: ["requesting-code-review", "receiving-code-review"],
-        interaction: "第二道关卡。如若发现质量问题（如硬编码、巨石函数、无容错），触发 <strong>6a. 质量味道打回</strong> 环路，经由 Tester 底部弯道干净利落地流回 Implementer 重新开发；双重通过后，向看板哨兵发送绿灯信号。",
-        pipeline: ["检查巨石函数与硬编码", "评估异常处理与安全性", "分支 1: 打回 -> 沿底部绕过 Tester 返回 Implementer", "分支 2: 批准 -> 触发 6b. 双重通过信号"]
+        interaction: "Second review gate. Violations (e.g. hardcoded keys, bloated classes) trigger **6a. Quality Smells Reject**, bypassing the Tester to flow directly back to the Implementer. Dual approval releases a green signal to the task guard.",
+        pipeline: ["Inspect Bloated Classes & Values", "Assess Exception Handling & Security", "Branch 1: Smells -> Reject to Implementer", "Branch 2: Approve -> Dispatch Dual Release"]
       },
       "guard": {
-        name: "⚖️ 看板哨兵检测节点 (Task Guard)",
+        name: "⚖️ task.md Board Guard",
         badge: "Progress Guard Sensor",
-        desc: "看板调度中枢。一旦当前 Task 通过了 Quality Reviewer 的双层评审，看板哨兵就会被唤醒。它负责将 task.md 中当前的 Task 标记为已完成 `[x]`，并扫描看板内是否还有未开始的 Task。",
+        desc: "Checklist scheduler. Triggered once the active task clears the dual review gate. Marks the task complete `[x]` in `task.md` and scans the file for remaining pending tasks.",
         skills: "executing-plans, writing-plans",
         skills_links: ["executing-plans", "writing-plans"],
-        interaction: "哨兵是串行递归调度的核心开关。如果发现看板内还有 Task 没动，它会沿着<strong>递归调度环路</strong>（Y: 365 底部长跨度蓝色虚线）把下一任 Task i+1 递交给主协调者 Controller 重新开工；若看板已空，向 Finish Branch 发送终结信号。",
-        pipeline: ["在 task.md 勾选当前任务为已完成", "扫描是否存在剩余待办 Task", "分支 1: 是 -> 曲线环路呼叫 Controller 拉取新 Task", "分支 2: 否 -> 发射终结信号呼叫 Branch Finisher"]
+        interaction: "The central scheduler pivot. Remaining tasks trigger the **Recursive Task Loop** (sweeping back via the long blue dashed line at Y: 365) to feed Task i+1 to the Controller; an empty list triggers the Finish Branch signal.",
+        pipeline: ["Check Active Task as Complete", "Scan task.md for Pending Tasks", "Branch 1: Yes -> Loop Back to Controller", "Branch 2: No -> Trigger Branch Finisher"]
       },
       "finish": {
-        name: "🏁 分支集成与清理 (Branch Finisher)",
+        name: "🏁 Branch Merge & Cleanup",
         badge: "Loaded with finishing-a-development-branch",
-        desc: "研发生命周期的终点站。负责卸载当前的物理 worktree 环境，销毁沙箱临时目录，释放当前的工作区文件锁，并安全地将代码归并到主分支，联动远程 Jira 看板归档任务。",
+        desc: "The final destination of the R&D cycle. Removes active Git Worktrees, releases file and directory locks, safely merges completed features into master/main, and updates remote JIRA tasks.",
         skills: "finishing-a-development-branch",
         skills_links: ["finishing-a-development-branch"],
-        interaction: "当看板哨兵判定整张 plan 终结时，Finisher 启动。它把所有完成的 Task 统一合并回主线，消除磁盘垃圾，并将工作空间状态恢复到干净状态，等待人类的下一波 `@superpowers /brainstorm`。",
-        pipeline: ["分支平滑合并至 master", "移除 git worktree 物理隔离目录", "释放工作空间排他锁", "更新 JIRA 工单看板状态为 Done"]
+        interaction: "Fires when the Board Guard clears all checklist items. Integrates isolated feature branches, deletes sandboxes to clean disk storage, and returns the workspace to a pristine state, waiting for the next user task.",
+        pipeline: ["Merge Feature Branch to Master", "Prune git worktree Sandbox Folders", "Release Project Workspace Locks", "Sync & Complete JIRA Issue Board"]
       }
     };
 
@@ -1512,6 +1535,9 @@
       data.pipeline.forEach((step, idx) => {
         const stepEl = document.createElement('div');
         stepEl.className = 'pipeline-step active';
+        stepEl.style.borderColor = 'var(--color-blue)';
+        stepEl.style.background = 'rgba(37, 99, 235, 0.08)';
+        stepEl.style.color = 'var(--color-blue)';
         stepEl.innerHTML = `<span>${idx + 1}</span> ${step}`;
         pipelineContainer.appendChild(stepEl);
 
@@ -1524,7 +1550,7 @@
       });
 
       // Update Description
-      document.getElementById('design-drawer-desc').innerHTML = `<strong>节点定位：</strong>${data.desc}`;
+      document.getElementById('design-drawer-desc').innerHTML = `<strong>Node Position: </strong>${data.desc}`;
 
       // Update Skills & Links
       document.getElementById('design-drawer-skills').innerText = data.skills;
@@ -1538,13 +1564,13 @@
         link.style.marginTop = '6px';
         link.style.padding = '4px 8px';
         link.style.borderRadius = '4px';
-        link.style.background = 'rgba(59, 130, 246, 0.15)';
-        link.style.border = '1px solid rgba(59, 130, 246, 0.3)';
-        link.style.color = '#60a5fa';
+        link.style.background = 'var(--hsbc-red-light)';
+        link.style.border = '1px solid rgba(219, 30, 36, 0.3)';
+        link.style.color = 'var(--hsbc-red)';
         link.style.textDecoration = 'none';
         link.style.fontSize = '0.78rem';
         link.style.fontFamily = 'var(--font-mono)';
-        link.innerText = `🔍 定位 ${skillKey}`;
+        link.innerText = `🔍 Locate ${skillKey}`;
         linksContainer.appendChild(link);
       });
 
@@ -1575,7 +1601,8 @@
         const stepEl = document.createElement('div');
         stepEl.className = 'pipeline-step active';
         stepEl.style.borderColor = 'var(--color-teal)';
-        stepEl.style.background = 'rgba(20, 184, 166, 0.05)';
+        stepEl.style.background = 'rgba(13, 148, 136, 0.08)';
+        stepEl.style.color = 'var(--color-teal)';
         stepEl.innerHTML = `<span>${idx + 1}</span> ${step}`;
         pipelineContainer.appendChild(stepEl);
 
@@ -1588,7 +1615,7 @@
       });
 
       // Update Description
-      document.getElementById('loop-drawer-desc').innerHTML = `<strong>节点职责：</strong>${data.desc}`;
+      document.getElementById('loop-drawer-desc').innerHTML = `<strong>Node Responsibility: </strong>${data.desc}`;
 
       // Update Skills & Links
       document.getElementById('loop-drawer-skills').innerText = data.skills;
@@ -1602,13 +1629,13 @@
         link.style.marginTop = '6px';
         link.style.padding = '4px 8px';
         link.style.borderRadius = '4px';
-        link.style.background = 'rgba(20, 184, 166, 0.15)';
+        link.style.background = 'rgba(20, 184, 166, 0.1)';
         link.style.border = '1px solid rgba(20, 184, 166, 0.3)';
-        link.style.color = '#2dd4bf';
+        link.style.color = 'var(--color-teal)';
         link.style.textDecoration = 'none';
         link.style.fontSize = '0.78rem';
         link.style.fontFamily = 'var(--font-mono)';
-        link.innerText = `🔍 定位 ${skillKey}`;
+        link.innerText = `🔍 Locate ${skillKey}`;
         linksContainer.appendChild(link);
       });
 
@@ -1679,8 +1706,8 @@
 
       // BUG FIX: skillsData items have no `.name` property — use skillKey directly
       document.getElementById('drawer-name').innerText = skillKey;
-      document.getElementById('drawer-phase').innerText = `加载单元：skills/${skillKey}  ·  SDL ${data.phase}`;
-      document.getElementById('drawer-desc').innerHTML = `<strong>技能描述：</strong>${data.desc}`;
+      document.getElementById('drawer-phase').innerText = `Load Unit: skills/${skillKey}  ·  SDL ${data.phase}`;
+      document.getElementById('drawer-desc').innerHTML = `<strong>Skill Description: </strong>${data.desc}`;
       document.getElementById('drawer-trigger').innerText = data.trigger;
 
       // Populate steps
@@ -1700,6 +1727,7 @@
         stepEl.className = 'pipeline-step active';
         stepEl.style.borderColor = 'var(--hsbc-red)';
         stepEl.style.background = 'var(--hsbc-red-light)';
+        stepEl.style.color = 'var(--hsbc-red)';
         stepEl.innerHTML = `<span>${idx + 1}</span> ${pStep}`;
         pipelineContainer.appendChild(stepEl);
 
