@@ -447,19 +447,19 @@
       background: #ffffff;
       border: 1px solid var(--border-color);
       border-radius: 8px;
-      padding: 10px 8px;
-      font-size: 0.72rem;
+      padding: 10px 16px;
+      font-size: 0.76rem;
       font-family: var(--font-mono);
       white-space: normal;
       color: var(--text-primary);
       display: flex;
-      flex-direction: column;
+      flex-direction: row;
       align-items: center;
-      justify-content: center;
-      text-align: center;
-      gap: 4px;
-      width: 130px;
-      min-height: 76px;
+      justify-content: flex-start;
+      gap: 10px;
+      flex: 1 1 160px;
+      max-width: 280px;
+      min-height: 52px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
       flex-shrink: 0;
       line-height: 1.35;
@@ -468,18 +468,14 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
-      background: rgba(0, 0, 0, 0.05);
-      font-size: 0.65rem;
+      background: rgba(0, 0, 0, 0.06);
+      font-size: 0.7rem;
       font-weight: 700;
-      margin-bottom: 2px;
-    }
-    .pipeline-step.active span,
-    .pipeline-step.done span {
-      background: currentColor;
-      color: #ffffff !important;
+      color: inherit;
+      flex-shrink: 0;
     }
     .pipeline-step.active {
       border-color: #db1e24;
