@@ -243,12 +243,12 @@
       min-height: 46px;
       line-height: 1.3;
     }
-    .sdl-phase-header.ph-planning   { background: rgba(30, 64, 175, 0.08); border-color: rgba(30, 64, 175, 0.3); color: var(--color-planning); }
-    .sdl-phase-header.ph-isolation  { background: rgba(146, 64, 14, 0.08); border-color: rgba(146, 64, 14, 0.3); color: var(--color-isolation); }
-    .sdl-phase-header.ph-coding     { background: rgba(6, 95, 70, 0.08); border-color: rgba(6, 95, 70, 0.3); color: var(--color-coding); }
-    .sdl-phase-header.ph-debugging  { background: rgba(159, 18, 57, 0.08); border-color: rgba(159, 18, 57, 0.3); color: var(--color-debugging); }
-    .sdl-phase-header.ph-review     { background: rgba(91, 33, 182, 0.08); border-color: rgba(91, 33, 182, 0.3); color: var(--color-review); }
-    .sdl-phase-header.ph-integration{ background: rgba(15, 118, 110, 0.08); border-color: rgba(15, 118, 110, 0.3); color: var(--color-integration); }
+    .sdl-phase-header.ph-planning   { background: #eff6ff; border-color: rgba(30, 64, 175, 0.3); color: var(--color-planning); }
+    .sdl-phase-header.ph-isolation  { background: #fffbeb; border-color: rgba(146, 64, 14, 0.3); color: var(--color-isolation); }
+    .sdl-phase-header.ph-coding     { background: #f0fdf4; border-color: rgba(6, 95, 70, 0.3); color: var(--color-coding); }
+    .sdl-phase-header.ph-debugging  { background: #fff1f2; border-color: rgba(159, 18, 57, 0.3); color: var(--color-debugging); }
+    .sdl-phase-header.ph-review     { background: #f5f3ff; border-color: rgba(91, 33, 182, 0.3); color: var(--color-review); }
+    .sdl-phase-header.ph-integration{ background: #f0fdfa; border-color: rgba(15, 118, 110, 0.3); color: var(--color-integration); }
 
     .sdl-skills-stack {
       display: flex;
@@ -1722,12 +1722,46 @@
       // Populate pipeline steps
       const pipelineContainer = document.getElementById('drawer-pipeline-flow');
       pipelineContainer.innerHTML = '';
+
+      // Determine theme colors based on phase to avoid flashing generic "red errors"
+      let themeColor = 'var(--hsbc-red)';
+      let themeBg = 'var(--hsbc-red-light)';
+      let cardShadow = 'rgba(219, 30, 36, 0.25)';
+      if (data.phase) {
+        const phaseUpper = data.phase.toUpperCase();
+        if (phaseUpper.includes('PLANNING')) {
+          themeColor = 'var(--color-planning)';
+          themeBg = 'rgba(30, 64, 175, 0.08)';
+          cardShadow = 'rgba(30, 64, 175, 0.25)';
+        } else if (phaseUpper.includes('ISOLATION')) {
+          themeColor = 'var(--color-isolation)';
+          themeBg = 'rgba(146, 64, 14, 0.08)';
+          cardShadow = 'rgba(146, 64, 14, 0.25)';
+        } else if (phaseUpper.includes('CODING')) {
+          themeColor = 'var(--color-coding)';
+          themeBg = 'rgba(6, 95, 70, 0.08)';
+          cardShadow = 'rgba(6, 95, 70, 0.25)';
+        } else if (phaseUpper.includes('DEBUGGING')) {
+          themeColor = 'var(--color-debugging)';
+          themeBg = 'rgba(159, 18, 57, 0.08)';
+          cardShadow = 'rgba(159, 18, 57, 0.25)';
+        } else if (phaseUpper.includes('REVIEW')) {
+          themeColor = 'var(--color-review)';
+          themeBg = 'rgba(91, 33, 182, 0.08)';
+          cardShadow = 'rgba(91, 33, 182, 0.25)';
+        } else if (phaseUpper.includes('INTEGRATION')) {
+          themeColor = 'var(--color-integration)';
+          themeBg = 'rgba(15, 118, 110, 0.08)';
+          cardShadow = 'rgba(15, 118, 110, 0.25)';
+        }
+      }
+
       data.pipeline.forEach((pStep, idx) => {
         const stepEl = document.createElement('div');
         stepEl.className = 'pipeline-step active';
-        stepEl.style.borderColor = 'var(--hsbc-red)';
-        stepEl.style.background = 'var(--hsbc-red-light)';
-        stepEl.style.color = 'var(--hsbc-red)';
+        stepEl.style.borderColor = themeColor;
+        stepEl.style.background = themeBg;
+        stepEl.style.color = themeColor;
         stepEl.innerHTML = `<span>${idx + 1}</span> ${pStep}`;
         pipelineContainer.appendChild(stepEl);
 
@@ -1742,8 +1776,8 @@
       // Highlight the corresponding skill card temporarily
       const card = document.getElementById(`card-${skillKey}`);
       if (card) {
-        card.style.borderColor = 'var(--hsbc-red)';
-        card.style.boxShadow = '0 0 16px rgba(219, 30, 36, 0.25)';
+        card.style.borderColor = themeColor;
+        card.style.boxShadow = `0 0 16px ${cardShadow}`;
         setTimeout(() => {
           card.style.borderColor = '';
           card.style.boxShadow = '';
