@@ -1604,30 +1604,108 @@
       document.getElementById('design-drawer').scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     }
 
+    // 5. Colors, backgrounds, shadows, and emojis for all 9 loop nodes
+    const loopColors = {
+      queue: {
+        color: '#64748b', // Grey
+        bg: 'rgba(100, 116, 139, 0.08)',
+        shadow: 'rgba(100, 116, 139, 0.3)',
+        emoji: '📋'
+      },
+      controller: {
+        color: 'var(--color-planning)', // Planning Blue
+        bg: 'rgba(30, 64, 175, 0.08)',
+        shadow: 'rgba(30, 64, 175, 0.35)',
+        emoji: '🤖'
+      },
+      implementer: {
+        color: 'var(--color-coding)', // Coding Green
+        bg: 'rgba(6, 95, 70, 0.08)',
+        shadow: 'rgba(6, 95, 70, 0.35)',
+        emoji: '💻'
+      },
+      tester: {
+        color: 'var(--color-integration)', // Integration Teal
+        bg: 'rgba(15, 118, 110, 0.08)',
+        shadow: 'rgba(15, 118, 110, 0.35)',
+        emoji: '🧪'
+      },
+      fixer: {
+        color: 'var(--color-debugging)', // Debugging Rose
+        bg: 'rgba(159, 18, 57, 0.08)',
+        shadow: 'rgba(159, 18, 57, 0.35)',
+        emoji: '🐞'
+      },
+      "spec-reviewer": {
+        color: 'var(--color-isolation)', // Isolation Amber (used for review planning)
+        bg: 'rgba(146, 64, 14, 0.08)',
+        shadow: 'rgba(146, 64, 14, 0.35)',
+        emoji: '⚖️'
+      },
+      "quality-reviewer": {
+        color: 'var(--color-review)', // Review Purple
+        bg: 'rgba(91, 33, 182, 0.08)',
+        shadow: 'rgba(91, 33, 182, 0.35)',
+        emoji: '🔍'
+      },
+      guard: {
+        color: 'var(--color-isolation)', // Isolation Amber
+        bg: 'rgba(146, 64, 14, 0.08)',
+        shadow: 'rgba(146, 64, 14, 0.35)',
+        emoji: '⚖️'
+      },
+      finish: {
+        color: 'var(--color-integration)', // Integration Teal
+        bg: 'rgba(15, 118, 110, 0.08)',
+        shadow: 'rgba(15, 118, 110, 0.35)',
+        emoji: '🏁'
+      }
+    };
+
     // 5. Function to display detail in popup drawer for Multi-Agent loop nodes
     function showLoopDetail(nodeId) {
       const data = loopData[nodeId];
       if (!data) return;
 
-      // Update Header
-      document.getElementById('loop-drawer').style.display = 'block';
+      // Extract node-specific theme colors and parameters
+      const theme = loopColors[nodeId] || {
+        color: 'var(--color-teal)',
+        bg: 'rgba(20, 184, 166, 0.08)',
+        shadow: 'rgba(20, 184, 166, 0.35)',
+        emoji: '🤖'
+      };
+
+      // Update Header & Container Border
+      const drawer = document.getElementById('loop-drawer');
+      drawer.style.display = 'block';
+      drawer.style.borderTopColor = theme.color;
+
       document.getElementById('loop-drawer-name').innerText = data.name;
-      document.getElementById('loop-drawer-model').innerText = data.badge;
-      document.getElementById('loop-drawer-model').style.color = 'var(--color-teal)';
+      
+      const drawerModel = document.getElementById('loop-drawer-model');
+      drawerModel.innerText = data.badge;
+      drawerModel.style.color = theme.color;
 
       const loopIcon = document.getElementById('loop-drawer-icon');
-      loopIcon.style.background = 'rgba(20, 184, 166, 0.08)';
-      loopIcon.style.borderColor = 'var(--color-teal)';
+      loopIcon.style.background = theme.bg;
+      loopIcon.style.borderColor = theme.color;
+      loopIcon.innerText = theme.emoji;
 
-      // Update Pipeline Steps
+      // Update Left Border Color of all Section Titles in the Loop Drawer
+      const titles = drawer.querySelectorAll('.drawer-section-title');
+      titles.forEach(title => {
+        title.style.borderLeftColor = theme.color;
+      });
+
+      // Update Pipeline Steps with Dynamic Styling
       const pipelineContainer = document.getElementById('loop-drawer-pipeline-flow');
       pipelineContainer.innerHTML = '';
       data.pipeline.forEach((step, idx) => {
         const stepEl = document.createElement('div');
         stepEl.className = 'pipeline-step active';
-        stepEl.style.borderColor = 'var(--color-teal)';
-        stepEl.style.background = 'rgba(13, 148, 136, 0.08)';
-        stepEl.style.color = 'var(--color-teal)';
+        stepEl.style.borderColor = theme.color;
+        stepEl.style.background = theme.bg;
+        stepEl.style.color = theme.color;
         stepEl.innerHTML = `<span>${idx + 1}</span> ${step}`;
         pipelineContainer.appendChild(stepEl);
 
@@ -1642,8 +1720,11 @@
       // Update Description
       document.getElementById('loop-drawer-desc').innerHTML = `<strong>Node Responsibility: </strong>${data.desc}`;
 
-      // Update Skills & Links
-      document.getElementById('loop-drawer-skills').innerText = data.skills;
+      // Update Skills & Links with dynamic styling
+      const skillsLabel = document.getElementById('loop-drawer-skills');
+      skillsLabel.innerText = data.skills;
+      skillsLabel.style.color = theme.color;
+
       const linksContainer = document.getElementById('loop-drawer-skill-links');
       linksContainer.innerHTML = '';
       data.skills_links.forEach(skillKey => {
@@ -1654,9 +1735,9 @@
         link.style.marginTop = '6px';
         link.style.padding = '4px 8px';
         link.style.borderRadius = '4px';
-        link.style.background = 'rgba(20, 184, 166, 0.1)';
-        link.style.border = '1px solid rgba(20, 184, 166, 0.3)';
-        link.style.color = 'var(--color-teal)';
+        link.style.background = theme.bg;
+        link.style.border = `1px solid ${theme.color}4d`; // 30% opacity border
+        link.style.color = theme.color;
         link.style.textDecoration = 'none';
         link.style.fontSize = '0.78rem';
         link.style.fontFamily = 'var(--font-mono)';
@@ -1698,7 +1779,13 @@
           if (nodeId.startsWith('dnode')) {
             bg.style.filter = 'drop-shadow(0 0 10px rgba(59, 130, 246, 0.4))';
           } else {
-            bg.style.filter = 'drop-shadow(0 0 10px rgba(20, 184, 166, 0.4))';
+            const pureId = nodeId.replace('lnode-', '');
+            const info = loopColors[pureId];
+            if (info) {
+              bg.style.filter = `drop-shadow(0 0 10px ${info.shadow})`;
+            } else {
+              bg.style.filter = 'drop-shadow(0 0 10px rgba(20, 184, 166, 0.4))';
+            }
           }
         }
       }
