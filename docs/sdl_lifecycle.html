@@ -384,7 +384,7 @@
       margin-top: 4px;
       font-size: 0.72rem;
       font-family: var(--font-mono);
-      color: var(--hsbc-red);
+      color: var(--text-muted);
     }
     .drawer-grid {
       display: grid;
@@ -446,16 +446,40 @@
     .pipeline-step {
       background: #ffffff;
       border: 1px solid var(--border-color);
-      border-radius: 6px;
-      padding: 7px 12px;
-      font-size: 0.76rem;
+      border-radius: 8px;
+      padding: 10px 8px;
+      font-size: 0.72rem;
       font-family: var(--font-mono);
-      white-space: nowrap;
+      white-space: normal;
       color: var(--text-primary);
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 6px;
+      justify-content: center;
+      text-align: center;
+      gap: 4px;
+      width: 130px;
+      min-height: 76px;
       box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      flex-shrink: 0;
+      line-height: 1.35;
+    }
+    .pipeline-step span {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.05);
+      font-size: 0.65rem;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+    .pipeline-step.active span,
+    .pipeline-step.done span {
+      background: currentColor;
+      color: #ffffff !important;
     }
     .pipeline-step.active {
       border-color: #db1e24;
@@ -1564,13 +1588,13 @@
         link.style.marginTop = '6px';
         link.style.padding = '4px 8px';
         link.style.borderRadius = '4px';
-        link.style.background = 'var(--hsbc-red-light)';
-        link.style.border = '1px solid rgba(219, 30, 36, 0.3)';
-        link.style.color = 'var(--hsbc-red)';
+        link.style.background = 'rgba(37, 99, 235, 0.08)';
+        link.style.border = '1px solid rgba(37, 99, 235, 0.3)';
+        link.style.color = 'var(--color-blue)';
         link.style.textDecoration = 'none';
         link.style.fontSize = '0.78rem';
         link.style.fontFamily = 'var(--font-mono)';
-        link.innerText = `🔍 Locate ${skillKey}`;
+        link.innerText = `🔍 /${skillKey}`;
         linksContainer.appendChild(link);
       });
 
@@ -1593,6 +1617,11 @@
       document.getElementById('loop-drawer').style.display = 'block';
       document.getElementById('loop-drawer-name').innerText = data.name;
       document.getElementById('loop-drawer-model').innerText = data.badge;
+      document.getElementById('loop-drawer-model').style.color = 'var(--color-teal)';
+
+      const loopIcon = document.getElementById('loop-drawer-icon');
+      loopIcon.style.background = 'rgba(20, 184, 166, 0.08)';
+      loopIcon.style.borderColor = 'var(--color-teal)';
 
       // Update Pipeline Steps
       const pipelineContainer = document.getElementById('loop-drawer-pipeline-flow');
@@ -1635,7 +1664,7 @@
         link.style.textDecoration = 'none';
         link.style.fontSize = '0.78rem';
         link.style.fontFamily = 'var(--font-mono)';
-        link.innerText = `🔍 Locate ${skillKey}`;
+        link.innerText = `🔍 /${skillKey}`;
         linksContainer.appendChild(link);
       });
 
@@ -1755,6 +1784,15 @@
           cardShadow = 'rgba(15, 118, 110, 0.25)';
         }
       }
+
+      // Apply theme styles to drawer header elements
+      document.getElementById('flow-drawer').style.borderTopColor = themeColor;
+      document.getElementById('drawer-phase').style.color = themeColor;
+      
+      const drawerIcon = document.getElementById('drawer-icon');
+      drawerIcon.style.background = themeBg;
+      drawerIcon.style.borderColor = themeColor;
+      drawerIcon.innerText = data.icon || "⚡";
 
       data.pipeline.forEach((pStep, idx) => {
         const stepEl = document.createElement('div');
