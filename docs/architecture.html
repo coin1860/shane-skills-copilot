@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shane Skills for GitHub Copilot - 架构设计与技术文档</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-main: #0b0f19;
+      --bg-card: rgba(22, 28, 45, 0.7);
+      --bg-card-hover: rgba(26, 35, 58, 0.9);
+      --border-color: rgba(139, 92, 246, 0.15);
+      --border-hover: rgba(139, 92, 246, 0.4);
+      --text-primary: #f3f4f6;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+      
+      --color-purple: #8b5cf6;
+      --color-purple-glow: rgba(139, 92, 246, 0.3);
+      --color-teal: #14b8a6;
+      --color-teal-glow: rgba(20, 184, 166, 0.3);
+      --color-blue: #3b82f6;
+      --color-blue-glow: rgba(59, 130, 246, 0.3);
+      --color-emerald: #10b981;
+      --color-emerald-glow: rgba(16, 185, 129, 0.3);
+      
+      --font-outfit: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'Fira Code', monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-primary);
+      font-family: var(--font-inter);
+      line-height: 1.6;
+      overflow-x: hidden;
+      padding-bottom: 80px;
+    }
+
+    /* Ambient Background Glows */
+    .glow-bg-1 {
+      position: absolute;
+      top: -10%;
+      left: -10%;
+      width: 50%;
+      height: 60%;
+      background: radial-gradient(circle, rgba(139, 92, 246, 0.1) 0%, rgba(0,0,0,0) 70%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .glow-bg-2 {
+      position: absolute;
+      top: 50%;
+      right: -10%;
+      width: 60%;
+      height: 60%;
+      background: radial-gradient(circle, rgba(20, 184, 166, 0.08) 0%, rgba(0,0,0,0) 70%);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* Header & Hero Illustration */
+    header {
+      padding: 60px 0 40px;
+      text-align: center;
+      position: relative;
+    }
+
+    .badge-premium {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(90deg, rgba(139, 92, 246, 0.2) 0%, rgba(20, 184, 166, 0.2) 100%);
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      padding: 6px 16px;
+      border-radius: 50px;
+      font-family: var(--font-outfit);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      color: #e9d5ff;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.15);
+    }
+
+    header h1 {
+      font-family: var(--font-outfit);
+      font-size: 3rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 0%, #a78bfa 50%, #2dd4bf 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 16px;
+      letter-spacing: -0.02em;
+    }
+
+    header p {
+      font-size: 1.15rem;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 auto 40px;
+      font-weight: 300;
+    }
+
+    .hero-image-wrapper {
+      width: 100%;
+      max-width: 800px;
+      margin: 0 auto 50px;
+      border-radius: 20px;
+      padding: 6px;
+      background: linear-gradient(135deg, var(--border-color) 0%, rgba(20, 184, 166, 0.1) 100%);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5), 0 0 40px rgba(139, 92, 246, 0.1);
+      position: relative;
+    }
+
+    .hero-image-wrapper::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 20px;
+      padding: 1.5px;
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.5), rgba(20, 184, 166, 0.5));
+      -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events: none;
+    }
+
+    .hero-image {
+      width: 100%;
+      height: auto;
+      border-radius: 14px;
+      display: block;
+      object-fit: cover;
+    }
+
+    /* Tabs Navigation */
+    .tabs-nav {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-bottom: 40px;
+      background: rgba(17, 24, 39, 0.6);
+      padding: 6px;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      width: fit-content;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-secondary);
+      font-family: var(--font-outfit);
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 10px 24px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .tab-btn:hover {
+      color: var(--text-primary);
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .tab-btn.active {
+      color: #ffffff;
+      background: var(--color-purple);
+      box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+    }
+
+    /* Tab Content panes */
+    .tab-content {
+      display: none;
+      animation: fadeIn 0.4s ease-in-out forwards;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Card Component */
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 30px;
+      margin-bottom: 30px;
+      backdrop-filter: blur(16px);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--color-purple), var(--color-teal));
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .card:hover {
+      border-color: var(--border-hover);
+      background: var(--bg-card-hover);
+      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), 0 0 20px rgba(139, 92, 246, 0.05);
+    }
+
+    .card:hover::before {
+      opacity: 1;
+    }
+
+    .card-title {
+      font-family: var(--font-outfit);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #ffffff;
+    }
+
+    .card-title span.icon {
+      font-size: 1.6rem;
+    }
+
+    /* Grid Layouts */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+    }
+
+    @media (max-width: 900px) {
+      .grid-2 {
+        grid-template-columns: 1fr;
+      }
+      header h1 {
+        font-size: 2.2rem;
+      }
+    }
+
+    /* Interactive SVG Container */
+    .diagram-container {
+      background: rgba(10, 14, 26, 0.85);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      border-radius: 20px;
+      padding: 24px;
+      margin-bottom: 30px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .diagram-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 15px;
+    }
+
+    .diagram-title {
+      font-family: var(--font-outfit);
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .diagram-hint {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      background: rgba(255, 255, 255, 0.05);
+      padding: 4px 12px;
+      border-radius: 20px;
+    }
+
+    .interactive-svg-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      display: flex;
+      justify-content: center;
+      background: #070a13;
+      border-radius: 12px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    svg#arch-diagram {
+      max-width: 100%;
+      height: auto;
+      user-select: none;
+      min-width: 960px;
+    }
+
+    /* SVG Interactive Styles */
+    .svg-node {
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+    
+    .svg-node:hover {
+      filter: drop-shadow(0 8px 16px rgba(139, 92, 246, 0.4));
+    }
+    
+    .svg-node:hover .svg-node-bg {
+      fill: var(--bg-card-hover) !important;
+      stroke: var(--color-purple) !important;
+      stroke-width: 2px !important;
+    }
+
+    .svg-node:hover text {
+      fill: #ffffff !important;
+    }
+
+    .svg-node.active .svg-node-bg {
+      stroke-width: 2.5px !important;
+      filter: drop-shadow(0 0 12px var(--color-purple));
+    }
+
+    .svg-arrow {
+      transition: all 0.3s ease;
+    }
+
+    .svg-arrow.highlight {
+      stroke: var(--color-teal) !important;
+      stroke-width: 2.5px !important;
+      filter: drop-shadow(0 0 6px var(--color-teal));
+      stroke-dasharray: 4;
+      animation: dash 1s linear infinite;
+    }
+
+    .svg-arrow.highlight-active {
+      stroke: var(--color-purple) !important;
+      stroke-width: 2.5px !important;
+      filter: drop-shadow(0 0 6px var(--color-purple));
+      stroke-dasharray: 4;
+      animation: dash 1s linear infinite;
+    }
+
+    @keyframes dash {
+      to {
+        stroke-dashoffset: -10;
+      }
+    }
+
+    /* Node Details Sidebar/Card */
+    .node-detail-panel {
+      margin-top: 20px;
+      background: rgba(139, 92, 246, 0.05);
+      border: 1px dashed rgba(139, 92, 246, 0.3);
+      border-radius: 12px;
+      padding: 20px;
+      display: none;
+      animation: fadeIn 0.3s ease forwards;
+    }
+
+    .node-detail-panel.visible {
+      display: block;
+    }
+
+    .node-detail-title {
+      font-family: var(--font-outfit);
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .node-detail-desc {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* Typographic Lists and Badges */
+    .tech-list {
+      list-style: none;
+    }
+
+    .tech-list li {
+      position: relative;
+      padding-left: 24px;
+      margin-bottom: 12px;
+      color: var(--text-secondary);
+    }
+
+    .tech-list li strong {
+      color: #ffffff;
+    }
+
+    .tech-list li::before {
+      content: '✦';
+      position: absolute;
+      left: 0;
+      color: var(--color-teal);
+      font-weight: bold;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      margin-right: 6px;
+      margin-bottom: 6px;
+    }
+
+    .badge-primary { background: rgba(139, 92, 246, 0.15); color: #c084fc; border: 1px solid rgba(139, 92, 246, 0.3); }
+    .badge-success { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); }
+    .badge-info { background: rgba(59, 130, 246, 0.15); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3); }
+
+    /* Flow Chart styling */
+    .flow-steps {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      position: relative;
+      padding-left: 20px;
+      margin-top: 15px;
+    }
+
+    .flow-steps::before {
+      content: '';
+      position: absolute;
+      top: 10px;
+      left: 4px;
+      bottom: 10px;
+      width: 2px;
+      background: rgba(139, 92, 246, 0.2);
+    }
+
+    .flow-step {
+      position: relative;
+      padding-left: 20px;
+    }
+
+    .flow-step::before {
+      content: '';
+      position: absolute;
+      top: 6px;
+      left: -20px;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--color-purple);
+      box-shadow: 0 0 8px var(--color-purple);
+    }
+
+    .flow-step-title {
+      font-weight: 600;
+      color: #ffffff;
+      font-size: 0.95rem;
+      margin-bottom: 4px;
+    }
+
+    .flow-step-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    /* Code Blocks */
+    pre {
+      background: rgba(7, 10, 19, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 10px;
+      padding: 16px;
+      overflow-x: auto;
+      margin: 15px 0;
+    }
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: #e2e8f0;
+    }
+
+    .inline-code {
+      background: rgba(255, 255, 255, 0.06);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: #a78bfa;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow-bg-1"></div>
+  <div class="glow-bg-2"></div>
+
+  <div class="container">
+    
+    <!-- Header -->
+    <header>
+      <div class="badge-premium">
+        <span class="sparkle">⚡</span> Visualized System Architecture
+      </div>
+      <h1>Shane Skills for GitHub Copilot</h1>
+      <p>
+        将结构化的软件开发方法论（TDD、模块规划、系统调试、代码评审等）无缝接入 GitHub Copilot，实现方法论级的 AI 协同开发。
+      </p>
+
+      <!-- Hero Visual Representation -->
+      <div class="hero-image-wrapper">
+        <img src="../assets/architecture_concept.png" alt="Shane Skills Software Architecture Concept Illustration" class="hero-image" />
+      </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <div class="tabs-nav">
+      <button class="tab-btn active" onclick="switchTab('tab-overview')">系统概述 & 架构图</button>
+      <button class="tab-btn" onclick="switchTab('tab-flows')">控制流与机制</button>
+      <button class="tab-btn" onclick="switchTab('tab-components')">核心组件详解</button>
+      <button class="tab-btn" onclick="switchTab('tab-features')">技术优势与映射</button>
+    </div>
+
+    <!-- TAB 1: OVERVIEW & ARCH DIAGRAM -->
+    <div id="tab-overview" class="tab-content active">
+      
+      <!-- Interactive Architecture Diagram -->
+      <div class="diagram-container">
+        <div class="diagram-header">
+          <div class="diagram-title">🎨 交互式系统架构图 (Interactive Architecture Diagram)</div>
+          <div class="diagram-hint">💡 点击方框查看各组件在架构中的角色与通信逻辑</div>
+        </div>
+        
+        <div class="interactive-svg-wrapper">
+          <svg id="arch-diagram" width="1000" height="600" viewBox="0 0 1000 600" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- Definitions for gradients and drop shadows -->
+            <defs>
+              <filter id="glow-purple" x="-10%" y="-10%" width="120%" height="120%">
+                <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#8b5cf6" flood-opacity="0.3"/>
+              </filter>
+              <filter id="glow-teal" x="-10%" y="-10%" width="120%" height="120%">
+                <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#14b8a6" flood-opacity="0.3"/>
+              </filter>
+              
+              <!-- Gradients -->
+              <linearGradient id="grad-vscode" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#1e1e2f"/>
+                <stop offset="100%" stop-color="#0f0f1b"/>
+              </linearGradient>
+              <linearGradient id="grad-copilot" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0%" stop-color="#111827"/>
+                <stop offset="100%" stop-color="#1f2937"/>
+              </linearGradient>
+            </defs>
+
+            <!-- BACKGROUND CONTAINERS -->
+            <!-- VS Code Extension Host Container -->
+            <rect x="20" y="40" width="460" height="520" rx="16" fill="url(#grad-vscode)" stroke="rgba(139, 92, 246, 0.3)" stroke-width="1.5" />
+            <text x="40" y="70" fill="#a78bfa" font-family="Outfit" font-size="16" font-weight="700">VS Code Extension Host (插件运行沙盒)</text>
+
+            <!-- User Workspace Container -->
+            <rect x="520" y="40" width="220" height="340" rx="16" fill="#0f172a" stroke="rgba(20, 184, 166, 0.3)" stroke-width="1.5" />
+            <text x="540" y="70" fill="#2dd4bf" font-family="Outfit" font-size="15" font-weight="700">User Workspace (.github/)</text>
+
+            <!-- GitHub Copilot Container -->
+            <rect x="770" y="40" width="210" height="340" rx="16" fill="url(#grad-copilot)" stroke="rgba(59, 130, 246, 0.3)" stroke-width="1.5" />
+            <text x="790" y="70" fill="#3b82f6" font-family="Outfit" font-size="15" font-weight="700">GitHub Copilot Engine</text>
+
+            <!-- ================= ARROWS & CONNECTORS ================= -->
+            <!-- Setup Flow: Workspace Setup -> Workspace files -->
+            <path id="arrow-setup" d="M 390 280 L 520 280" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4" marker-end="url(#arrow-head)" />
+            <text id="text-setup" x="420" y="270" fill="#94a3b8" font-family="Inter" font-size="10" text-anchor="middle">1. setup (复制模板)</text>
+
+            <!-- Passive Discovery: Workspace files -> Copilot -->
+            <path id="arrow-passive" d="M 740 200 L 770 200" stroke="#14b8a6" stroke-width="2" marker-end="url(#arrow-head)" />
+            <text id="text-passive" x="755" y="185" fill="#14b8a6" font-family="Inter" font-size="9" text-anchor="middle" font-weight="bold">自动读取</text>
+
+            <!-- Active Flow: Participant -> Copilot Model -->
+            <path id="arrow-active" d="M 390 140 L 770 140" stroke="#8b5cf6" stroke-width="2" marker-end="url(#arrow-head)" />
+            <text id="text-active" x="580" y="125" fill="#8b5cf6" font-family="Inter" font-size="10" text-anchor="middle" font-weight="bold">2. @superpowers Chat APIs (携带 Skill 引导 LLM)</text>
+
+            <!-- Webview <=> Registry / Setup communication -->
+            <path id="arrow-webview-reg" d="M 170 380 L 170 410" stroke="#94a3b8" stroke-width="1.5" />
+            <path id="arrow-webview-setup" d="M 330 380 L 330 410" stroke="#94a3b8" stroke-width="1.5" />
+
+            <!-- Marker for arrows -->
+            <marker id="arrow-head" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+              <path d="M 0 0 L 10 5 L 0 10 z" fill="#94a3b8" />
+            </marker>
+
+            <!-- ================= NODES ================= -->
+            
+            <!-- Node: Extension.ts -->
+            <g class="svg-node" id="node-extension" onclick="selectNode('extension')">
+              <rect class="svg-node-bg" x="40" y="90" width="350" height="45" rx="8" fill="#1e1b4b" stroke="#4f46e5" stroke-width="1" />
+              <text x="60" y="117" fill="#ffffff" font-family="Outfit" font-size="13" font-weight="600">Extension Activator (extension.ts)</text>
+              <text x="370" y="117" fill="#818cf8" font-family="Inter" font-size="11" text-anchor="end">激活器 & 命令注册</text>
+            </g>
+
+            <!-- Node: Chat Participant -->
+            <g class="svg-node" id="node-participant" onclick="selectNode('participant')">
+              <rect class="svg-node-bg" x="40" y="155" width="350" height="50" rx="8" fill="rgba(139, 92, 246, 0.08)" stroke="#8b5cf6" stroke-width="1.2" />
+              <text x="60" y="185" fill="#ffffff" font-family="Outfit" font-size="13" font-weight="600">Chat Participant (participant.ts)</text>
+              <text x="370" y="185" fill="#c084fc" font-family="Inter" font-size="11" text-anchor="end">@superpowers 聊天拦截</text>
+            </g>
+
+            <!-- Node: Skill Registry -->
+            <g class="svg-node" id="node-registry" onclick="selectNode('registry')">
+              <rect class="svg-node-bg" x="40" y="225" width="170" height="70" rx="8" fill="#111827" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+              <text x="50" y="250" fill="#ffffff" font-family="Outfit" font-size="12" font-weight="600">Skill Registry</text>
+              <text x="50" y="268" fill="#9ca3af" font-family="Inter" font-size="10">skillRegistry.ts</text>
+              <text x="50" y="283" fill="#6b7280" font-family="Inter" font-size="9">读取 Frontmatter & 缓存</text>
+            </g>
+
+            <!-- Node: Workspace Setup -->
+            <g class="svg-node" id="node-setup" onclick="selectNode('setup')">
+              <rect class="svg-node-bg" x="220" y="225" width="170" height="70" rx="8" fill="#111827" stroke="rgba(255,255,255,0.1)" stroke-width="1" />
+              <text x="230" y="250" fill="#ffffff" font-family="Outfit" font-size="12" font-weight="600">Workspace Setup</text>
+              <text x="230" y="268" fill="#9ca3af" font-family="Inter" font-size="10">workspaceSetup.ts</text>
+              <text x="230" y="283" fill="#6b7280" font-family="Inter" font-size="9">检测并在本地创建文件</text>
+            </g>
+
+            <!-- Node: Skills Browser Webview -->
+            <g class="svg-node" id="node-skills-webview" onclick="selectNode('skills-webview')">
+              <rect class="svg-node-bg" x="40" y="315" width="170" height="65" rx="8" fill="#1e293b" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+              <text x="50" y="340" fill="#ffffff" font-family="Outfit" font-size="12" font-weight="600">Skills Webview</text>
+              <text x="50" y="358" fill="#94a3b8" font-family="Inter" font-size="9">插件附带 Skills 面板</text>
+              <text x="50" y="370" fill="#64748b" font-family="Inter" font-size="9">展示 bundled/local 技能</text>
+            </g>
+
+            <!-- Node: Agent Browser Webview -->
+            <g class="svg-node" id="node-agents-webview" onclick="selectNode('agents-webview')">
+              <rect class="svg-node-bg" x="220" y="315" width="170" height="65" rx="8" fill="#1e293b" stroke="rgba(255,255,255,0.08)" stroke-width="1" />
+              <text x="230" y="340" fill="#ffffff" font-family="Outfit" font-size="12" font-weight="600">Agents Webview</text>
+              <text x="230" y="358" fill="#94a3b8" font-family="Inter" font-size="9">agentBrowserPanel.ts</text>
+              <text x="230" y="370" fill="#64748b" font-family="Inter" font-size="9">模版与本地安装状态对比</text>
+            </g>
+
+            <!-- Node: Bundled Skills (Assets) -->
+            <g class="svg-node" id="node-bundled-skills" onclick="selectNode('bundled-skills')">
+              <rect class="svg-node-bg" x="40" y="440" width="350" height="80" rx="8" fill="#111827" stroke="rgba(139, 92, 246, 0.2)" stroke-width="1" />
+              <text x="60" y="465" fill="#f3f4f6" font-family="Outfit" font-size="12" font-weight="600">Bundled Assets (本地资源库)</text>
+              <text x="60" y="485" fill="#9ca3af" font-family="Inter" font-size="10">· skills/ (16个内置开发技能)</text>
+              <text x="60" y="505" fill="#9ca3af" font-family="Inter" font-size="10">· templates/agents/ (内置智能子代理模版)</text>
+            </g>
+
+            <!-- ================= WORKSPACE FILES (MIDDLE) ================= -->
+            <!-- Node: copilot-instructions.md -->
+            <g class="svg-node" id="node-instructions" onclick="selectNode('instructions')">
+              <rect class="svg-node-bg" x="540" y="90" width="180" height="60" rx="8" fill="#0f172a" stroke="#2dd4bf" stroke-width="1.2" />
+              <text x="550" y="115" fill="#ffffff" font-family="Outfit" font-size="11" font-weight="600">copilot-instructions.md</text>
+              <text x="550" y="135" fill="#94a3b8" font-family="Inter" font-size="9">Copilot 的全局初始化指示</text>
+            </g>
+
+            <!-- Node: .github/skills/ -->
+            <g class="svg-node" id="node-skills-dir" onclick="selectNode('skills-dir')">
+              <rect class="svg-node-bg" x="540" y="170" width="180" height="70" rx="8" fill="#0f172a" stroke="rgba(20, 184, 166, 0.5)" stroke-width="1" />
+              <text x="550" y="195" fill="#ffffff" font-family="Outfit" font-size="11" font-weight="600">.github/skills/</text>
+              <text x="550" y="212" fill="#94a3b8" font-family="Inter" font-size="9">复制的各种技能文件</text>
+              <text x="550" y="227" fill="#64748b" font-family="Inter" font-size="8">如 test-driven-development 等</text>
+            </g>
+
+            <!-- Node: .github/agents/ -->
+            <g class="svg-node" id="node-agents-dir" onclick="selectNode('agents-dir')">
+              <rect class="svg-node-bg" x="540" y="260" width="180" height="70" rx="8" fill="#0f172a" stroke="rgba(20, 184, 166, 0.3)" stroke-width="1" />
+              <text x="550" y="285" fill="#ffffff" font-family="Outfit" font-size="11" font-weight="600">.github/agents/</text>
+              <text x="550" y="302" fill="#94a3b8" font-family="Inter" font-size="9">子代理说明文档</text>
+              <text x="550" y="317" fill="#64748b" font-family="Inter" font-size="8">如 implementer.agent.md</text>
+            </g>
+
+            <!-- ================= COPILOT ENGINE (RIGHT) ================= -->
+            <!-- Node: Copilot Agent System -->
+            <g class="svg-node" id="node-copilot-system" onclick="selectNode('copilot-system')">
+              <rect class="svg-node-bg" x="790" y="90" width="170" height="70" rx="8" fill="#1f2937" stroke="#3b82f6" stroke-width="1.2" />
+              <text x="800" y="115" fill="#ffffff" font-family="Outfit" font-size="12" font-weight="600">GitHub Copilot UI</text>
+              <text x="800" y="132" fill="#9ca3af" font-family="Inter" font-size="9">VS Code 侧边栏 Chat</text>
+              <text x="800" y="147" fill="#3b82f6" font-family="Inter" font-size="9">自动读取工作区指令</text>
+            </g>
+
+            <!-- Node: Language Model (LLM) -->
+            <g class="svg-node" id="node-llm" onclick="selectNode('llm')">
+              <rect class="svg-node-bg" x="790" y="180" width="170" height="80" rx="8" fill="#111827" stroke="rgba(59, 130, 246, 0.4)" stroke-width="1" />
+              <text x="800" y="205" fill="#ffffff" font-family="Outfit" font-size="12" font-weight="600">Language Model (LLM)</text>
+              <text x="800" y="222" fill="#9ca3af" font-family="Inter" font-size="9">Claude 3.5 / GPT-4o</text>
+              <text x="800" y="237" fill="#6b7280" font-family="Inter" font-size="8">解释并运行 Skill 指导的流</text>
+              <text x="800" y="250" fill="#6b7280" font-family="Inter" font-size="8">程</text>
+            </g>
+
+            <!-- Node: User Query Interceptor -->
+            <g class="svg-node" id="node-query" onclick="selectNode('query')">
+              <rect class="svg-node-bg" x="790" y="280" width="170" height="70" rx="8" fill="#1f2937" stroke="rgba(255,255,255,0.05)" stroke-width="1" />
+              <text x="800" y="305" fill="#ffffff" font-family="Outfit" font-size="12" font-weight="600">User Interaction</text>
+              <text x="800" y="322" fill="#9ca3af" font-family="Inter" font-size="9">用户提问/运行命令</text>
+              <text x="800" y="337" fill="#6b7280" font-family="Inter" font-size="8">e.g. @superpowers /tdd</text>
+            </g>
+          </svg>
+        </div>
+
+        <!-- Node detail card (filled dynamically) -->
+        <div id="node-details" class="node-detail-panel">
+          <div class="node-detail-title" id="detail-title">
+            <span>🔍</span> <span id="detail-title-text">组件名称</span>
+          </div>
+          <div class="node-detail-desc" id="detail-desc-text">
+            点击架构图中的组件以查看其底层原理与数据走向细节。
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Overview Text -->
+      <div class="card">
+        <div class="card-title">
+          <span class="icon">🏛️</span> 架构核心理念 & 设计
+        </div>
+        <p style="margin-bottom: 16px; color: var(--text-secondary);">
+          Shane Skills 的设计目标是<strong>打破“单文件代码补全”的常规 AI 开发局限，引入系统化、方法论驱动的智能代理流程</strong>。
+          相比于传统的 Copilot 单句补全，Shane Skills 通过将开发者的每一步行动（思维风暴、技术选型、单元测试、调试排查）沉淀为独立的技能卡片（<span class="inline-code">SKILL.md</span>），并由插件将它们高效分发至开发者的工作区中，促成开发工具向方法论治理迈进。
+        </p>
+        <p style="color: var(--text-secondary);">
+          系统架构中采用<strong>“主动集成（Active Integration）”</strong>与<strong>“被动集成（Passive Integration）”</strong>双轨运作方式：
+        </p>
+        <div class="grid-2" style="margin-top: 25px;">
+          <div style="background: rgba(255,255,255,0.02); padding: 20px; border-radius: 12px; border: 1px solid rgba(139, 92, 246, 0.2);">
+            <h4 style="color: var(--color-purple); font-family: var(--font-outfit); font-size: 1.1rem; margin-bottom: 10px;">⚡ 1. 主动集成 (Active @superpowers)</h4>
+            <p style="font-size: 0.9rem; color: var(--text-secondary);">
+              基于 VS Code 新版 <span class="inline-code">chatParticipants</span> API，注册专属的智能助手 <span class="inline-code">@superpowers</span>。
+              提供精确的 Slash 快捷指令（如 <span class="inline-code">/tdd</span>、<span class="inline-code">/debug</span>）。
+              插件在接收到指令后，在 Extension Host 进程中动态拦截并读取对应的技能定义，将技能方法论作为 System Prompt 强行组装进大模型请求，强力引导 Copilot 按照标准流程回复。
+            </p>
+          </div>
+          <div style="background: rgba(255,255,255,0.02); padding: 20px; border-radius: 12px; border: 1px solid rgba(20, 184, 166, 0.2);">
+            <h4 style="color: var(--color-teal); font-family: var(--font-outfit); font-size: 1.1rem; margin-bottom: 10px;">🧩 2. 被动集成 (Passive Discovery)</h4>
+            <p style="font-size: 0.9rem; color: var(--text-secondary);">
+              利用 GitHub Copilot 会自动检索并读取工作区中 <span class="inline-code">.github/copilot-instructions.md</span> 的特性。
+              插件激活时，会在本地工作区自动解压释出 <span class="inline-code">.github/skills/</span> 下的 Markdown 技能定义，并在 <span class="inline-code">copilot-instructions.md</span> 中注入完整的技能索引表。
+              这使得当用户直接与默认的 Copilot Chat 闲聊沟通时，大模型能够基于索引自动引导用户使用 <span class="inline-code">#file</span> 读取所需的技能。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: CONTROL FLOWS -->
+    <div id="tab-flows" class="tab-content">
+      <div class="grid-2">
+        
+        <!-- Setup flow -->
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">🚀</span> 激活与工作区配置流程 (Workspace Setup Flow)
+          </div>
+          <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 20px;">
+            在插件激活或手动执行命令时，系统将内置包中的技能模板释放至工作区，为 Copilot 自动加载铺平道路：
+          </p>
+          
+          <div class="flow-steps">
+            <div class="flow-step">
+              <div class="flow-step-title">1. Extension.ts 激活</div>
+              <div class="flow-step-desc">插件启动，通过 WorkspaceSetup 组件校验工作区根目录是否已具备 Shane Skills 环境标签 (BOOTSTRAP_MARKER)。</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-step-title">2. 弹窗交互提示</div>
+              <div class="flow-step-desc">若不存在或环境落后，询问用户是否为当前工作区部署 Shane Skills 方法论目录（含防重复打扰机制）。</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-step-title">3. 文件复制与生成</div>
+              <div class="flow-step-desc">
+                创建 <span class="inline-code">.github/skills/</span> 并将 16 个核心技能 Markdown 文件释放入内；
+                生成 <span class="inline-code">copilot-instructions.md</span> 并自动收集所有技能的 Frontmatter 名字与描述写入技能字典。
+              </div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-step-title">4. 子代理模板选择</div>
+              <div class="flow-step-desc">使用 VS Code QuickPick 气泡窗口向用户展示支持的 Agent 模板（SpecReviewer、Implementer 等），拷贝选中模板到 <span class="inline-code">.github/agents/</span>。</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat participant flow -->
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">💬</span> @superpowers 命令执行流 (Participant Execution)
+          </div>
+          <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 20px;">
+            使用指令或 Slash 唤起时，插件在幕后完成 Prompt 组装与大模型调用桥接：
+          </p>
+          
+          <div class="flow-steps">
+            <div class="flow-step">
+              <div class="flow-step-title">1. Slash Command 触发</div>
+              <div class="flow-step-desc">用户输入诸如 <span class="inline-code">@superpowers /tdd 写一个斐波那契函数</span>。</div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-step-title">2. 动态技能解析</div>
+              <div class="flow-step-desc">
+                Participant 拦截到命令：优先寻找本地工作区 <span class="inline-code">.github/skills/test-driven-development/SKILL.md</span>；
+                若无，则回退读取插件自身打包的内置技能内容。
+              </div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-step-title">3. 提示词融合与工具映射</div>
+              <div class="flow-step-desc">
+                融合技能原文，附带 <strong>Claude Code 工具映射指南</strong>（如 Read 映射为 #file、Bash 映射为终端等），
+                将包装好的 System 级上下文合并用户输入组装为 <span class="inline-code">LanguageModelChatMessage</span>。
+              </div>
+            </div>
+            <div class="flow-step">
+              <div class="flow-step-title">4. 调用语言模型</div>
+              <div class="flow-step-desc">通过 VS Code 的 <span class="inline-code">LanguageModelChat</span> 发起真实的推理连接，读取返回流并通过流式渲染（ResponseStream）逐步绘制在 VS Code 聊天栏内。</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Code Structure -->
+      <div class="card">
+        <div class="card-title">
+          <span class="icon">📂</span> 工程目录结构 (Project File Hierarchy)
+        </div>
+        <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 15px;">
+          本工程采用 TypeScript 开发，符合 VS Code 插件主流架构。主要文件布局如下：
+        </p>
+        <pre><code>shane-skills-copilot/
+├── src/
+│   ├── extension.ts          # 插件主入口，负责生命周期和快捷菜单注册
+│   ├── participant.ts        # @superpowers 拦截器、快捷命令处理与大模型对接
+│   ├── skillRegistry.ts      # 技能文件缓存机制、Frontmatter 快速解析器
+│   ├── workspaceSetup.ts     # 工作区一键初始化逻辑 (复制 md 及 agents 配置文件)
+│   └── agentBrowserPanel.ts  # Webview 面板：查看与安装自定义子代理 (Agent) 
+├── skills/                   # 内置 16 个核心技能库 (TDD, brainstorm, debug, 等)
+│   ├── brainstorming/SKILL.md
+│   ├── test-driven-development/SKILL.md
+│   └── ...
+├── templates/
+│   └── agents/               # 子代理配置 (.agent.md 预置模板)
+├── assets/                   # 图标、架构概念图等资源文件
+├── package.json              # 插件清单，配置了 chatParticipants & commands 贡献点
+└── tsconfig.json             # TypeScript 编译器配置</code></pre>
+      </div>
+    </div>
+
+    <!-- TAB 3: COMPONENTS -->
+    <div id="tab-components" class="tab-content">
+      
+      <!-- Component 1: extension.ts & registry -->
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">🔌</span> Extension Activator
+          </div>
+          <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 12px;">
+            <span class="inline-code">src/extension.ts</span> 是插件的心脏，负责协调各模块的生命周期。
+          </p>
+          <ul class="tech-list" style="font-size: 0.9rem;">
+            <li><strong>配置加载</strong>：读取用户配置，比如 <span class="inline-code">superpowers.skillsSource</span> (bundled 模式或外部 local 文件夹目录)。</li>
+            <li><strong>命令注册</strong>：如一键重载配置、打开 Skills Webview、Workspace 初始化配置等。</li>
+            <li><strong>状态栏提示</strong>：在 VS Code 右下角放置状态栏图标，实时反馈工作区是否部署了 Shane Skills。</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">📚</span> Skill Registry & Parser
+          </div>
+          <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 12px;">
+            <span class="inline-code">src/skillRegistry.ts</span> 实现轻量级的 Markdown 文本解析与磁盘缓存。
+          </p>
+          <ul class="tech-list" style="font-size: 0.9rem;">
+            <li><strong>Frontmatter 解析</strong>：使用简单的正则表达式捕获 Markdown 顶部的 <span class="inline-code">---</span> 块，解析出 YAML 级的 <span class="inline-code">name</span> 和 <span class="inline-code">description</span>。</li>
+            <li><strong>惰性加载与防抖机制</strong>：避免每次询问都遍历磁盘。仅在初次调用或执行 <span class="inline-code">invalidate()</span> (Reload Skills) 时，才会再次扫描文件。</li>
+            <li><strong>柔性匹配</strong>：支持按技能名称或文件夹目录名进行大小写无关的匹配。</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Component 2: workspaceSetup & Webviews -->
+      <div class="grid-2">
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">🔨</span> Workspace Configurator
+          </div>
+          <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 12px;">
+            <span class="inline-code">src/workspaceSetup.ts</span> 帮助开发者跨越繁琐的配置阶段。
+          </p>
+          <ul class="tech-list" style="font-size: 0.9rem;">
+            <li><strong>动态文档生成</strong>：扫描源技能库，拼接出包含了每一项技能细节的字典表格，动态写入 <span class="inline-code">copilot-instructions.md</span>。</li>
+            <li><strong>多选多路部署</strong>：支持交互式 QuickPick，可选择性部署特定子代理的 <span class="inline-code">.agent.md</span> 到工作区的 <span class="inline-code">.github/agents/</span> 中。</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <div class="card-title">
+            <span class="icon">🖥️</span> Skills & Agents Webviews
+          </div>
+          <p style="font-size: 0.95rem; color: var(--text-secondary); margin-bottom: 12px;">
+            <span class="inline-code">src/agentBrowserPanel.ts</span> 等提供了直观的用户交互视窗。
+          </p>
+          <ul class="tech-list" style="font-size: 0.9rem;">
+            <li><strong>可视化仪表盘</strong>：在独立的 VS Code 标签页中，渲染 HTML5 卡片墙，列出技能的徽章和作用。</li>
+            <li><strong>双向 IPC 通信</strong>：通过 <span class="inline-code">postMessage</span> 机制。当用户在卡片上点击时，向插件后台发送消息，拉起工作区中对应的 Markdown 文档供用户精读。</li>
+            <li><strong>安装检测</strong>：自动识别当前工作区缺失哪些 Agent，呈现出不一样的状态徽章 (✓ Installed / Template)。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: ADVANTAGES & MAPPING -->
+    <div id="tab-features" class="tab-content">
+      <div class="card">
+        <div class="card-title">
+          <span class="icon">🛡️</span> 工具映射与兼容性 (Tool Mapping Integration)
+        </div>
+        <p style="margin-bottom: 16px; color: var(--text-secondary);">
+          Shane Skills 原生的技能配置文件（如 <span class="inline-code">SKILL.md</span>）在编写时主要是面向 <strong>Claude Code</strong> 或具有强大终端工具执行能力的代理的。
+          然而，GitHub Copilot 本身的生态与 Claude Code 存在一定差异（Copilot 主要是基于编辑器环境的提问与补全）。为了让大模型在 Copilot 体系中发挥出同等实力，系统内置了<strong>智能工具映射系统 (Tool Mapping System)</strong>：
+        </p>
+
+        <table style="width: 100%; border-collapse: collapse; margin-top: 15px; margin-bottom: 20px;">
+          <thead>
+            <tr style="border-bottom: 2px solid var(--border-color); text-align: left;">
+              <th style="padding: 12px; color: #ffffff; font-family: var(--font-outfit);">Claude Code 工具概念</th>
+              <th style="padding: 12px; color: #ffffff; font-family: var(--font-outfit);">VS Code / Copilot 映射逻辑</th>
+              <th style="padding: 12px; color: #ffffff; font-family: var(--font-outfit);">开发者具体操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+              <td style="padding: 12px; font-family: var(--font-mono); font-size: 0.9rem; color: var(--color-purple);"><code class="inline-code">Read</code> / 读文件</td>
+              <td style="padding: 12px; color: var(--text-secondary);">通过 Copilot 内部的 <span class="inline-code">#file</span> 或上下文绑定</td>
+              <td style="padding: 12px; color: var(--text-secondary);">在大模型需要读文件时，拖拽文件或在聊天栏直接输入 <span class="inline-code">#文件名</span>。</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+              <td style="padding: 12px; font-family: var(--font-mono); font-size: 0.9rem; color: var(--color-purple);"><code class="inline-code">Write</code> / <code class="inline-code">Edit</code></td>
+              <td style="padding: 12px; color: var(--text-secondary);">Copilot Chat 的行内编辑和编辑器修改机制</td>
+              <td style="padding: 12px; color: var(--text-secondary);">大模型生成代码片段后，开发者点击 "Insert" 或 "Apply to Editor"。</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+              <td style="padding: 12px; font-family: var(--font-mono); font-size: 0.9rem; color: var(--color-purple);"><code class="inline-code">Bash</code> / 运行命令</td>
+              <td style="padding: 12px; color: var(--text-secondary);">VS Code 终端面板 (Terminal)</td>
+              <td style="padding: 12px; color: var(--text-secondary);">引导大模型生成规范的命令行，开发者通过 VS Code 点击一键在终端执行。</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+              <td style="padding: 12px; font-family: var(--font-mono); font-size: 0.9rem; color: var(--color-purple);"><code class="inline-code">TodoWrite</code> / 状态追踪</td>
+              <td style="padding: 12px; color: var(--text-secondary);">本地的 <span class="inline-code">task.md</span> 任务清单</td>
+              <td style="padding: 12px; color: var(--text-secondary);">在大模型进行多步骤开发时，在根目录下维护一个 <span class="inline-code">task.md</span> 并在每次回复时更新其 <span class="inline-code">[ ]</span> 任务勾选状态。</td>
+            </tr>
+            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+              <td style="padding: 12px; font-family: var(--font-mono); font-size: 0.9rem; color: var(--color-purple);"><code class="inline-code">Subagent</code> / 子代理</td>
+              <td style="padding: 12px; color: var(--text-secondary);">工作区内 <span class="inline-code">.github/agents/</span> 的自定义系统提示词</td>
+              <td style="padding: 12px; color: var(--text-secondary);">调用自定义 Agent 模板指令对大模型的系统角色重新设定。</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Tech Stack -->
+      <div class="card">
+        <div class="card-title">
+          <span class="icon">✨</span> 系统技术亮点
+        </div>
+        <div class="grid-2">
+          <div>
+            <ul class="tech-list" style="font-size: 0.95rem;">
+              <li><strong>低内存足迹与无感加载</strong>：
+                整个插件基于静态配置拷贝与按需加载。在不使用 <span class="inline-code">@superpowers</span> 命令时，仅占据几十 KB 的运行时内存，没有任何额外的后台监听进程或网络中转开销。
+              </li>
+              <li><strong>环境与插件分离</strong>：
+                一旦运行过 <span class="inline-code">Setup Workspace</span>，即使把此插件卸载，GitHub Copilot 也依然能凭借工作区中的 <span class="inline-code">.github/skills/</span> 文件继续实现方法论开发。这保证了代码资产与环境的极佳移植性。
+              </li>
+            </ul>
+          </div>
+          <div>
+            <ul class="tech-list" style="font-size: 0.95rem;">
+              <li><strong>完全的数据隐私安全</strong>：
+                所有的文件处理和拦截均在本地沙盒中完成，调用 Language Model 时使用的依旧是 VS Code 内部由微软和 GitHub 托管的安全信道，杜绝了代码及秘钥外泄的隐患。
+              </li>
+              <li><strong>双通道缓存重载机制</strong>：
+                结合配置监听，在用户更改 <span class="inline-code">localSkillsPath</span> 时立即完成内存脏数据清理，支持开发时一键刷新，极为贴合技能开发者的调试需求。
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Interactive SVG Logic -->
+  <script>
+    // Tab Switching Logic
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => {
+        el.classList.remove('active');
+      });
+      document.querySelectorAll('.tab-btn').forEach(el => {
+        el.classList.remove('active');
+      });
+      
+      document.getElementById(tabId).classList.add('active');
+      // Set button active
+      event.target.classList.add('active');
+    }
+
+    // Node Metadata definitions for Interactive Diagram
+    const nodeDetails = {
+      'extension': {
+        title: '🔌 Extension Activator (src/extension.ts)',
+        desc: '插件主入口。在 VS Code 启动完成时激活。负责配置项读取（包括判断是从插件包读取还是从本地克隆读取技能），注册 `superpowers` 命令集，并在右下角部署 Shane Skills 状态栏菜单。同时协调 WebviewPanel 的创建和销毁。'
+      },
+      'participant': {
+        title: '💬 Chat Participant (src/participant.ts)',
+        desc: '通过 VS Code Chat APIs 贡献的 `@superpowers` 面板。拦截用户发起的各类斜杠指令（如 `/tdd`、`/debug`）。根据指令获取相匹配技能的 Markdown 全文作为上下文，附加 VS Code 工具映射机制提示词，直接组装成结构化数据交给大模型执行，打破 Copilot 只能闲聊的界限。'
+      },
+      'registry': {
+        title: '📚 Skill Registry (src/skillRegistry.ts)',
+        desc: '技能注册管理器。负责在后台惰性扫描技能文件夹，读取 `SKILL.md`，使用轻量正则解析出 YAML Frontmatter 元数据（即技能的 Name 与 Description），在内存中建立双向索引，为 Skills 浏览器和 Chat 拦截器提供极速匹配。'
+      },
+      'setup': {
+        title: '🔨 Workspace Setup Handler (src/workspaceSetup.ts)',
+        desc: '工作区初始化引导核心。负责将插件包中的 16 个核心技能 Markdown 文件释放入用户工作区的 `.github/skills/` 中。自动搜集所有技能生成索引目录表格写入 `.github/copilot-instructions.md`。使用 QuickPick 多选气泡让用户自主决定复制哪些智能 Agent 模板文件到 `.github/agents/` 下。'
+      },
+      'skills-webview': {
+        title: '🖥️ Skills Browser Webview',
+        desc: '基于 VS Code HTML5 Webview 的技能浏览器。以高度契合 VS Code 主题色彩的主动卡片墙形式展现当前可用技能。用户点击卡片时，会通过 VS Code 的 postMessage IPC 信道，告知插件后台使用 `vscode.workspace.openTextDocument` 打开对应工作区或本地克隆文件夹下的 `SKILL.md` 原文。'
+      },
+      'agents-webview': {
+        title: '🤖 Agent Browser Webview (src/agentBrowserPanel.ts)',
+        desc: '智能代理配置浏览器。读取插件提供的智能代理模板，动态与用户当前工作区已安装的 Agent 文件对比，渲染出状态徽章。同样支持点击一键打开、并能以 Visual 卡片墙指引开发者如何利用自定义代理进行流程化协作。'
+      },
+      'bundled-skills': {
+        title: '📦 Bundled Assets (内置静态技能及模板)',
+        desc: '插件打包自带的静态资源包。包含 16 种应对各种工程场景的方法论技能，以及 spec-reviewer、code-reviewer 等 3 类智能代理的角色配置文件。是无网环境或新项目一键初始化的数据源。'
+      },
+      'instructions': {
+        title: '🧩 .github/copilot-instructions.md (工作区指令集)',
+        desc: '关键的被动集成配置。这是 GitHub Copilot 会在每次对话前自动检索并读入的预置 prompt 规则文件。Shane Skills 将所有技能的描述索引列表注入于此，令原本普通的 Copilot 大模型了解该工作区有哪些规范化技能，在日常闲聊中即可依据用户的问题，引导用户读入特定的技能规范。'
+      },
+      'skills-dir': {
+        title: '📁 .github/skills/ (本地化技能库)',
+        desc: '释放到本地工作区的技能目录。包含各种独立且聚焦特定任务的 `SKILL.md` 规范。Copilot 能够直接在这个目录下读取相应的文件内容，开发者也可以在此进行个性化修改以实现对项目方法论的自定义。'
+      },
+      'agents-dir': {
+        title: '📁 .github/agents/ (子代理模板包)',
+        desc: '拷贝至用户工作区根目录的子代理文件定义。包含了诸如 superpowers-implementer.agent.md 等说明文档。它们能直接作用于大模型的行为约束，令 Copilot 在特定角色下以更高的专注度解决如系统实现、方案评审等重度任务。'
+      },
+      'copilot-system': {
+        title: '🤖 GitHub Copilot Agent System',
+        desc: 'VS Code 中的 Copilot Chat 运行时系统。在每一次请求发生时，系统会合并当前编辑的文档段落、激活的工作区背景，以及在 `.github/copilot-instructions.md` 中预置的所有系统规范，一同送往远端云模型。'
+      },
+      'llm': {
+        title: '🧠 语言大模型 (Language Model)',
+        desc: '远端运行的云端大模型服务（如 Claude 或 GPT 等）。根据被注入的技能定义与工具映射法则进行系统级推理，输出满足 Shane Skills 标准的思维链路、步骤勾选和规范化代码实现。'
+      },
+      'query': {
+        title: '👤 用户提问与会话输入',
+        desc: '开发者与 GitHub Copilot 的互动原点。可以是在默认的 Chat 窗口直接询问带有技能引用的问题，也可以是通过 `@superpowers` 显式调配对应的 Slash 指令，来达到高保真地控制模型行为的目的。'
+      }
+    };
+
+    // Node interactive selection logic
+    function selectNode(nodeId) {
+      // Clear previous active nodes
+      document.querySelectorAll('.svg-node').forEach(node => {
+        node.classList.remove('active');
+      });
+
+      // Clear previous arrow highlights
+      document.querySelectorAll('.svg-arrow').forEach(arrow => {
+        arrow.classList.remove('highlight');
+        arrow.classList.remove('highlight-active');
+      });
+
+      // Set node active
+      const nodeEl = document.getElementById('node-' + nodeId);
+      if (nodeEl) {
+        nodeEl.classList.add('active');
+      }
+
+      // Highlight connections based on selected node
+      const arrowSetup = document.getElementById('arrow-setup');
+      const arrowPassive = document.getElementById('arrow-passive');
+      const arrowActive = document.getElementById('arrow-active');
+
+      if (nodeId === 'setup') {
+        arrowSetup.classList.add('highlight-active');
+      } else if (nodeId === 'participant') {
+        arrowActive.classList.add('highlight-active');
+      } else if (nodeId === 'instructions' || nodeId === 'skills-dir' || nodeId === 'agents-dir') {
+        arrowPassive.classList.add('highlight');
+        arrowSetup.classList.add('highlight');
+      } else if (nodeId === 'copilot-system' || nodeId === 'llm') {
+        arrowPassive.classList.add('highlight');
+        arrowActive.classList.add('highlight');
+      }
+
+      // Show details card
+      const detailsEl = document.getElementById('node-details');
+      const titleEl = document.getElementById('detail-title-text');
+      const descEl = document.getElementById('detail-desc-text');
+
+      if (nodeDetails[nodeId]) {
+        titleEl.textContent = nodeDetails[nodeId].title;
+        descEl.innerHTML = nodeDetails[nodeId].desc;
+        detailsEl.classList.add('visible');
+      }
+    }
+  </script>
+</body>
+</html>
