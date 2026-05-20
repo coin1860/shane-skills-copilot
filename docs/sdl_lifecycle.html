@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shane Skills - Software Development Lifecycle (SDL) &amp; Multi-Agent Automation Loop</title>
+  <title>Shane Skills - Software Development Lifecycle (SDLC) &amp; Multi-Agent Automation Loop</title>
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -175,7 +175,7 @@
     /* ============================
        SCREENSHOT-STYLE STAGE MAP
        ============================ */
-    .sdl-map-wrapper {
+    .sdlc-map-wrapper {
       background: #f8fafc;
       border: 1px solid var(--border-color);
       border-radius: 12px;
@@ -184,25 +184,25 @@
     }
 
     /* Custom Scrollbars for light elements */
-    .sdl-map-wrapper::-webkit-scrollbar,
+    .sdlc-map-wrapper::-webkit-scrollbar,
     .agent-pipeline::-webkit-scrollbar {
       height: 6px;
     }
-    .sdl-map-wrapper::-webkit-scrollbar-track,
+    .sdlc-map-wrapper::-webkit-scrollbar-track,
     .agent-pipeline::-webkit-scrollbar-track {
       background: rgba(0, 0, 0, 0.03);
       border-radius: 3px;
     }
-    .sdl-map-wrapper::-webkit-scrollbar-thumb,
+    .sdlc-map-wrapper::-webkit-scrollbar-thumb,
     .agent-pipeline::-webkit-scrollbar-thumb {
       background: rgba(0, 0, 0, 0.12);
       border-radius: 3px;
     }
-    .sdl-map-wrapper::-webkit-scrollbar-thumb:hover,
+    .sdlc-map-wrapper::-webkit-scrollbar-thumb:hover,
     .agent-pipeline::-webkit-scrollbar-thumb:hover {
       background: rgba(0, 0, 0, 0.2);
     }
-    .sdl-map-grid {
+    .sdlc-map-grid {
       display: grid;
       grid-template-columns: repeat(6, 1fr);
       gap: 0;
@@ -210,7 +210,7 @@
       position: relative;
     }
     /* horizontal connector line between column headers */
-    .sdl-map-grid::before {
+    .sdlc-map-grid::before {
       content: '';
       position: absolute;
       top: 22px;
@@ -220,13 +220,13 @@
       background: linear-gradient(90deg, #3b82f6, #f59e0b, #10b981, #f43f5e, #8b5cf6, #14b8a6);
       z-index: 1;
     }
-    .sdl-col {
+    .sdlc-col {
       display: flex;
       flex-direction: column;
       align-items: stretch;
       padding: 0 6px;
     }
-    .sdl-phase-header {
+    .sdlc-phase-header {
       display: flex;
       align-items: center;
       justify-content: center;
@@ -243,19 +243,19 @@
       min-height: 46px;
       line-height: 1.3;
     }
-    .sdl-phase-header.ph-planning   { background: #eff6ff; border-color: rgba(30, 64, 175, 0.3); color: var(--color-planning); }
-    .sdl-phase-header.ph-isolation  { background: #fffbeb; border-color: rgba(146, 64, 14, 0.3); color: var(--color-isolation); }
-    .sdl-phase-header.ph-coding     { background: #f0fdf4; border-color: rgba(6, 95, 70, 0.3); color: var(--color-coding); }
-    .sdl-phase-header.ph-debugging  { background: #fff1f2; border-color: rgba(159, 18, 57, 0.3); color: var(--color-debugging); }
-    .sdl-phase-header.ph-review     { background: #f5f3ff; border-color: rgba(91, 33, 182, 0.3); color: var(--color-review); }
-    .sdl-phase-header.ph-integration{ background: #f0fdfa; border-color: rgba(15, 118, 110, 0.3); color: var(--color-integration); }
+    .sdlc-phase-header.ph-planning   { background: #eff6ff; border-color: rgba(30, 64, 175, 0.3); color: var(--color-planning); }
+    .sdlc-phase-header.ph-isolation  { background: #fffbeb; border-color: rgba(146, 64, 14, 0.3); color: var(--color-isolation); }
+    .sdlc-phase-header.ph-coding     { background: #f0fdf4; border-color: rgba(6, 95, 70, 0.3); color: var(--color-coding); }
+    .sdlc-phase-header.ph-debugging  { background: #fff1f2; border-color: rgba(159, 18, 57, 0.3); color: var(--color-debugging); }
+    .sdlc-phase-header.ph-review     { background: #f5f3ff; border-color: rgba(91, 33, 182, 0.3); color: var(--color-review); }
+    .sdlc-phase-header.ph-integration{ background: #f0fdfa; border-color: rgba(15, 118, 110, 0.3); color: var(--color-integration); }
 
-    .sdl-skills-stack {
+    .sdlc-skills-stack {
       display: flex;
       flex-direction: column;
       gap: 7px;
     }
-    .sdl-skill-row {
+    .sdlc-skill-row {
       display: flex;
       align-items: center;
       gap: 8px;
@@ -267,27 +267,27 @@
       transition: all 0.2s ease;
       min-height: 38px;
     }
-    .sdl-skill-row:hover {
+    .sdlc-skill-row:hover {
       background: #f8fafc;
       transform: translateY(-2px);
     }
-    .sdl-skill-row.ph-planning:hover  { border-color: #3b82f6; box-shadow: 0 4px 12px rgba(59,130,246,0.15); }
-    .sdl-skill-row.ph-isolation:hover { border-color: #f59e0b; box-shadow: 0 4px 12px rgba(245,158,11,0.15); }
-    .sdl-skill-row.ph-coding:hover    { border-color: #10b981; box-shadow: 0 4px 12px rgba(16,185,129,0.15); }
-    .sdl-skill-row.ph-debugging:hover { border-color: #f43f5e; box-shadow: 0 4px 12px rgba(244,63,94,0.15); }
-    .sdl-skill-row.ph-review:hover    { border-color: #8b5cf6; box-shadow: 0 4px 12px rgba(139,92,246,0.15); }
-    .sdl-skill-row.ph-integration:hover { border-color: #14b8a6; box-shadow: 0 4px 12px rgba(20,184,166,0.15); }
+    .sdlc-skill-row.ph-planning:hover  { border-color: #3b82f6; box-shadow: 0 4px 12px rgba(59,130,246,0.15); }
+    .sdlc-skill-row.ph-isolation:hover { border-color: #f59e0b; box-shadow: 0 4px 12px rgba(245,158,11,0.15); }
+    .sdlc-skill-row.ph-coding:hover    { border-color: #10b981; box-shadow: 0 4px 12px rgba(16,185,129,0.15); }
+    .sdlc-skill-row.ph-debugging:hover { border-color: #f43f5e; box-shadow: 0 4px 12px rgba(244,63,94,0.15); }
+    .sdlc-skill-row.ph-review:hover    { border-color: #8b5cf6; box-shadow: 0 4px 12px rgba(139,92,246,0.15); }
+    .sdlc-skill-row.ph-integration:hover { border-color: #14b8a6; box-shadow: 0 4px 12px rgba(20,184,166,0.15); }
 
-    .sdl-skill-icon {
+    .sdlc-skill-icon {
       font-size: 0.95rem;
       flex-shrink: 0;
     }
-    .sdl-skill-info {
+    .sdlc-skill-info {
       display: flex;
       flex-direction: column;
       min-width: 0;
     }
-    .sdl-skill-key {
+    .sdlc-skill-key {
       font-family: var(--font-mono);
       font-size: 0.7rem;
       font-weight: 600;
@@ -296,7 +296,7 @@
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    .sdl-skill-label {
+    .sdlc-skill-label {
       font-size: 0.64rem;
       color: var(--text-secondary);
       margin-top: 1px;
@@ -635,175 +635,175 @@
 
   <div class="container">
     <header>
-      <div class="badge">Superpowers · SDL R&D Assets Library</div>
-      <h1>Software Development Lifecycle <span class="accent">(SDL)</span> &amp; Multi-Agent Automation Loop</h1>
+      <div class="badge">Superpowers · SDLC R&D Assets Library</div>
+      <h1>Software Development Lifecycle <span class="accent">(SDLC)</span> &amp; Multi-Agent Automation Loop</h1>
       <p class="subtitle">
         Shane Skills Copilot is an engineering framework based on Agentic Workflows. This interactive document showcases the <strong>16 core development skills (Superpowers Skills)</strong> leveraged across the software development lifecycle, and provides an in-depth analysis of the <strong>multi-round human-agent alignment</strong> during design and the <strong>subagent checklist loop</strong> during coding. Click any skill to view its detailed specifications below.
       </p>
     </header>
 
-    <!-- SECTION 1.1: SDL STAGES OVERVIEW -->
+    <!-- SECTION 1.1: SDLC STAGES OVERVIEW -->
     <div class="flow-card">
       <div class="section-title">
-        <span class="title-icon">🧭</span> SDL Lifecycle &amp; Core Skills Map
+        <span class="title-icon">🧭</span> SDLC Lifecycle &amp; Core Skills Map
       </div>
       <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 20px;">
         We decompose the R&D process into <strong>6 sequential stages</strong>, each equipped with a dedicated set of skill cards. Click any skill label to view detailed specifications below.
       </p>
 
-      <!-- Screenshot-style dark SDL map -->
-      <div class="sdl-map-wrapper">
-        <div class="sdl-map-grid">
+      <!-- Screenshot-style dark SDLC map -->
+      <div class="sdlc-map-wrapper">
+        <div class="sdlc-map-grid">
 
           <!-- Stage 1: Planning -->
-          <div class="sdl-col">
-            <div class="sdl-phase-header ph-planning">1. Planning &amp; Design<br>(Planning)</div>
-            <div class="sdl-skills-stack">
-              <div class="sdl-skill-row ph-planning" onclick="scrollToSkill('using-superpowers')">
-                <span class="sdl-skill-icon">⚡</span>
-                <div class="sdl-skill-info">
-                  <span class="sdl-skill-key">using-superpowers</span>
-                  <span class="sdl-skill-label">Session Orchestration</span>
+          <div class="sdlc-col">
+            <div class="sdlc-phase-header ph-planning">1. Planning &amp; Design<br>(Planning)</div>
+            <div class="sdlc-skills-stack">
+              <div class="sdlc-skill-row ph-planning" onclick="scrollToSkill('using-superpowers')">
+                <span class="sdlc-skill-icon">⚡</span>
+                <div class="sdlc-skill-info">
+                  <span class="sdlc-skill-key">using-superpowers</span>
+                  <span class="sdlc-skill-label">Session Orchestration</span>
                 </div>
               </div>
-              <div class="sdl-skill-row ph-planning" onclick="scrollToSkill('brainstorming')">
-                <span class="sdl-skill-icon">💡</span>
-                <div class="sdl-skill-info">
-                  <span class="sdl-skill-key">brainstorming</span>
-                  <span class="sdl-skill-label">Requirement Brainstorm</span>
+              <div class="sdlc-skill-row ph-planning" onclick="scrollToSkill('brainstorming')">
+                <span class="sdlc-skill-icon">💡</span>
+                <div class="sdlc-skill-info">
+                  <span class="sdlc-skill-key">brainstorming</span>
+                  <span class="sdlc-skill-label">Requirement Brainstorm</span>
                 </div>
               </div>
-              <div class="sdl-skill-row ph-planning" onclick="scrollToSkill('confluence')">
-                <span class="sdl-skill-icon">📄</span>
-                <div class="sdl-skill-info">
-                  <span class="sdl-skill-key">confluence</span>
-                  <span class="sdl-skill-label">Confluence Doc Sync</span>
+              <div class="sdlc-skill-row ph-planning" onclick="scrollToSkill('confluence')">
+                <span class="sdlc-skill-icon">📄</span>
+                <div class="sdlc-skill-info">
+                  <span class="sdlc-skill-key">confluence</span>
+                  <span class="sdlc-skill-label">Confluence Doc Sync</span>
                 </div>
               </div>
-              <div class="sdl-skill-row ph-planning" onclick="scrollToSkill('jira')">
-                <span class="sdl-skill-icon">🎫</span>
-                <div class="sdl-skill-info">
-                  <span class="sdl-skill-key">jira</span>
-                  <span class="sdl-skill-label">Jira User Story Sync</span>
+              <div class="sdlc-skill-row ph-planning" onclick="scrollToSkill('jira')">
+                <span class="sdlc-skill-icon">🎫</span>
+                <div class="sdlc-skill-info">
+                  <span class="sdlc-skill-key">jira</span>
+                  <span class="sdlc-skill-label">Jira User Story Sync</span>
                 </div>
               </div>
-              <div class="sdl-skill-row ph-planning" onclick="scrollToSkill('writing-plans')">
-                <span class="sdl-skill-icon">📋</span>
-                <div class="sdl-skill-info">
-                  <span class="sdl-skill-key">writing-plans</span>
-                  <span class="sdl-skill-label">Formulate Plan</span>
+              <div class="sdlc-skill-row ph-planning" onclick="scrollToSkill('writing-plans')">
+                <span class="sdlc-skill-icon">📋</span>
+                <div class="sdlc-skill-info">
+                  <span class="sdlc-skill-key">writing-plans</span>
+                  <span class="sdlc-skill-label">Formulate Plan</span>
                 </div>
               </div>
             </div>
           </div>
 
           <!-- Stage 2: Isolation -->
-          <div class="sdl-col">
-            <div class="sdl-phase-header ph-isolation">2. Env Isolation<br>(Isolation)</div>
-            <div class="sdl-skills-stack">
-              <div class="sdl-skill-row ph-isolation" onclick="scrollToSkill('using-git-worktrees')">
-                <span class="sdl-skill-icon">🌿</span>
-                <div class="sdl-skill-info">
-                  <span class="sdl-skill-key">git-worktrees</span>
-                  <span class="sdl-skill-label">Isolated Worktree</span>
+          <div class="sdlc-col">
+            <div class="sdlc-phase-header ph-isolation">2. Env Isolation<br>(Isolation)</div>
+            <div class="sdlc-skills-stack">
+              <div class="sdlc-skill-row ph-isolation" onclick="scrollToSkill('using-git-worktrees')">
+                <span class="sdlc-skill-icon">🌿</span>
+                <div class="sdlc-skill-info">
+                  <span class="sdlc-skill-key">git-worktrees</span>
+                  <span class="sdlc-skill-label">Isolated Worktree</span>
                 </div>
               </div>
             </div>
           </div>
 
           <!-- Stage 3: Coding -->
-          <div class="sdl-col">
-            <div class="sdl-phase-header ph-coding">3. Coding &amp; Dev<br>(Coding)</div>
-            <div class="sdl-skills-stack">
-              <div class="sdl-skill-row ph-coding" onclick="scrollToSkill('test-driven-development')">
-                <span class="sdl-skill-icon">🧪</span>
-                <div class="sdl-skill-info">
-                  <span class="sdl-skill-key">test-driven-dev</span>
-                  <span class="sdl-skill-label">Test-Driven Development</span>
+          <div class="sdlc-col">
+            <div class="sdlc-phase-header ph-coding">3. Coding &amp; Dev<br>(Coding)</div>
+            <div class="sdlc-skills-stack">
+              <div class="sdlc-skill-row ph-coding" onclick="scrollToSkill('test-driven-development')">
+                <span class="sdlc-skill-icon">🧪</span>
+                <div class="sdlc-skill-info">
+                  <span class="sdlc-skill-key">test-driven-dev</span>
+                  <span class="sdlc-skill-label">Test-Driven Development</span>
                 </div>
               </div>
-              <div class="sdl-skill-row ph-coding" onclick="scrollToSkill('executing-plans')">
-                <span class="sdl-skill-icon">🏃</span>
-                <div class="sdl-skill-info">
-                  <span class="sdl-skill-key">executing-plans</span>
-                  <span class="sdl-skill-label">Execution Control</span>
+              <div class="sdlc-skill-row ph-coding" onclick="scrollToSkill('executing-plans')">
+                <span class="sdlc-skill-icon">🏃</span>
+                <div class="sdlc-skill-info">
+                  <span class="sdlc-skill-key">executing-plans</span>
+                  <span class="sdlc-skill-label">Execution Control</span>
                 </div>
               </div>
-              <div class="sdl-skill-row ph-coding" onclick="scrollToSkill('subagent-driven-development')">
-                <span class="sdl-skill-icon">🤖</span>
-                <div class="sdl-skill-info">
-                  <span class="sdl-skill-key">subagent-dev</span>
-                  <span class="sdl-skill-label">Subagent Task Dispatch</span>
+              <div class="sdlc-skill-row ph-coding" onclick="scrollToSkill('subagent-driven-development')">
+                <span class="sdlc-skill-icon">🤖</span>
+                <div class="sdlc-skill-info">
+                  <span class="sdlc-skill-key">subagent-dev</span>
+                  <span class="sdlc-skill-label">Subagent Task Dispatch</span>
                 </div>
               </div>
-              <div class="sdl-skill-row ph-coding" onclick="scrollToSkill('dispatching-parallel-agents')">
-                <span class="sdl-skill-icon">🔀</span>
-                <div class="sdl-skill-info">
-                  <span class="sdl-skill-key">parallel-agents</span>
-                  <span class="sdl-skill-label">Parallel Subtasks</span>
+              <div class="sdlc-skill-row ph-coding" onclick="scrollToSkill('dispatching-parallel-agents')">
+                <span class="sdlc-skill-icon">🔀</span>
+                <div class="sdlc-skill-info">
+                  <span class="sdlc-skill-key">parallel-agents</span>
+                  <span class="sdlc-skill-label">Parallel Subtasks</span>
                 </div>
               </div>
-              <div class="sdl-skill-row ph-coding" onclick="scrollToSkill('writing-skills')">
-                <span class="sdl-skill-icon">✍️</span>
-                <div class="sdl-skill-info">
-                  <span class="sdl-skill-key">writing-skills</span>
-                  <span class="sdl-skill-label">Skill Packaging</span>
+              <div class="sdlc-skill-row ph-coding" onclick="scrollToSkill('writing-skills')">
+                <span class="sdlc-skill-icon">✍️</span>
+                <div class="sdlc-skill-info">
+                  <span class="sdlc-skill-key">writing-skills</span>
+                  <span class="sdlc-skill-label">Skill Packaging</span>
                 </div>
               </div>
             </div>
           </div>
 
           <!-- Stage 4: Debugging -->
-          <div class="sdl-col">
-            <div class="sdl-phase-header ph-debugging">4. Verify &amp; Debug<br>(Verify)</div>
-            <div class="sdl-skills-stack">
-              <div class="sdl-skill-row ph-debugging" onclick="scrollToSkill('systematic-debugging')">
-                <span class="sdl-skill-icon">🐞</span>
-                <div class="sdl-skill-info">
-                  <span class="sdl-skill-key">sys-debugging</span>
-                  <span class="sdl-skill-label">Scientific Debugging</span>
+          <div class="sdlc-col">
+            <div class="sdlc-phase-header ph-debugging">4. Verify &amp; Debug<br>(Verify)</div>
+            <div class="sdlc-skills-stack">
+              <div class="sdlc-skill-row ph-debugging" onclick="scrollToSkill('systematic-debugging')">
+                <span class="sdlc-skill-icon">🐞</span>
+                <div class="sdlc-skill-info">
+                  <span class="sdlc-skill-key">sys-debugging</span>
+                  <span class="sdlc-skill-label">Scientific Debugging</span>
                 </div>
               </div>
-              <div class="sdl-skill-row ph-debugging" onclick="scrollToSkill('verification-before-completion')">
-                <span class="sdl-skill-icon">🛡️</span>
-                <div class="sdl-skill-info">
-                  <span class="sdl-skill-key">verification-before-complete</span>
-                  <span class="sdl-skill-label">Acceptance Verification</span>
+              <div class="sdlc-skill-row ph-debugging" onclick="scrollToSkill('verification-before-completion')">
+                <span class="sdlc-skill-icon">🛡️</span>
+                <div class="sdlc-skill-info">
+                  <span class="sdlc-skill-key">verification-before-complete</span>
+                  <span class="sdlc-skill-label">Acceptance Verification</span>
                 </div>
               </div>
             </div>
           </div>
 
           <!-- Stage 5: Review -->
-          <div class="sdl-col">
-            <div class="sdl-phase-header ph-review">5. Code Review<br>(Review)</div>
-            <div class="sdl-skills-stack">
-              <div class="sdl-skill-row ph-review" onclick="scrollToSkill('requesting-code-review')">
-                <span class="sdl-skill-icon">🔍</span>
-                <div class="sdl-skill-info">
-                  <span class="sdl-skill-key">requesting-CR</span>
-                  <span class="sdl-skill-label">Submit Code Review</span>
+          <div class="sdlc-col">
+            <div class="sdlc-phase-header ph-review">5. Code Review<br>(Review)</div>
+            <div class="sdlc-skills-stack">
+              <div class="sdlc-skill-row ph-review" onclick="scrollToSkill('requesting-code-review')">
+                <span class="sdlc-skill-icon">🔍</span>
+                <div class="sdlc-skill-info">
+                  <span class="sdlc-skill-key">requesting-CR</span>
+                  <span class="sdlc-skill-label">Submit Code Review</span>
                 </div>
               </div>
-              <div class="sdl-skill-row ph-review" onclick="scrollToSkill('receiving-code-review')">
-                <span class="sdl-skill-icon">📥</span>
-                <div class="sdl-skill-info">
-                  <span class="sdl-skill-key">receiving-CR</span>
-                  <span class="sdl-skill-label">Process Feedback</span>
+              <div class="sdlc-skill-row ph-review" onclick="scrollToSkill('receiving-code-review')">
+                <span class="sdlc-skill-icon">📥</span>
+                <div class="sdlc-skill-info">
+                  <span class="sdlc-skill-key">receiving-CR</span>
+                  <span class="sdlc-skill-label">Process Feedback</span>
                 </div>
               </div>
             </div>
           </div>
 
           <!-- Stage 6: Integration -->
-          <div class="sdl-col">
-            <div class="sdl-phase-header ph-integration">6. Integration<br>(Done)</div>
-            <div class="sdl-skills-stack">
-              <div class="sdl-skill-row ph-integration" onclick="scrollToSkill('finishing-a-development-branch')">
-                <span class="sdl-skill-icon">🏁</span>
-                <div class="sdl-skill-info">
-                  <span class="sdl-skill-key">finish-branch</span>
-                  <span class="sdl-skill-label">Merge &amp; Cleanup</span>
+          <div class="sdlc-col">
+            <div class="sdlc-phase-header ph-integration">6. Integration<br>(Done)</div>
+            <div class="sdlc-skills-stack">
+              <div class="sdlc-skill-row ph-integration" onclick="scrollToSkill('finishing-a-development-branch')">
+                <span class="sdlc-skill-icon">🏁</span>
+                <div class="sdlc-skill-info">
+                  <span class="sdlc-skill-key">finish-branch</span>
+                  <span class="sdlc-skill-label">Merge &amp; Cleanup</span>
                 </div>
               </div>
             </div>
@@ -813,7 +813,7 @@
       </div>
     </div>
 
-    <!-- Skill Detail Drawer (inline below SDL Map) -->
+    <!-- Skill Detail Drawer (inline below SDLC Map) -->
     <div id="flow-drawer" class="drawer-panel" style="display: none; margin-top: 0; margin-bottom: 24px; border-top: 3px solid var(--hsbc-red);">
       <div class="drawer-header">
         <div class="drawer-icon-circle" id="drawer-icon">⚡</div>
@@ -865,19 +865,14 @@
       <div class="interactive-svg-wrapper">
         <svg id="design-phase-svg" class="interactive-diagram" width="1000" height="260" viewBox="0 0 1000 260" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <marker id="design-arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <marker id="design-arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto">
               <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6" />
             </marker>
-            <marker id="design-arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <marker id="design-arrow-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto">
               <path d="M 0 0 L 10 5 L 0 10 z" fill="#f43f5e" />
             </marker>
           </defs>
 
-          <!-- Input Indicator -->
-          <text x="20" y="110" fill="#9ca3af" font-family="Inter" font-size="9" font-weight="700">1. Human Invocation</text>
-          <path d="M 15 120 L 40 120" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#design-arrow)" />
-
-          <!-- Node 1: Brainstorm Trigger (Human Triggered Brainstorming) -->
           <g class="flow-loop-node" id="dnode-brainstorm" onclick="showDesignDetail('brainstorm')">
             <rect class="node-bg" x="45" y="75" width="130" height="90" rx="10" fill="#ffffff" stroke="rgba(59, 130, 246, 0.7)" stroke-width="1.5" />
             <text x="58" y="98" fill="#d97706" font-family="Outfit" font-size="10" font-weight="700">🧑 Human Triggered</text>
@@ -886,10 +881,6 @@
             <text x="58" y="148" fill="#64748b" font-family="Fira Code" font-size="8">Initial Input</text>
           </g>
 
-          <!-- Arrow Node 1 -> Node 2 -->
-          <path class="flow-connector" id="dpath-to-sync" d="M 175 120 L 205 120" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#design-arrow)" />
-
-          <!-- Node 2: Context Sync (Auto-Sync JIRA/Confluence & Existing Code) -->
           <g class="flow-loop-node" id="dnode-sync" onclick="showDesignDetail('sync')">
             <rect class="node-bg" x="210" y="75" width="155" height="90" rx="10" fill="#ffffff" stroke="rgba(59, 130, 246, 0.7)" stroke-width="1.5" />
             <text x="222" y="98" fill="#2563eb" font-family="Outfit" font-size="10" font-weight="700">🔄 Auto-Sync</text>
@@ -898,10 +889,6 @@
             <text x="222" y="148" fill="#64748b" font-family="Fira Code" font-size="8">Extract Context</text>
           </g>
 
-          <!-- Arrow Node 2 -> Node 3 -->
-          <path class="flow-connector" id="dpath-to-align" d="M 365 120 L 395 120" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#design-arrow)" />
-
-          <!-- Node 3: Human Dialogue (Multi-round Alignment) -->
           <g class="flow-loop-node" id="dnode-align" onclick="showDesignDetail('align')">
             <rect class="node-bg" x="400" y="75" width="130" height="90" rx="10" fill="#ffffff" stroke="rgba(59, 130, 246, 0.7)" stroke-width="1.5" />
             <text x="412" y="98" fill="#2563eb" font-family="Outfit" font-size="10" font-weight="700">💬 Alignment</text>
@@ -910,14 +897,6 @@
             <text x="412" y="148" fill="#64748b" font-family="Fira Code" font-size="8">Clarify Ambiguity</text>
           </g>
 
-          <!-- Clarification Refinement Loop: Node 3 -> Node 2 -->
-          <path class="flow-connector" id="dpath-refine" d="M 465 75 C 465 25, 287 25, 287 75" stroke="#f43f5e" stroke-width="1.5" marker-end="url(#design-arrow-red)" stroke-dasharray="3" />
-          <text x="376" y="42" fill="#e11d48" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">🔄 Clarification Loop &amp; Policy Injection</text>
-
-          <!-- Arrow Node 3 -> Node 4 -->
-          <path class="flow-connector" id="dpath-to-design" d="M 530 120 L 560 120" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#design-arrow)" />
-
-          <!-- Node 4: Design Output (Generate design.md Spec) -->
           <g class="flow-loop-node" id="dnode-design" onclick="showDesignDetail('design')">
             <rect class="node-bg" x="565" y="75" width="130" height="90" rx="10" fill="#ffffff" stroke="rgba(16, 185, 129, 0.7)" stroke-width="1.5" />
             <text x="578" y="98" fill="#059669" font-family="Outfit" font-size="10" font-weight="700">📄 Design Output</text>
@@ -926,11 +905,6 @@
             <text x="578" y="148" fill="#64748b" font-family="Fira Code" font-size="8">Schema &amp; API Design</text>
           </g>
 
-          <!-- Arrow Node 4 -> Node 5 (Human Triggers Plan) -->
-          <path class="flow-connector" id="dpath-to-plan-trigger" d="M 695 120 L 725 120" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#design-arrow)" />
-          <text x="710" y="110" fill="#d97706" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">2. Human Run</text>
-
-          <!-- Node 5: Plan Trigger (Human Triggers Plan Skill) -->
           <g class="flow-loop-node" id="dnode-plan-trigger" onclick="showDesignDetail('plan-trigger')">
             <rect class="node-bg" x="730" y="75" width="125" height="90" rx="10" fill="#ffffff" stroke="rgba(59, 130, 246, 0.7)" stroke-width="1.5" />
             <text x="742" y="98" fill="#d97706" font-family="Outfit" font-size="10" font-weight="700">🧑 Human Triggered</text>
@@ -939,10 +913,6 @@
             <text x="742" y="148" fill="#64748b" font-family="Fira Code" font-size="8">Bind design.md</text>
           </g>
 
-          <!-- Arrow Node 5 -> Node 6 -->
-          <path class="flow-connector" id="dpath-to-plan-output" d="M 855 120 L 880 120" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#design-arrow)" />
-
-          <!-- Node 6: Plan Output (Generate implementation_plan.md) -->
           <g class="flow-loop-node" id="dnode-plan-output" onclick="showDesignDetail('plan-output')">
             <rect class="node-bg" x="885" y="75" width="110" height="90" rx="10" fill="#ffffff" stroke="rgba(59, 130, 246, 0.9)" stroke-width="1.5" />
             <text x="895" y="98" fill="#2563eb" font-family="Outfit" font-size="10" font-weight="700">📋 Plan Output</text>
@@ -951,10 +921,32 @@
             <text x="895" y="148" fill="#64748b" font-family="Fira Code" font-size="8">writing-plans</text>
           </g>
 
+          <!-- Input Indicator -->
+          <text x="20" y="110" fill="#9ca3af" font-family="Inter" font-size="9" font-weight="700">1. Human Invocation</text>
+          <path d="M 15 120 L 40 120" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#design-arrow)" />
+          <!-- Node 1: Brainstorm Trigger (Human Triggered Brainstorming) -->
+          <!-- Arrow Node 1 -> Node 2 -->
+          <path class="flow-connector" id="dpath-to-sync" d="M 175 120 L 205 120" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#design-arrow)" />
+          <!-- Node 2: Context Sync (Auto-Sync JIRA/Confluence & Existing Code) -->
+          <!-- Arrow Node 2 -> Node 3 -->
+          <path class="flow-connector" id="dpath-to-align" d="M 365 120 L 395 120" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#design-arrow)" />
+          <!-- Node 3: Human Dialogue (Multi-round Alignment) -->
+          <!-- Clarification Refinement Loop: Node 3 -> Node 2 -->
+          <path class="flow-connector" id="dpath-refine" d="M 465 75 C 465 25, 287 25, 287 75" stroke="#f43f5e" stroke-width="1.5" marker-end="url(#design-arrow-red)" stroke-dasharray="3" />
+          <text x="376" y="42" fill="#e11d48" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">🔄 Clarification Loop &amp; Policy Injection</text>
+          <!-- Arrow Node 3 -> Node 4 -->
+          <path class="flow-connector" id="dpath-to-design" d="M 530 120 L 560 120" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#design-arrow)" />
+          <!-- Node 4: Design Output (Generate design.md Spec) -->
+          <!-- Arrow Node 4 -> Node 5 (Human Triggers Plan) -->
+          <path class="flow-connector" id="dpath-to-plan-trigger" d="M 695 120 L 725 120" stroke="#fbbf24" stroke-width="1.5" marker-end="url(#design-arrow)" />
+          <text x="710" y="110" fill="#d97706" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">2. Human Run</text>
+          <!-- Node 5: Plan Trigger (Human Triggers Plan Skill) -->
+          <!-- Arrow Node 5 -> Node 6 -->
+          <path class="flow-connector" id="dpath-to-plan-output" d="M 855 120 L 880 120" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#design-arrow)" />
+          <!-- Node 6: Plan Output (Generate implementation_plan.md) -->
           <!-- Plan Reject Loop: Node 6 -> Node 3 -->
           <path class="flow-connector" id="dpath-plan-reject" d="M 940 165 C 940 225, 465 225, 465 165" stroke="#f43f5e" stroke-width="1.5" marker-end="url(#design-arrow-red)" stroke-dasharray="3" />
           <text x="702" y="212" fill="#be123c" font-family="Inter" font-size="9" text-anchor="middle" font-weight="700">❌ Plan Rejected (Requires Iteration)</text>
-
           <!-- Output to Coding -->
           <path class="flow-connector" d="M 995 120 L 1000 120" stroke="#10b981" stroke-width="1.5" stroke-dasharray="2" />
         </svg>
@@ -967,7 +959,7 @@
           <div class="drawer-title-group">
             <h3 id="design-drawer-name">Design &amp; Architecture Stage</h3>
             <div class="drawer-phase-badge" id="design-drawer-badge" style="color: var(--color-blue);">
-              SDL Phase 1: Ensure feasibility and chart the course before coding.
+              SDLC Phase 1: Ensure feasibility and chart the course before coding.
             </div>
           </div>
         </div>
@@ -1014,21 +1006,20 @@
       <div class="interactive-svg-wrapper">
         <svg id="multi-agent-loop-svg" class="interactive-diagram" width="1000" height="460" viewBox="0 0 1000 460" fill="none" xmlns="http://www.w3.org/2000/svg">
           <defs>
-            <marker id="loop-arrow-head" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <marker id="loop-arrow-head" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto">
               <path d="M 0 0 L 10 5 L 0 10 z" fill="#14b8a6" />
             </marker>
-            <marker id="loop-arrow-head-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <marker id="loop-arrow-head-red" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto">
               <path d="M 0 0 L 10 5 L 0 10 z" fill="#f43f5e" />
             </marker>
-            <marker id="loop-arrow-head-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <marker id="loop-arrow-head-purple" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto">
               <path d="M 0 0 L 10 5 L 0 10 z" fill="#8b5cf6" />
             </marker>
-            <marker id="loop-arrow-head-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+            <marker id="loop-arrow-head-blue" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto">
               <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6" />
             </marker>
           </defs>
 
-          <!-- 0. task.md Checklist Queue (Task Queue) -->
           <g id="lnode-queue">
             <rect x="20" y="40" width="170" height="95" rx="8" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="3" />
             <text x="35" y="62" fill="#475569" font-family="Outfit" font-size="10" font-weight="700">📋 task.md Queue</text>
@@ -1037,10 +1028,6 @@
             <text x="35" y="114" fill="#94a3b8" font-family="Fira Code" font-size="9">⬜ Task 3 (Pending)</text>
           </g>
 
-          <!-- Arrow 0: Queue feeds into Controller -->
-          <path d="M 105 135 L 105 172" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#loop-arrow-head-blue)" />
-
-          <!-- 1. Controller Node (Main Controller) -->
           <g class="flow-loop-node" id="lnode-controller" onclick="showLoopDetail('controller')">
             <rect class="node-bg" x="20" y="180" width="170" height="90" rx="10" fill="#ffffff" stroke="rgba(59, 130, 246, 0.7)" stroke-width="1.5" />
             <text x="35" y="203" fill="#2563eb" font-family="Outfit" font-size="10" font-weight="700">🤖 Controller</text>
@@ -1049,11 +1036,6 @@
             <text x="35" y="253" fill="#64748b" font-family="Fira Code" font-size="8">        executing-plans</text>
           </g>
 
-          <!-- Arrow 1: Dispatch to Implementer -->
-          <path class="flow-connector" id="lpath-dispatch" d="M 190 225 L 230 225" stroke="#14b8a6" stroke-width="1.5" marker-end="url(#loop-arrow-head)" />
-          <text x="210" y="215" fill="#14b8a6" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">1. Dispatch</text>
-
-          <!-- 2. Implementer Node (TDD Coding Subagent) -->
           <g class="flow-loop-node" id="lnode-implementer" onclick="showLoopDetail('implementer')">
             <rect class="node-bg" x="240" y="180" width="170" height="90" rx="10" fill="#ffffff" stroke="rgba(16, 185, 129, 0.7)" stroke-width="1.5" />
             <text x="255" y="203" fill="#059669" font-family="Outfit" font-size="10" font-weight="700">💻 TDD Coding</text>
@@ -1062,11 +1044,6 @@
             <text x="255" y="253" fill="#64748b" font-family="Fira Code" font-size="8">        using-git-worktrees</text>
           </g>
 
-          <!-- Arrow 2: Send Code to Tester -->
-          <path class="flow-connector" id="lpath-to-test" d="M 410 225 L 450 225" stroke="#14b8a6" stroke-width="1.5" marker-end="url(#loop-arrow-head)" />
-          <text x="430" y="215" fill="#14b8a6" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">2. Test Request</text>
-
-          <!-- 3. Tester Node (Verification Subagent) -->
           <g class="flow-loop-node" id="lnode-tester" onclick="showLoopDetail('tester')">
             <rect class="node-bg" x="460" y="180" width="170" height="90" rx="10" fill="#ffffff" stroke="rgba(20, 184, 166, 0.7)" stroke-width="1.5" />
             <text x="475" y="203" fill="#0d9488" font-family="Outfit" font-size="10" font-weight="700">🧪 Verification</text>
@@ -1075,11 +1052,6 @@
             <text x="475" y="253" fill="#64748b" font-family="Fira Code" font-size="8">        completion</text>
           </g>
 
-          <!-- Arrow 3: Test Fails -> Trigger Fixer -->
-          <path class="flow-connector" id="lpath-test-fail" d="M 545 180 C 545 110, 480 85, 420 85" stroke="#f43f5e" stroke-width="1.5" marker-end="url(#loop-arrow-head-red)" stroke-dasharray="3" />
-          <text x="495" y="105" fill="#be123c" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">3a. ❌ Build/Test Fail</text>
-
-          <!-- 4. Fixer Node (Debugging & Repair Subagent) -->
           <g class="flow-loop-node" id="lnode-fixer" onclick="showLoopDetail('fixer')">
             <rect class="node-bg" x="240" y="40" width="170" height="90" rx="10" fill="#ffffff" stroke="rgba(244, 63, 94, 0.7)" stroke-width="1.5" />
             <text x="255" y="63" fill="#e11d48" font-family="Outfit" font-size="10" font-weight="700">🐞 Debug &amp; Fix</text>
@@ -1087,15 +1059,6 @@
             <text x="255" y="101" fill="#64748b" font-family="Fira Code" font-size="8">Loaded: systematic-debugging</text>
           </g>
 
-          <!-- Arrow 4: Fixer patch to Implementer (Vertically straight down) -->
-          <path class="flow-connector" id="lpath-fix-apply" d="M 325 130 L 325 172" stroke="#f43f5e" stroke-width="1.5" marker-end="url(#loop-arrow-head-red)" stroke-dasharray="3" />
-          <text x="335" y="152" fill="#be123c" font-family="Inter" font-size="8" font-weight="700">3b. Fix Feedback</text>
-
-          <!-- Arrow 5: Test Passes -> Send to Spec Reviewer -->
-          <path class="flow-connector" id="lpath-test-pass" d="M 630 225 C 655 225, 655 85, 672 85" stroke="#10b981" stroke-width="1.5" marker-end="url(#loop-arrow-head)" />
-          <text x="650" y="155" fill="#047857" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">4. ✅ Greenlight</text>
-
-          <!-- 5. Spec Reviewer Node (Design Spec Reviewer Subagent) -->
           <g class="flow-loop-node" id="lnode-spec-reviewer" onclick="showLoopDetail('spec-reviewer')">
             <rect class="node-bg" x="680" y="40" width="170" height="90" rx="10" fill="#ffffff" stroke="rgba(245, 158, 11, 0.7)" stroke-width="1.5" />
             <text x="695" y="63" fill="#d97706" font-family="Outfit" font-size="10" font-weight="700">⚖️ Spec Review</text>
@@ -1103,15 +1066,6 @@
             <text x="695" y="101" fill="#64748b" font-family="Fira Code" font-size="8">Loaded: writing-plans (Spec)</text>
           </g>
 
-          <!-- Arrow 6: Spec Reject PR back to Implementer -->
-          <path class="flow-connector" id="lpath-spec-reject" d="M 765 40 C 765 15, 325 15, 325 172" stroke="#f43f5e" stroke-width="1.5" marker-end="url(#loop-arrow-head-red)" stroke-dasharray="3" />
-          <text x="545" y="23" fill="#be123c" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">5a. ❌ Spec Mismatch/YAGNI</text>
-
-          <!-- Arrow 7: Spec Approved -> Code Quality Reviewer -->
-          <path class="flow-connector" id="lpath-spec-pass" d="M 765 130 L 765 172" stroke="#10b981" stroke-width="1.5" marker-end="url(#loop-arrow-head)" />
-          <text x="775" y="152" fill="#047857" font-family="Inter" font-size="8" font-weight="700">5b. ✅ Spec Passed</text>
-
-          <!-- 6. Code Reviewer Node (Code Quality Reviewer Subagent) -->
           <g class="flow-loop-node" id="lnode-quality-reviewer" onclick="showLoopDetail('quality-reviewer')">
             <rect class="node-bg" x="680" y="180" width="170" height="90" rx="10" fill="#ffffff" stroke="rgba(139, 92, 246, 0.7)" stroke-width="1.5" />
             <text x="695" y="203" fill="#7c3aed" font-family="Outfit" font-size="10" font-weight="700">🔍 Quality Review</text>
@@ -1120,15 +1074,6 @@
             <text x="695" y="253" fill="#64748b" font-family="Fira Code" font-size="8">        receiving-code-review</text>
           </g>
 
-          <!-- Arrow 8: Quality Reject Loop back to Implementer (Curving cleanly below Tester) -->
-          <path class="flow-connector" id="lpath-quality-reject" d="M 680 245 C 570 295, 480 295, 418 245" stroke="#f43f5e" stroke-width="1.5" marker-end="url(#loop-arrow-head-red)" stroke-dasharray="3" />
-          <text x="545" y="288" fill="#be123c" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">6a. ❌ Quality Smells</text>
-
-          <!-- Arrow 9: Quality Approve -> Task Guard (Straight vertical connection) -->
-          <path class="flow-connector" id="lpath-all-pass" d="M 765 270 L 765 312" stroke="#10b981" stroke-width="1.5" marker-end="url(#loop-arrow-head)" />
-          <text x="775" y="295" fill="#047857" font-family="Inter" font-size="8" font-weight="700">6b. ✅ Dual Approved</text>
-
-          <!-- 7. Task Checklist Guard (Board Guard) -->
           <g class="flow-loop-node" id="lnode-guard" onclick="showLoopDetail('guard')">
             <rect class="node-bg" x="680" y="320" width="170" height="90" rx="10" fill="#ffffff" stroke="rgba(245, 158, 11, 0.7)" stroke-width="1.5" />
             <text x="695" y="343" fill="#d97706" font-family="Outfit" font-size="10" font-weight="700">⚖️ Task Guard</text>
@@ -1137,21 +1082,57 @@
             <text x="695" y="393" fill="#64748b" font-family="Fira Code" font-size="8">Dispatch Next Task</text>
           </g>
 
-          <!-- Recursive Loop: Guard -> Controller (Curving below at Y: 425) -->
-          <path class="flow-connector" id="lpath-next-task" d="M 680 365 C 400 365, 105 365, 105 278" stroke="#3b82f6" stroke-width="2" marker-end="url(#loop-arrow-head-blue)" stroke-dasharray="3" />
-          <text x="350" y="355" fill="#1e40af" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">🔄 [Yes] Pending tasks remaining. Dispatch Task i+1</text>
-
-          <!-- Arrow: Guard -> Finish Branch -->
-          <path class="flow-connector" id="lpath-branch-done" d="M 850 365 C 937 365, 937 320, 937 278" stroke="#10b981" stroke-width="2" marker-end="url(#loop-arrow-head)" />
-          <text x="910" y="385" fill="#047857" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">🏁 [No] Checklist cleared</text>
-
-          <!-- 8. Finish Branch (Branch Consolidation & Cleanup) -->
           <g class="flow-loop-node" id="lnode-finish" onclick="showLoopDetail('finish')">
             <rect class="node-bg" x="890" y="180" width="95" height="90" rx="8" fill="#f0fdfa" stroke="rgba(20, 184, 166, 0.8)" stroke-width="1.2" />
             <text x="937" y="215" fill="#0f172a" font-family="Outfit" font-size="11" font-weight="700" text-anchor="middle">🏁</text>
             <text x="937" y="235" fill="#0f172a" font-family="Outfit" font-size="9" font-weight="600" text-anchor="middle">finish-branch</text>
             <text x="937" y="253" fill="#0d9488" font-family="Inter" font-size="8" text-anchor="middle">Merge &amp; Cleanup</text>
           </g>
+
+          <!-- 0. task.md Checklist Queue (Task Queue) -->
+          <!-- Arrow 0: Queue feeds into Controller -->
+          <path d="M 105 135 L 105 172" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#loop-arrow-head-blue)" />
+          <!-- 1. Controller Node (Main Controller) -->
+          <!-- Arrow 1: Dispatch to Implementer -->
+          <path class="flow-connector" id="lpath-dispatch" d="M 190 225 L 230 225" stroke="#14b8a6" stroke-width="1.5" marker-end="url(#loop-arrow-head)" />
+          <text x="210" y="208" fill="#14b8a6" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">1. Dispatch</text>
+          <!-- 2. Implementer Node (TDD Coding Subagent) -->
+          <!-- Arrow 2: Send Code to Tester -->
+          <path class="flow-connector" id="lpath-to-test" d="M 410 225 L 450 225" stroke="#14b8a6" stroke-width="1.5" marker-end="url(#loop-arrow-head)" />
+          <text x="430" y="208" fill="#14b8a6" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">2. Test Request</text>
+          <!-- 3. Tester Node (Verification Subagent) -->
+          <!-- Arrow 3: Test Fails -> Trigger Fixer -->
+          <path class="flow-connector" id="lpath-test-fail" d="M 545 180 C 545 110, 480 85, 420 85" stroke="#f43f5e" stroke-width="1.5" marker-end="url(#loop-arrow-head-red)" stroke-dasharray="3" />
+          <text x="495" y="105" fill="#be123c" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">3a. ❌ Build/Test Fail</text>
+          <!-- 4. Fixer Node (Debugging & Repair Subagent) -->
+          <!-- Arrow 4: Fixer patch to Implementer (Vertically straight down) -->
+          <path class="flow-connector" id="lpath-fix-apply" d="M 325 130 L 325 172" stroke="#f43f5e" stroke-width="1.5" marker-end="url(#loop-arrow-head-red)" stroke-dasharray="3" />
+          <text x="335" y="152" fill="#be123c" font-family="Inter" font-size="8" font-weight="700">3b. Fix Feedback</text>
+          <!-- Arrow 5: Test Passes -> Send to Spec Reviewer -->
+          <path class="flow-connector" id="lpath-test-pass" d="M 630 225 C 660 225, 660 95, 674 90" stroke="#10b981" stroke-width="1.5" marker-end="url(#loop-arrow-head)" />
+          <text x="650" y="155" fill="#047857" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">4. ✅ Greenlight</text>
+          <!-- 5. Spec Reviewer Node (Design Spec Reviewer Subagent) -->
+          <!-- Arrow 6: Spec Reject PR back to Implementer -->
+          <path class="flow-connector" id="lpath-spec-reject" d="M 765 40 C 765 15, 325 15, 325 172" stroke="#f43f5e" stroke-width="1.5" marker-end="url(#loop-arrow-head-red)" stroke-dasharray="3" />
+          <text x="545" y="23" fill="#be123c" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">5a. ❌ Spec Mismatch/YAGNI</text>
+          <!-- Arrow 7: Spec Approved -> Code Quality Reviewer -->
+          <path class="flow-connector" id="lpath-spec-pass" d="M 765 130 L 765 172" stroke="#10b981" stroke-width="1.5" marker-end="url(#loop-arrow-head)" />
+          <text x="775" y="152" fill="#047857" font-family="Inter" font-size="8" font-weight="700">5b. ✅ Spec Passed</text>
+          <!-- 6. Code Reviewer Node (Code Quality Reviewer Subagent) -->
+          <!-- Arrow 8: Quality Reject Loop back to Implementer (Curving cleanly below Tester) -->
+          <path class="flow-connector" id="lpath-quality-reject" d="M 680 245 C 570 295, 480 295, 418 245" stroke="#f43f5e" stroke-width="1.5" marker-end="url(#loop-arrow-head-red)" stroke-dasharray="3" />
+          <text x="545" y="288" fill="#be123c" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">6a. ❌ Quality Smells</text>
+          <!-- Arrow 9: Quality Approve -> Task Guard (Straight vertical connection) -->
+          <path class="flow-connector" id="lpath-all-pass" d="M 765 270 L 765 312" stroke="#10b981" stroke-width="1.5" marker-end="url(#loop-arrow-head)" />
+          <text x="775" y="295" fill="#047857" font-family="Inter" font-size="8" font-weight="700">6b. ✅ Dual Approved</text>
+          <!-- 7. Task Checklist Guard (Board Guard) -->
+          <!-- Recursive Loop: Guard -> Controller (Curving below at Y: 425) -->
+          <path class="flow-connector" id="lpath-next-task" d="M 680 365 C 400 365, 105 365, 105 278" stroke="#3b82f6" stroke-width="2" marker-end="url(#loop-arrow-head-blue)" stroke-dasharray="3" />
+          <text x="350" y="355" fill="#1e40af" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">🔄 [Yes] Pending tasks remaining. Dispatch Task i+1</text>
+          <!-- Arrow: Guard -> Finish Branch -->
+          <path class="flow-connector" id="lpath-branch-done" d="M 850 365 C 937 365, 937 320, 937 278" stroke="#10b981" stroke-width="2" marker-end="url(#loop-arrow-head)" />
+          <text x="910" y="385" fill="#047857" font-family="Inter" font-size="8" text-anchor="middle" font-weight="700">🏁 [No] Checklist cleared</text>
+          <!-- 8. Finish Branch (Branch Consolidation & Cleanup) -->
         </svg>
       </div>
 
@@ -1401,7 +1382,7 @@
       "brainstorm": {
         name: "🧑 User Initiated Brainstorming",
         badge: "Triggered via @superpowers /brainstorm",
-        desc: "User enters raw concepts and specifications in the console, initiating the Software Development Lifecycle (SDL). The system intercepts this input to trigger the brainstorming skill.",
+        desc: "User enters raw concepts and specifications in the console, initiating the Software Development Lifecycle (SDLC). The system intercepts this input to trigger the brainstorming skill.",
         skills: "brainstorming",
         skills_links: ["brainstorming"],
         interaction: "Human developers inject initial ideas, high-level features, or bug reports. This stage is highly interactive, relying on the brainstorming engine to distill unstructured ideas into structured specifications.",
@@ -1818,7 +1799,7 @@
 
       // BUG FIX: skillsData items have no `.name` property — use skillKey directly
       document.getElementById('drawer-name').innerText = skillKey;
-      document.getElementById('drawer-phase').innerText = `Load Unit: skills/${skillKey}  ·  SDL ${data.phase}`;
+      document.getElementById('drawer-phase').innerText = `Load Unit: skills/${skillKey}  ·  SDLC ${data.phase}`;
       document.getElementById('drawer-desc').innerHTML = `<strong>Skill Description: </strong>${data.desc}`;
       document.getElementById('drawer-trigger').innerText = data.trigger;
 
